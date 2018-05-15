@@ -1,0 +1,22 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+# dependencies
+/avaclon-frontend/node_modules
+/server/node_modules
+
+# testing
+/avaclon-frontend/coverage
+
+# production
+/avaclon-frontend/build
+
+# misc
+/avaclon-frontend/.DS_Store
+/avaclon-frontend/.env.local
+/avaclon-frontend/.env.development.local
+/avaclon-frontend/.env.test.local
+/avaclon-frontend/.env.production.local
+
+/avaclon-frontend/npm-debug.log*
+/avaclon-frontend/yarn-debug.log*
+/avaclon-frontend/yarn-error.log*
