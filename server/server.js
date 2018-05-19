@@ -1,7 +1,6 @@
 const Player = require('./Player');
-const Role = require('./Role').Role;
-const configs = require('./Role').configs;
+const Role = require('./Role');
 
 let p = new Player("Joosh", "Generic Blue");
 console.log(p);
-console.log(configs[6]);
+console.log(Role.standard_config(5));

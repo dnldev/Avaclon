@@ -1,11 +1,15 @@
 const standard_configs = {
-  5: [...Array(2).fill("Generic Red"), ...Array(3).fill("GenericBlue")],
-  6: [...Array(2).fill("Generic Red"), ...Array(4).fill("GenericBlue")],
-  7: [...Array(3).fill("Generic Red"), ...Array(4).fill("GenericBlue")],
-  8: [...Array(3).fill("Generic Red"), ...Array(5).fill("GenericBlue")],
-  9: [...Array(3).fill("Generic Red"), ...Array(6).fill("GenericBlue")],
-  10: [...Array(4).fill("Generic Red"), ...Array(6).fill("GenericBlue")]
+  5: [...Array(2).fill("Generic Red"), ...Array(3).fill("Generic Blue")],
+  6: [...Array(2).fill("Generic Red"), ...Array(4).fill("Generic Blue")],
+  7: [...Array(3).fill("Generic Red"), ...Array(4).fill("Generic Blue")],
+  8: [...Array(3).fill("Generic Red"), ...Array(5).fill("Generic Blue")],
+  9: [...Array(3).fill("Generic Red"), ...Array(6).fill("Generic Blue")],
+  10: [...Array(4).fill("Generic Red"), ...Array(6).fill("Generic Blue")]
 };
+
+function standard_config_for(player_count) {
+    return standard_configs[player_count].map(role_name => new Role(role_name));
+}
 
 // Information to construct the roles from names is stored here
 // TODO: Entry for roles
@@ -38,5 +42,5 @@ class Role {
 
 module.exports = { 
     Role: Role,
-    configs: standard_configs
+    standard_config: standard_config_for
 };
