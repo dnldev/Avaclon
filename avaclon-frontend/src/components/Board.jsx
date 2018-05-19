@@ -4,14 +4,10 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 
 import Paper from "@material-ui/core/Paper";
-import Icon from "@material-ui/core/Icon";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 import Mission from "./Mission";
-
-// Should be moved to its own library
-import openSocket from "socket.io-client";
 
 const styles = theme => ({
   root: theme.mixins.gutters({
