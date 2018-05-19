@@ -13,7 +13,7 @@ function standardConfigFor(playerCount) {
 
 // Information to construct the roles from names is stored here
 // TODO: Entry for roles
-var roleLookup = {
+const roleLookup = {
   "Generic Blue": {
     affiliation: 1,
     hiddenAction: null,
