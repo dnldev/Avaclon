@@ -1,4 +1,4 @@
-var Role = require("./Role").Role;
+const Role = require("./Role").Role;
 
 class Player {
     constructor(playerName, role) {
