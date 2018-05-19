@@ -1,8 +1,8 @@
 var Role = require("./Role").Role;
 
 class Player {
-    constructor(player_name, role) {
-        this.name = player_name;
+    constructor(playerName, role) {
+        this.name = playerName;
         this.role = new Role(role);
     }
 }
