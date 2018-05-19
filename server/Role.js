@@ -7,13 +7,13 @@ const standardConfigs = {
   10: [...Array(4).fill("Generic Red"), ...Array(6).fill("Generic Blue")]
 };
 
-function standardConfigFor(player_count) {
-    return standardConfigs[player_count].map(role_name => new Role(role_name));
+function standardConfigFor(playerCount) {
+    return standardConfigs[playerCount].map(roleName => new Role(roleName));
 }
 
 // Information to construct the roles from names is stored here
 // TODO: Entry for roles
-var role_lookup = {
+var roleLookup = {
   "Generic Blue": {
     affiliation: 1,
     hiddenAction: null,
@@ -27,12 +27,12 @@ var role_lookup = {
 };
 
 class Role {
-  constructor(role_name) {
-    this.name = role_name;
-    this.role_information = role_lookup[role_name];
-    this.affiliation = this.role_information.affiliation;
-    this.hiddenAction = this.role_information.hiddenAction;
-    this.image = this.role_information.image;
+  constructor(roleName) {
+    this.name = roleName;
+    this.roleInformation = roleLookup[roleName];
+    this.affiliation = this.roleInformation.affiliation;
+    this.hiddenAction = this.roleInformation.hiddenAction;
+    this.image = this.roleInformation.image;
     this.missionOptions = [this.affiliation];
     if (this.affiliation == 0) {
       this.missionOptions.push(1);
@@ -42,5 +42,5 @@ class Role {
 
 module.exports = { 
     Role: Role,
-    standard_config: standardConfigFor
+    standardConfig: standardConfigFor
 };
