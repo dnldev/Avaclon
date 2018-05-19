@@ -20,3 +20,6 @@
 /avaclon-frontend/npm-debug.log*
 /avaclon-frontend/yarn-debug.log*
 /avaclon-frontend/yarn-error.log*
+
+# vscode
+.vscode/
