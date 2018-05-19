@@ -1,4 +1,4 @@
-const standard_configs = {
+const standardConfigs = {
   5: [...Array(2).fill("Generic Red"), ...Array(3).fill("Generic Blue")],
   6: [...Array(2).fill("Generic Red"), ...Array(4).fill("Generic Blue")],
   7: [...Array(3).fill("Generic Red"), ...Array(4).fill("Generic Blue")],
@@ -7,8 +7,8 @@ const standard_configs = {
   10: [...Array(4).fill("Generic Red"), ...Array(6).fill("Generic Blue")]
 };
 
-function standard_config_for(player_count) {
-    return standard_configs[player_count].map(role_name => new Role(role_name));
+function standardConfigFor(player_count) {
+    return standardConfigs[player_count].map(role_name => new Role(role_name));
 }
 
 // Information to construct the roles from names is stored here
@@ -42,5 +42,5 @@ class Role {
 
 module.exports = { 
     Role: Role,
-    standard_config: standard_config_for
+    standard_config: standardConfigFor
 };
