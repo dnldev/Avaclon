@@ -1,4 +1,6 @@
 
+
+
 // Information to construct the roles from names is stored here
 // TODO: Entry for roles
 var role_lookup = {
@@ -18,10 +20,10 @@ class Role {
     constructor(role_name) {
         this.name = role_name;
         this.role_information = role_lookup[role_name];
-        this.affiliation = role_lookup.affiliation;
-        this.hiddenAction = role_lookup.hiddenAction;
-        this.image = role_lookup.image;
-        this.missionOptions = [this.affiliation]
+        this.affiliation = this.role_information.affiliation;
+        this.hiddenAction = this.role_information.hiddenAction;
+        this.image = this.role_information.image;
+        this.missionOptions = [this.affiliation];
         if (this.affiliation == 0) {
             this.missionOptions.push(1);
         }
