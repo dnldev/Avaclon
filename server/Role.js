@@ -17,9 +17,9 @@ var role_lookup = {
 class Role {
     constructor(role_name) {
         this.name = role_name;
-        role_information = role_lookup[role_name];
+        this.role_information = role_lookup[role_name];
         this.affiliation = role_lookup.affiliation;
-        this.action = role_lookup.hiddenAction;
+        this.hiddenAction = role_lookup.hiddenAction;
         this.image = role_lookup.image;
         this.missionOptions = [this.affiliation]
         if (this.affiliation == 0) {
@@ -28,4 +28,4 @@ class Role {
     }
 }
 
-export default Role;
+module.exports = Role;

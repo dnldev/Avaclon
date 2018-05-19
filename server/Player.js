@@ -7,4 +7,4 @@ class Player {
     }
 }
 
-export const Player = Player
+module.exports = Player;
