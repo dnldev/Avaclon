@@ -7,6 +7,8 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 
+import Game from "./components/Game";
+
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -20,15 +22,15 @@ const theme = createMuiTheme({
       main: "#ced7db",
       dark: "#9da6a9",
       contrastText: "#000",
+    },
+    teams: {
+      good: "#1976d2",
+      evil: "#d32f2f"
     }
   },
 });
 
 class App extends Component {
-  componentDidMount() {
-    document.title = "Avaclon";
-  }
-
   render() {
     return (
       <MuiThemeProvider theme={theme}>
@@ -40,6 +42,7 @@ class App extends Component {
           </Toolbar>
         </AppBar>
         {/* other components */}
+        <Game />
       </MuiThemeProvider>
     );
   }
