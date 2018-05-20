@@ -22,6 +22,10 @@ const theme = createMuiTheme({
       main: "#ced7db",
       dark: "#9da6a9",
       contrastText: "#000",
+    },
+    teams: {
+      good: "#1976d2",
+      evil: "#d32f2f"
     }
   },
 });
