@@ -3,39 +3,65 @@ import PropTypes from "prop-types";
 
 import { withStyles } from "@material-ui/core/styles";
 
-import Paper from "@material-ui/core/Paper";
+// import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
 
 import Board from "./Board";
 
 import GameContext from "./game-context";
 
 const styles = theme => ({
-  root: {}
+  root: {
+    margin: theme.spacing.unit
+  },
+  newGameButton: {
+    marginTop: theme.spacing.unit * 2
+  }
 });
 
 class Game extends Component {
-  state = {
+  startingValues = {
     currentMission: 0,
-    voteMarker: 0,
-    missionsWon: [],
+    gameEnded: false,
     playerCount: 10,
+    voteMarker: 0,
+    wonMissions: [],
   };
 
   constructor(props) {
     super(props);
 
+    this.state = this.getClonedStartingValues();
+
     this.state.currentMissionWon = this.currentMissionWon.bind(this);
+
+    this.getClonedStartingValues = this.getClonedStartingValues.bind(this);
+    this.resetGame = this.resetGame.bind(this);
   }
 
   currentMissionWon(winner) {
     this.setState(prevState => {
+      prevState.wonMissions.push(winner);
       return { 
         currentMission: prevState.currentMission + 1,
-        missionWon: prevState.missionsWon.push(winner)
+        gameEnded: this.hasGameEnded(prevState.wonMissions),
+        wonMissions: prevState.wonMissions
       }
     })
+  }
+
+  getClonedStartingValues() {
+    return JSON.parse(JSON.stringify(this.startingValues)); // clone object
+  }
+
+  // TODO: socket.io back-end check
+  hasGameEnded(wonMissions) {
+    return ((wonMissions.filter(el => el === "evil")).length === 3
+            || (wonMissions.filter(el => el === "good")).length === 3);
+  }
+
+  resetGame() {
+    this.setState(this.getClonedStartingValues());
   }
 
   render() {
@@ -44,6 +70,9 @@ class Game extends Component {
     return (
       <div className={classes.root}>
         <GameContext.Provider value={this.state}>
+          <Button className={classes.newGameButton} variant="raised" color="primary" onClick={() => this.resetGame()}>
+            New Game
+          </Button>
           <Board />
         </GameContext.Provider>
       </div>
