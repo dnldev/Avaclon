@@ -27,10 +27,6 @@ const theme = createMuiTheme({
 });
 
 class App extends Component {
-  componentDidMount() {
-    document.title = "Avaclon";
-  }
-
   render() {
     return (
       <MuiThemeProvider theme={theme}>
