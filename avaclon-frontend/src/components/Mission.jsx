@@ -44,7 +44,7 @@ class Mission extends Component {
 
   getMissionStatusClass(classes) {
     return this.props.wonBy === undefined ? classes.neutralCircleFill 
-           : this.props.wonBy === "evil" ? classes.evilWinCircleFill : classes.goodWinCircleFill
+            : this.props.wonBy === "evil" ? classes.evilWinCircleFill : classes.goodWinCircleFill
   }
 
   render() {
