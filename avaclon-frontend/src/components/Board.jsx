@@ -3,8 +3,9 @@ import PropTypes from "prop-types";
 
 import { withStyles } from "@material-ui/core/styles";
 
-import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
+import Divider from "@material-ui/core/Divider";
+import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 
 import Mission from "./Mission";
@@ -16,12 +17,18 @@ const styles = theme => ({
     paddingTop: 16,
     paddingBottom: 16,
     marginTop: theme.spacing.unit * 3,
-  })
+  }),
+  buttonContainer: {
+    marginTop: theme.spacing.unit
+  },
+  headline: {
+    marginBottom: theme.spacing.unit
+  }
 });
 
 class Board extends Component {
-  missionsPlayerDict = {5: [2, 3, 2, 3, 3], 6: [2, 3, 4, 3, 4], 7: [2, 3, 3, 4, 4], 8: [3, 4, 4, 5, 5], 
-                        9: [3, 4, 4, 5, 5], 10: [3, 4, 4, 5, 5]};
+  missionPlayersForPlayerCount = {5: [2, 3, 2, 3, 3], 6: [2, 3, 4, 3, 4], 7: [2, 3, 3, 4, 4], 8: [3, 4, 4, 5, 5], 
+                                  9: [3, 4, 4, 5, 5], 10: [3, 4, 4, 5, 5]};
 
   render() {
     const { classes } = this.props;
@@ -31,21 +38,25 @@ class Board extends Component {
           {(context) => {
             return (
               <Paper className={classes.root} elevation={10}>
-                <Typography component="p">
-                  Current Mission: {context.currentMission}
+                <Typography className={classes.headline} variant="headline" component="h3">
+                  Current Mission: {context.currentMission + 1}
                 </Typography>
 
-                {this.missionsPlayerDict[context.playerCount].map((missionPlayers, i) => {
-                  return (<Mission key={i} currentMission={context.currentMission} missionIndex={i}
-                          playersOnMission={missionPlayers} wonBy={context.missionsWon[i]}/>)
-                })}
-                <br/>
-                <Button size="small" className={classes.button} onClick={() => context.currentMissionWon("evil")}>
-                  redWin
-                </Button>
-                <Button size="small" className={classes.button} onClick={() => context.currentMissionWon("good")}>
-                  blueWin
-                </Button>
+                {this.missionPlayersForPlayerCount[context.playerCount]
+                    .map((missionPlayers, i) => {
+                      return (<Mission key={i} missionIndex={i} currentMission={context.currentMission}
+                              playersOnMission={missionPlayers} wonBy={context.wonMissions[i]}/>)
+                    })
+                }
+                <Divider />
+                <div className={classes.buttonContainer}>
+                  <Button disabled={context.gameEnded} size="small" onClick={() => context.currentMissionWon("evil")}>
+                    redWin
+                  </Button>
+                  <Button disabled={context.gameEnded} size="small" onClick={() => context.currentMissionWon("good")}>
+                    blueWin
+                  </Button>
+                </div>
               </Paper>
             )
           }}
