@@ -7,7 +7,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 
-import Board from "./components/Board";
+import Game from "./components/Game";
 
 const theme = createMuiTheme({
   palette: {
@@ -27,8 +27,6 @@ const theme = createMuiTheme({
 });
 
 class App extends Component {
-  playerCount = 10;
-
   componentDidMount() {
     document.title = "Avaclon";
   }
@@ -44,7 +42,7 @@ class App extends Component {
           </Toolbar>
         </AppBar>
         {/* other components */}
-        <Board playerCount={this.playerCount}/>
+        <Game />
       </MuiThemeProvider>
     );
   }
