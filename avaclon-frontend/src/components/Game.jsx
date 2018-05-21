@@ -14,10 +14,11 @@ import GameContext from "./game-context";
 
 const styles = theme => ({
   root: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
   },
   button: {
-    margin: theme.spacing.unit * 2
+    marginRight: theme.spacing.unit * 2,
+    marginTop: theme.spacing.unit * 2,
   }
 });
 

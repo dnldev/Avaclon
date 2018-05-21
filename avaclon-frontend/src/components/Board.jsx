@@ -21,10 +21,10 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 3,
   }),
   buttonContainer: {
-    marginTop: theme.spacing.unit
+    marginTop: theme.spacing.unit,
   },
   headline: {
-    marginBottom: theme.spacing.unit
+    marginBottom: theme.spacing.unit,
   }
 });
 
