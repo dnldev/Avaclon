@@ -10,6 +10,8 @@ import Typography from "@material-ui/core/Typography";
 
 import Mission from "./Mission";
 
+import strings from "../localization/game-locale";
+
 import GameContext from "./game-context";
 
 const styles = theme => ({
@@ -39,7 +41,7 @@ class Board extends Component {
             return (
               <Paper className={classes.root} elevation={10}>
                 <Typography className={classes.headline} variant="headline" component="h3">
-                  Current Mission: {context.currentMission + 1}
+                  {strings.currentMission}: {context.currentMission + 1}
                 </Typography>
 
                 {this.missionPlayersForPlayerCount[context.playerCount]
