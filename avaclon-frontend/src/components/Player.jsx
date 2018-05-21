@@ -5,6 +5,14 @@ import { withStyles } from "@material-ui/core/styles";
 import { Paper, Typography, Divider, Grid, Icon } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 
+import genblue from "./../static/genblue.JPG";
+import genred from "./../static/genred.JPG";
+
+const images = {
+  genblue: genblue,
+  genred: genred
+};
+
 const styles = theme => ({
   root: {
     bottom: theme.spacing.unit * 2,
@@ -23,9 +31,6 @@ const styles = theme => ({
     width: "50%"
   },
   playerData: {},
-  cardImage: {
-    height: "120%"
-  },
   evilPlayer: {
     textDecorationColor: theme.palette.teams.evil,
     textDecorationLine: "underline",
@@ -35,6 +40,14 @@ const styles = theme => ({
     textDecorationColor: theme.palette.teams.good,
     textDecorationLine: "underline",
     textDecorationStyle: "solid"
+  },
+  roleImage: {
+    marginBottom: 0,
+    width: "100%"
+  },
+  roleName: {
+    textAlign: "center",
+    opacity: "0.7"
   }
 });
 
@@ -72,9 +85,9 @@ class Player extends Component {
 
     return (
       // TODO: better icons
-      <Paper className={classes.root}>
-        <Grid container className={classes.playerControls}>
-          <Grid item xs={9} className={classes.playerData}>
+      <Grid container className={classes.root} alignItems="flex-end">
+        <Grid item xs={9} className={classes.playerData}>
+          <Paper>
             <Typography
               className={headerClasses}
               variant="headline"
@@ -83,6 +96,10 @@ class Player extends Component {
               {this.props.player.name}
               {this.state.isLeader && <Icon>group_add</Icon>}
               {this.state.inTeam && <Icon>star</Icon>}
+            </Typography>
+
+            <Typography className={classes.roleName} variant="subheading" component="p">
+              {role.name}
             </Typography>
             <Divider />
             <div className={classes.playerControls}>
@@ -101,12 +118,16 @@ class Player extends Component {
                 </Button>
               </div>
             </div>
-          </Grid>
-          <Grid item xs={3} className={classes.cardImage}>
-            <img src={role.image} alt={role.name} />
-          </Grid>
+          </Paper>
         </Grid>
-      </Paper>
+        <Grid item xs={3}>
+          <img
+            className={classes.roleImage}
+            src={images[role.image]}
+            alt={role.name}
+          />
+        </Grid>
+      </Grid>
     );
   }
 }
