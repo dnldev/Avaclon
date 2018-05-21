@@ -11,6 +11,7 @@ import Board from "./Board";
 import strings from "../localization/game-locale";
 
 import GameContext from "./game-context";
+import Player from "./Player";
 
 const styles = theme => ({
   root: {
@@ -90,6 +91,14 @@ class Game extends Component {
             {strings.switchLanguage}
           </Button>
           <Board />
+          <Player player={{
+            name: "Josh",
+            role: {
+              affiliation: "good",
+              image: "genblue",
+              name: "Generic Blue",
+            }
+          }}/>
         </GameContext.Provider>
       </div>
     );
