@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import Board from "./Board";
 
 import GameContext from "./game-context";
+import Player from "./Player";
 
 const styles = theme => ({
   root: {
@@ -74,6 +75,14 @@ class Game extends Component {
             New Game
           </Button>
           <Board />
+          <Player player={{
+            name: "Josh",
+            role: {
+              affiliation: "good",
+              image: "genblue",
+              name: "Generic Blue",
+            }
+          }}/>
         </GameContext.Provider>
       </div>
     );
