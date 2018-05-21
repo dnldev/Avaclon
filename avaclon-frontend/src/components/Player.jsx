@@ -16,39 +16,51 @@ const images = {
 const styles = theme => ({
   root: {
     bottom: theme.spacing.unit * 2,
-    left: "35%",
-    position: "fixed",
-    width: "30%"
+    position: "absolute",
+    width: "95%",
+    [theme.breakpoints.between("md", "xl")]: {
+      marginLeft: "20%",
+      width: "50%",
+    },
+    [theme.breakpoints.between("sm", "md")]: {
+      marginLeft: "10%",
+      width: "75%",
+    },
   },
   playerName: {
     padding: theme.spacing.unit * 2,
     textAlign: "center"
   },
   playerControls: {
-    padding: theme.spacing.unit
+    padding: theme.spacing.unit,
   },
   voteButton: {
-    width: "50%"
+    width: "50%",
   },
-  playerData: {},
   evilPlayer: {
     textDecorationColor: theme.palette.teams.evil,
     textDecorationLine: "underline",
-    textDecorationStyle: "solid"
+    textDecorationStyle: "solid",
   },
   goodPlayer: {
     textDecorationColor: theme.palette.teams.good,
     textDecorationLine: "underline",
-    textDecorationStyle: "solid"
+    textDecorationStyle: "solid",
+  },
+  namePaper: {
+    marginBottom: 5,
+    marginTop: 20,
+    opacity: "0.7",
+    textAlign: "center",
   },
   roleImage: {
+    borderRadius: 25,
     marginBottom: 0,
-    width: "100%"
+    width: "100%",
   },
   roleName: {
-    textAlign: "center",
-    opacity: "0.7"
-  }
+    marginBottom: 5,
+  },
 });
 
 class Player extends Component {
@@ -57,7 +69,7 @@ class Player extends Component {
 
     this.state = {
       inTeam: false,
-      isLeader: false
+      isLeader: true
     };
 
     this.sendVote = this.sendVote.bind(this);
@@ -66,7 +78,7 @@ class Player extends Component {
 
   sendVote(vote) {
     // TODO: emit event
-    // TODO: visual presentation for successfull vote
+    // TODO: visual presentation for successful vote
   }
 
   getPlayerNameClass(classes) {
@@ -86,13 +98,9 @@ class Player extends Component {
     return (
       // TODO: better icons
       <Grid container className={classes.root} alignItems="flex-end">
-        <Grid item xs={9} className={classes.playerData}>
-          <Paper>
-            <Typography
-              className={headerClasses}
-              variant="headline"
-              component="h3"
-            >
+        <Grid item xs={9}>
+          <Paper className={classes.namePaper} elevation={2}>
+            <Typography className={headerClasses} variant="headline" component="h3">
               {this.props.player.name}
               {this.state.isLeader && <Icon>group_add</Icon>}
               {this.state.inTeam && <Icon>star</Icon>}
@@ -104,16 +112,10 @@ class Player extends Component {
             <Divider />
             <div className={classes.playerControls}>
               <div className="buttonArea">
-                <Button
-                  className={classes.voteButton}
-                  onClick={this.sendVote("Approve")}
-                >
+                <Button className={classes.voteButton} onClick={this.sendVote("Approve")}>
                   Approve
                 </Button>
-                <Button
-                  className={classes.voteButton}
-                  onClick={this.sendVote("Reject")}
-                >
+                <Button className={classes.voteButton} onClick={this.sendVote("Reject")}>
                   Reject
                 </Button>
               </div>
@@ -121,11 +123,7 @@ class Player extends Component {
           </Paper>
         </Grid>
         <Grid item xs={3}>
-          <img
-            className={classes.roleImage}
-            src={images[role.image]}
-            alt={role.name}
-          />
+          <img className={classes.roleImage} src={images[role.image]} alt={role.name} />
         </Grid>
       </Grid>
     );
