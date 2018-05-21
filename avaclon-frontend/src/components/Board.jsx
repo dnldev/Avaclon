@@ -37,7 +37,7 @@ class Board extends Component {
         <GameContext.Consumer>
           {(context) => {
             return (
-              <Paper className={classes.root} elevation={10}>
+              <Paper className={classes.root} elevation={5}>
                 <Typography className={classes.headline} variant="headline" component="h3">
                   Current Mission: {context.currentMission + 1}
                 </Typography>
