@@ -52,11 +52,11 @@ class Board extends Component {
                 }
                 <Divider />
                 <div className={classes.buttonContainer}>
-                  <Button disabled={context.gameEnded} size="small" onClick={() => context.currentMissionWon("evil")}>
-                    redWin
-                  </Button>
                   <Button disabled={context.gameEnded} size="small" onClick={() => context.currentMissionWon("good")}>
-                    blueWin
+                    {strings.missionSuccess}
+                  </Button>
+                  <Button disabled={context.gameEnded} size="small" onClick={() => context.currentMissionWon("evil")}>
+                    {strings.missionFailure}
                   </Button>
                 </div>
               </Paper>

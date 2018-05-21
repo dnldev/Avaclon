@@ -27,6 +27,8 @@ const strings = new LocalizedStrings({
   },
   de: {
     currentMission: "Derzeitige Mission",
+    missionFailure: "Fehlschlag",
+    missionSuccess: "Erfolg",
     newGame: "Neues Spiel",
     switchLanguage: "Sprache wechseln",
   }
