@@ -122,6 +122,7 @@ class Player extends Component {
           </Paper>
         </Grid>
         <Grid item xs={3}>
+        {/* // TODO: hide image (show backside) on click; show on hover */}
           <img className={classes.roleImage} src={images[role.image]} alt={role.name} />
         </Grid>
       </Grid>
