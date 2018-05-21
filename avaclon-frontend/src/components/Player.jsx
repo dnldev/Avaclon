@@ -68,8 +68,8 @@ class Player extends Component {
     super(props);
 
     this.state = {
-      inTeam: false,
-      isLeader: true
+      inTeam: true,
+      isLeader: true,
     };
 
     this.sendVote = this.sendVote.bind(this);
@@ -96,14 +96,13 @@ class Player extends Component {
     ].join(" ");
 
     return (
-      // TODO: better icons
       <Grid container className={classes.root} alignItems="flex-end">
         <Grid item xs={9}>
           <Paper className={classes.namePaper} elevation={2}>
             <Typography className={headerClasses} variant="headline" component="h3">
               {this.props.player.name}
-              {this.state.isLeader && <Icon>group_add</Icon>}
-              {this.state.inTeam && <Icon>star</Icon>}
+              {this.state.isLeader && <Icon>star_border</Icon>}
+              {this.state.inTeam && <Icon>group</Icon>}
             </Typography>
 
             <Typography className={classes.roleName} variant="subheading" component="p">
