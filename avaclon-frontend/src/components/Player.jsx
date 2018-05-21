@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import { withStyles } from "@material-ui/core/styles";
-import { Paper, Typography, Divider, Grid } from "@material-ui/core";
+import { Paper, Typography, Divider, Grid, Icon } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 
 const styles = theme => ({
@@ -29,19 +29,23 @@ const styles = theme => ({
   evilPlayer: {
     textDecorationColor: theme.palette.teams.evil,
     textDecorationLine: "underline",
-    textDecorationStyle: "solid",
+    textDecorationStyle: "solid"
   },
   goodPlayer: {
     textDecorationColor: theme.palette.teams.good,
     textDecorationLine: "underline",
-    textDecorationStyle: "solid",
-  },
+    textDecorationStyle: "solid"
+  }
 });
 
 class Player extends Component {
-
   constructor(props) {
     super(props);
+
+    this.state = {
+      inTeam: false,
+      isLeader: false
+    };
 
     this.sendVote = this.sendVote.bind(this);
     this.getPlayerNameClass = this.getPlayerNameClass.bind(this);
@@ -53,20 +57,32 @@ class Player extends Component {
   }
 
   getPlayerNameClass(classes) {
-    return this.props.player.role.affiliation === "evil" ? classes.evilPlayer : classes.goodPlayer; 
+    return this.props.player.role.affiliation === "evil"
+      ? classes.evilPlayer
+      : classes.goodPlayer;
   }
 
   render() {
     const { classes } = this.props;
     const { role } = this.props.player;
-    const headerClasses = [classes.playerName, this.getPlayerNameClass(classes)].join(" ");
+    const headerClasses = [
+      classes.playerName,
+      this.getPlayerNameClass(classes)
+    ].join(" ");
 
     return (
+      // TODO: better icons
       <Paper className={classes.root}>
         <Grid container className={classes.playerControls}>
           <Grid item xs={9} className={classes.playerData}>
-            <Typography className={headerClasses} variant="headline" component="h3">
+            <Typography
+              className={headerClasses}
+              variant="headline"
+              component="h3"
+            >
               {this.props.player.name}
+              {this.state.isLeader && <Icon>group_add</Icon>}
+              {this.state.inTeam && <Icon>star</Icon>}
             </Typography>
             <Divider />
             <div className={classes.playerControls}>
