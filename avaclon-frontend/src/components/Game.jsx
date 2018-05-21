@@ -63,7 +63,7 @@ class Game extends Component {
   // TODO: socket.io back-end check
   hasGameEnded(wonMissions) {
     return ((wonMissions.filter(el => el === "evil")).length === 3
-    || (wonMissions.filter(el => el === "good")).length === 3);
+        || (wonMissions.filter(el => el === "good")).length === 3);
   }
   
   resetGame() {
