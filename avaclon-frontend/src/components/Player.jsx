@@ -29,7 +29,7 @@ const styles = theme => ({
   },
   playerName: {
     padding: theme.spacing.unit * 2,
-    textAlign: "center"
+    textAlign: "center",
   },
   playerControls: {
     padding: theme.spacing.unit,
