@@ -6,23 +6,23 @@ import { withStyles } from "@material-ui/core/styles";
 const styles = theme => ({
   root: {
     height: 100,
-    width: 100
+    width: 100,
   },
   circle: {
     stroke: theme.palette.secondary.dark,
     cx: 50,
     cy: 50,
     r: 40,
-    strokeWidth: 3
+    strokeWidth: 3,
   },
   currentMissionCircle: {
-    stroke: theme.palette.primary.dark
+    stroke: theme.palette.primary.dark,
   },
   goodWinCircleFill: {
-    fill: theme.palette.teams.good
+    fill: theme.palette.teams.good,
   },
   evilWinCircleFill: {
-    fill: theme.palette.teams.evil
+    fill: theme.palette.teams.evil,
   },
   neutralCircleFill: {
     fill: "transparent"
@@ -53,7 +53,7 @@ class Mission extends Component {
     return (
       <svg className={classes.root}>
         <circle className={this.getCircleClasses(classes)} />
-        <text fontSize="2em" x="50%" y="50%" text-anchor="middle" dy=".33em">
+        <text fontSize="2em" x="50%" y="50%" textAnchor="middle" dy=".33em">
           {this.props.playersOnMission}
         </text>
       </svg>
