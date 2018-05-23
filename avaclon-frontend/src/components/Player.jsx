@@ -40,9 +40,11 @@ class Player extends Component {
                     {this.state.isLeader && <Icon>group</Icon>}
                 </div>
                 <Chip
-                    avatar={<Avatar>{this.props.playerInfo.name.substring(0, 2)}</Avatar>}
-                    label={this.props.playerInfo.name}
-                    onClick={() => this.showInfo(this.props.playerInfo.known)}
+                    avatar={
+                        <Avatar>{this.props.name.substring(0, 2)}</Avatar>
+                    }
+                    label={this.props.name}
+                    onClick={() => this.showInfo(this.props.role)}
                 />
             </div>
         );
