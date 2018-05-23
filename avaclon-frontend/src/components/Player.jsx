@@ -50,8 +50,10 @@ const styles = theme => ({
   namePaper: {
     marginBottom: 5,
     marginTop: 20,
-    opacity: "0.7",
     textAlign: "center",
+  },
+  iconArea: {
+    paddingTop: theme.spacing.unit,
   },
   roleImage: {
     borderRadius: 25,
@@ -60,6 +62,7 @@ const styles = theme => ({
   },
   roleName: {
     marginBottom: 5,
+    opacity: "0.7",
   },
 });
 
@@ -99,30 +102,33 @@ class Player extends Component {
       <Grid container className={classes.root} alignItems="flex-end">
         <Grid item xs={9}>
           <Paper className={classes.namePaper} elevation={2}>
-            <Typography className={headerClasses} variant="headline" component="h3">
-              {this.props.player.name}
-              {this.state.isLeader && <Icon>star_border</Icon>}
-              {this.state.inTeam && <Icon>group</Icon>}
-            </Typography>
-
+            <Grid container>
+              <Grid item xs={2} className={classes.iconArea}>
+                {this.state.isLeader && <Icon>star_border</Icon>}
+                {this.state.inTeam && <Icon>group</Icon>}
+              </Grid>
+              <Grid item xs={8}>
+                <Typography className={headerClasses} variant="headline" component="h3">
+                  {this.props.player.name}
+                </Typography>
+              </Grid>
+            </Grid>
             <Typography className={classes.roleName} variant="subheading" component="p">
               {role.name}
             </Typography>
             <Divider />
             <div className={classes.playerControls}>
-              <div className="buttonArea">
-                <Button className={classes.voteButton} onClick={this.sendVote("Approve")}>
-                  Approve
+              <Button className={classes.voteButton} onClick={this.sendVote("Approve")}>
+                Approve
                 </Button>
-                <Button className={classes.voteButton} onClick={this.sendVote("Reject")}>
-                  Reject
+              <Button className={classes.voteButton} onClick={this.sendVote("Reject")}>
+                Reject
                 </Button>
-              </div>
             </div>
           </Paper>
         </Grid>
         <Grid item xs={3}>
-        {/* // TODO: hide image (show backside) on click; show on hover */}
+          {/* // TODO: hide image (show backside) on click; show on hover */}
           <img className={classes.roleImage} src={images[role.image]} alt={role.name} />
         </Grid>
       </Grid>
