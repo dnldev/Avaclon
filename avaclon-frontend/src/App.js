@@ -12,20 +12,20 @@ import Game from "./components/Game";
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: "#fff263",
-      main: "#fbc02d",
-      dark: "#c49000",
-      contrastText: "#000",
+      light: "#FFECB3",
+      main: "#FFC107",
+      dark: "#FFA000",
+      contrastText: "#212121",
     },
     secondary: {
-      light: "#ffffff",
-      main: "#ced7db",
-      dark: "#9da6a9",
-      contrastText: "#000",
+      light: "#CFD8DC",
+      main: "#607D8B",
+      dark: "#455A64",
+      contrastText: "#FFFFFF",
     },
     teams: {
-      good: "#1976d2",
-      evil: "#d32f2f"
+      good: "#1976D2",
+      evil: "#D32F2F"
     }
   },
 });
