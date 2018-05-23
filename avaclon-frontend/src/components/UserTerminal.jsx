@@ -27,16 +27,6 @@ const styles = theme => ({
       width: "75%",
     },
   },
-  playerName: {
-    padding: theme.spacing.unit * 2,
-    textAlign: "center",
-  },
-  playerControls: {
-    padding: theme.spacing.unit,
-  },
-  voteButton: {
-    width: "50%",
-  },
   evilPlayer: {
     textDecorationColor: theme.palette.teams.evil,
     textDecorationLine: "underline",
@@ -47,13 +37,20 @@ const styles = theme => ({
     textDecorationLine: "underline",
     textDecorationStyle: "solid",
   },
+  iconArea: {
+    paddingTop: theme.spacing.unit,
+  },
   namePaper: {
     marginBottom: 5,
     marginTop: 20,
     textAlign: "center",
   },
-  iconArea: {
-    paddingTop: theme.spacing.unit,
+  playerControls: {
+    padding: theme.spacing.unit,
+  },
+  playerName: {
+    padding: theme.spacing.unit * 2,
+    textAlign: "center",
   },
   roleImage: {
     borderRadius: 25,
@@ -63,6 +60,9 @@ const styles = theme => ({
   roleName: {
     marginBottom: 5,
     opacity: "0.7",
+  },
+  voteButton: {
+    width: "50%",
   },
 });
 
