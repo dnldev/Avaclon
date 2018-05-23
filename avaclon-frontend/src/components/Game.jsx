@@ -4,14 +4,16 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 
 // import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 
 import Board from "./Board";
 
 import strings from "../localization/game-locale";
 
 import GameContext from "./game-context";
+import AdminArea from "./AdminArea";
 import Player from "./Player";
+import UserControlArea from "./UserControlArea";
+
 
 const styles = theme => ({
   root: {
@@ -20,7 +22,7 @@ const styles = theme => ({
   button: {
     marginRight: theme.spacing.unit * 2,
     marginTop: theme.spacing.unit * 2,
-  }
+  },
 });
 
 class Game extends Component {
@@ -39,7 +41,12 @@ class Game extends Component {
 
     this.state = this.getClonedStartingValues();
 
+    this.state.isAdmin = true;
+    this.state.loading = false;
+
     this.state.currentMissionWon = this.currentMissionWon.bind(this);
+    this.state.resetGame = this.resetGame.bind(this);
+    this.state.switchLanguage = this.switchLanguage.bind(this);
 
     this.getClonedStartingValues = this.getClonedStartingValues.bind(this);
     this.resetGame = this.resetGame.bind(this);
@@ -80,28 +87,26 @@ class Game extends Component {
 
   render() {
     const { classes } = this.props;
-    
-    return (
-      <div className={classes.root}>
-        <GameContext.Provider value={this.state}>
-          <Button className={classes.button} variant="raised" color="primary" onClick={() => this.resetGame()}>
-            {strings.newGame}
-          </Button>
-          <Button className={classes.button} variant="raised" color="primary" onClick={() => this.switchLanguage()}>
-            {strings.switchLanguage}
-          </Button>
-          <Board />
-          <Player player={{
-            name: "Josh",
-            role: {
-              affiliation: "good",
-              image: "genblue",
-              name: "Generic Blue",
-            }
-          }}/>
-        </GameContext.Provider>
-      </div>
-    );
+
+    if (!this.state.loading) {
+      return (
+        <div className={classes.root}>
+          <GameContext.Provider value={this.state}>
+            {this.state.isAdmin ? <AdminArea/> : <UserControlArea/>}
+            
+            <Board />
+            <Player player={{
+              name: "Josh",
+              role: {
+                affiliation: "good",
+                image: "genblue",
+                name: "Generic Blue",
+              }
+            }}/>
+          </GameContext.Provider>
+        </div>
+      );
+    }
   }
 }
 
