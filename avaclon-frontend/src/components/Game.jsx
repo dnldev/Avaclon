@@ -11,9 +11,6 @@ import Board from "./Board";
 import strings from "../localization/game-locale";
 
 import GameContext from "./game-context";
-import Player from "./Player";
-import PlayerView from "./PlayerView";
-import { Grid } from "@material-ui/core";
 
 const styles = theme => ({
   root: {
@@ -48,32 +45,32 @@ class Game extends Component {
     this.switchLanguage = this.switchLanguage.bind(this);
   }
 
-
+  
   currentMissionWon(winner) {
     this.setState(prevState => {
       prevState.wonMissions.push(winner);
-      return {
+      return { 
         currentMission: prevState.currentMission + 1,
         gameEnded: this.hasGameEnded(prevState.wonMissions),
         wonMissions: prevState.wonMissions
       }
     })
   }
-
+  
   getClonedStartingValues() {
     return JSON.parse(JSON.stringify(this.startingValues)); // clone object
   }
-
+  
   // TODO: socket.io back-end check
   hasGameEnded(wonMissions) {
     return ((wonMissions.filter(el => el === "evil")).length === 3
-      || (wonMissions.filter(el => el === "good")).length === 3);
+        || (wonMissions.filter(el => el === "good")).length === 3);
   }
-
+  
   resetGame() {
     this.setState(this.getClonedStartingValues());
   }
-
+  
   switchLanguage() {
     this.currentLanguage = this.currentLanguage === "en" ? "de" : "en";
     strings.setLanguage(this.currentLanguage);
@@ -82,13 +79,7 @@ class Game extends Component {
 
   render() {
     const { classes } = this.props;
-    const players = [
-      { name: "Daniel", id: 0, role: "merlinOrMorgana" },
-      { name: "Thomas", id: 1, role: "unknown" },
-      { name: "Josh", id: 2, role: "evil" },
-      { name: "BRN", id: 2, role: "unknown" }
-    ];
-
+    
     return (
       <div className={classes.root}>
         <GameContext.Provider value={this.state}>
@@ -98,11 +89,7 @@ class Game extends Component {
           <Button className={classes.button} variant="raised" color="primary" onClick={() => this.switchLanguage()}>
             {strings.switchLanguage}
           </Button>
-          <br />
-          <Grid>
-            <PlayerView players={players} />
-            <Board />
-          </Grid>
+          <Board />
         </GameContext.Provider>
       </div>
     );
