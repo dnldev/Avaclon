@@ -25,6 +25,14 @@ const strings = new LocalizedStrings({
     switchLanguage: "Switch Language",
     voteCards: "Quest Cards",
     voteTrackMarker: "Vote Track Marker",
+
+    roles: {
+      evil: "Evil",
+      good: "Good",
+      oberon: "Oberon",
+      parcivalCandidate: "Merlin or Morgana",
+      unknown: "Unknown",
+    },
   },
   de: {
     currentMission: "Derzeitige Mission",
@@ -33,6 +41,13 @@ const strings = new LocalizedStrings({
     newGame: "Neues Spiel",
     role: "Rolle",
     switchLanguage: "Sprache wechseln",
+
+    roles: {
+      evil: "Böse",
+      good: "Gut",
+      parcivalCandidate: "Merlin oder Morgana",
+      unknown: "Unbekannt",
+    },
   }
 });
 

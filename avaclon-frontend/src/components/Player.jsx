@@ -41,7 +41,7 @@ class Player extends Component {
                     {this.state.inTeam && <Icon>star_border</Icon>}
                     {this.state.isLeader && <Icon>group</Icon>}
                 </div>
-                <Tooltip title={strings.role + ": " + this.props.role}>
+                <Tooltip title={strings.role + ": " + strings.roles[this.props.role]}>
                     <Chip
                         avatar={
                             <Avatar>{this.props.name.substring(0, 2)}</Avatar>
