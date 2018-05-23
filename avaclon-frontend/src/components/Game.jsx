@@ -11,6 +11,7 @@ import Board from "./Board";
 import strings from "../localization/game-locale";
 
 import GameContext from "./game-context";
+import Player from "./Player";
 
 const styles = theme => ({
   root: {
@@ -45,32 +46,32 @@ class Game extends Component {
     this.switchLanguage = this.switchLanguage.bind(this);
   }
 
-  
+
   currentMissionWon(winner) {
     this.setState(prevState => {
       prevState.wonMissions.push(winner);
-      return { 
+      return {
         currentMission: prevState.currentMission + 1,
         gameEnded: this.hasGameEnded(prevState.wonMissions),
         wonMissions: prevState.wonMissions
       }
     })
   }
-  
+
   getClonedStartingValues() {
     return JSON.parse(JSON.stringify(this.startingValues)); // clone object
   }
-  
+
   // TODO: socket.io back-end check
   hasGameEnded(wonMissions) {
     return ((wonMissions.filter(el => el === "evil")).length === 3
-        || (wonMissions.filter(el => el === "good")).length === 3);
+      || (wonMissions.filter(el => el === "good")).length === 3);
   }
-  
+
   resetGame() {
     this.setState(this.getClonedStartingValues());
   }
-  
+
   switchLanguage() {
     this.currentLanguage = this.currentLanguage === "en" ? "de" : "en";
     strings.setLanguage(this.currentLanguage);
@@ -79,7 +80,7 @@ class Game extends Component {
 
   render() {
     const { classes } = this.props;
-    
+
     return (
       <div className={classes.root}>
         <GameContext.Provider value={this.state}>
@@ -89,6 +90,8 @@ class Game extends Component {
           <Button className={classes.button} variant="raised" color="primary" onClick={() => this.switchLanguage()}>
             {strings.switchLanguage}
           </Button>
+          <br />
+          <Player name="Daniel" id="1" role="Evil"/>
           <Board />
         </GameContext.Provider>
       </div>
