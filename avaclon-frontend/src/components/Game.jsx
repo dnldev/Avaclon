@@ -54,32 +54,32 @@ class Game extends Component {
     this.switchLanguage = this.switchLanguage.bind(this);
   }
 
-  
+
   currentMissionWon(winner) {
     this.setState(prevState => {
       prevState.wonMissions.push(winner);
-      return { 
+      return {
         currentMission: prevState.currentMission + 1,
         gameEnded: this.hasGameEnded(prevState.wonMissions),
         wonMissions: prevState.wonMissions
       }
     })
   }
-  
+
   getClonedStartingValues() {
     return JSON.parse(JSON.stringify(this.startingValues)); // clone object
   }
-  
+
   // TODO: socket.io back-end check
   hasGameEnded(wonMissions) {
     return ((wonMissions.filter(el => el === "evil")).length === 3
-        || (wonMissions.filter(el => el === "good")).length === 3);
+      || (wonMissions.filter(el => el === "good")).length === 3);
   }
-  
+
   resetGame() {
     this.setState(this.getClonedStartingValues());
   }
-  
+
   switchLanguage() {
     this.currentLanguage = this.currentLanguage === "en" ? "de" : "en";
     strings.setLanguage(this.currentLanguage);
@@ -88,51 +88,27 @@ class Game extends Component {
 
   render() {
     const { classes } = this.props;
-<<<<<<< HEAD
-    
-    return (
-      <div className={classes.root}>
-        <GameContext.Provider value={this.state}>
-          <Button className={classes.button} variant="raised" color="primary" onClick={() => this.resetGame()}>
-            {strings.newGame}
-          </Button>
-          <Button className={classes.button} variant="raised" color="primary" onClick={() => this.switchLanguage()}>
-            {strings.switchLanguage}
-          </Button>
-          <Board />
-          <UserTerminal player={{
-            name: "Josh",
-            role: {
-              affiliation: "good",
-              image: "genblue",
-              name: "Generic Blue",
-            }
-          }}/>
-        </GameContext.Provider>
-      </div>
-    );
-=======
+
 
     if (!this.state.loading) {
       return (
         <div className={classes.root}>
           <GameContext.Provider value={this.state}>
-            {this.state.isAdmin ? <AdminArea/> : <UserControlArea/>}
-            
+            {this.state.isAdmin ? <AdminArea /> : <UserControlArea />}
+
             <Board />
-            <Player player={{
+            <UserTerminal player={{
               name: "Josh",
               role: {
                 affiliation: "good",
                 image: "genblue",
                 name: "Generic Blue",
               }
-            }}/>
+            }} />
           </GameContext.Provider>
         </div>
       );
     }
->>>>>>> 1da620f2f1deff5bc1be4d706e227eb64b577401
   }
 }
 
