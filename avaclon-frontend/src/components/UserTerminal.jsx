@@ -66,7 +66,7 @@ const styles = theme => ({
   },
 });
 
-class Player extends Component {
+class UserTerminal extends Component {
   constructor(props) {
     super(props);
 
@@ -136,9 +136,9 @@ class Player extends Component {
   }
 }
 
-Player.propTypes = {
+UserTerminal.propTypes = {
   classes: PropTypes.object.isRequired,
   player: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Player);
+export default withStyles(styles)(UserTerminal);
