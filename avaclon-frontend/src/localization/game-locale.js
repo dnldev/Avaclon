@@ -2,6 +2,7 @@ import LocalizedStrings from 'react-localization';
 
 const strings = new LocalizedStrings({
   en: {
+    adminArea: "Admin Area",
     approveMission: "Approve",
     approveRejectTokens: "Vote Tokens",
     blueRedMarkers: "Score Markers",
@@ -26,6 +27,7 @@ const strings = new LocalizedStrings({
     voteTrackMarker: "Vote Track Marker",
   },
   de: {
+    adminArea: "Admin Bereich",
     currentMission: "Derzeitige Mission",
     missionFailure: "Fehlschlag",
     missionSuccess: "Erfolg",
