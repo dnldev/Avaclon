@@ -5,12 +5,13 @@ import { withStyles } from "@material-ui/core/styles";
 
 // import Typography from "@material-ui/core/Typography";
 
-import Board from "./Board";
 
 import strings from "../localization/game-locale";
 
 import GameContext from "./game-context";
+
 import AdminArea from "./AdminArea";
+import Board from "./Board";
 import Player from "./Player";
 import UserControlArea from "./UserControlArea";
 
