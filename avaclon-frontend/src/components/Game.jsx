@@ -93,7 +93,7 @@ class Game extends Component {
           <br />
           <Player name="Daniel" id="1" role="evil"/>
           <Player name="Josh" id="2" role="unknown"/>
-          <Player name="Thomas" id="0" role="parcivalCandidate"/>
+          <Player name="Thomas" id="0" role="merlinOrMorgana"/>
           <Board />
         </GameContext.Provider>
       </div>
