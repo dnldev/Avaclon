@@ -20,6 +20,7 @@ const strings = new LocalizedStrings({
     mordred: "Mordred",
     newGame: "New Game",
     rejectMission: "Reject",
+    role: "Role",
     roundMarker: "Round Marker",
     switchLanguage: "Switch Language",
     voteCards: "Quest Cards",
@@ -30,6 +31,7 @@ const strings = new LocalizedStrings({
     missionFailure: "Fehlschlag",
     missionSuccess: "Erfolg",
     newGame: "Neues Spiel",
+    role: "Rolle",
     switchLanguage: "Sprache wechseln",
   }
 });
