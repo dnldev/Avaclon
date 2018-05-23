@@ -53,7 +53,7 @@ class Mission extends Component {
     return (
       <svg className={classes.root}>
         <circle className={this.getCircleClasses(classes)} />
-        <text fontSize="2em" x="50%" y="50%" text-anchor="middle" dy=".33em">
+        <text fontSize="2em" x="50%" y="50%" textAnchor="middle" dy=".33em">
           {this.props.playersOnMission}
         </text>
       </svg>
