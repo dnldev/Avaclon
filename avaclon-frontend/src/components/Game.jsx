@@ -12,6 +12,8 @@ import strings from "../localization/game-locale";
 
 import GameContext from "./game-context";
 import Player from "./Player";
+import PlayerView from "./PlayerView";
+import { Grid } from "@material-ui/core";
 
 const styles = theme => ({
   root: {
@@ -80,6 +82,12 @@ class Game extends Component {
 
   render() {
     const { classes } = this.props;
+    const players = [
+      { name: "Daniel", id: 0, role: "merlinOrMorgana" },
+      { name: "Thomas", id: 1, role: "unknown" },
+      { name: "Josh", id: 2, role: "evil" },
+      { name: "BRN", id: 2, role: "unknown" }
+    ];
 
     return (
       <div className={classes.root}>
@@ -91,10 +99,10 @@ class Game extends Component {
             {strings.switchLanguage}
           </Button>
           <br />
-          <Player name="Daniel" id="1" role="evil"/>
-          <Player name="Josh" id="2" role="unknown"/>
-          <Player name="Thomas" id="0" role="merlinOrMorgana"/>
-          <Board />
+          <Grid>
+            <PlayerView players={players} />
+            <Board />
+          </Grid>
         </GameContext.Provider>
       </div>
     );
