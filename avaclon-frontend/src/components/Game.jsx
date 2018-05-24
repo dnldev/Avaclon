@@ -15,7 +15,7 @@ import UserTerminal from "./UserTerminal";
 import AdminArea from "./AdminArea";
 import Board from "./Board";
 import UserControlArea from "./UserControlArea";
-import { Hidden, SwipeableDrawer, Button, Paper } from "@material-ui/core";
+import { Hidden, SwipeableDrawer, Button, Paper, Icon } from "@material-ui/core";
 
 const styles = theme => ({
   root: {
@@ -25,9 +25,10 @@ const styles = theme => ({
     marginRight: theme.spacing.unit * 2,
     marginTop: theme.spacing.unit * 2,
   },
-  toggleButton: {
+  toggleTerminalButton: {
+    bottom: theme.spacing.unit * 2,
+    height: theme.spacing.unit * 4,
     position: "fixed",
-    bottom: 0,
     width: "100%",
   },
 });
@@ -125,12 +126,12 @@ class Game extends Component {
               <UserTerminal player={player} />
             </Hidden>
             <Hidden only={['lg', 'xl']}>
-              <Button className={classes.toggleButton}
+              <Button className={classes.toggleTerminalButton}
                 color="secondary"
-                variant="raised"
                 onClick={() => this.toggleUserTerminal(true)}
+                variant="raised"
               >
-                Open Player Area
+                <Icon>expand_more</Icon>
               </Button>
               <SwipeableDrawer
                 anchor="bottom"
