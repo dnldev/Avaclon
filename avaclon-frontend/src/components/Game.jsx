@@ -25,6 +25,11 @@ const styles = theme => ({
     marginRight: theme.spacing.unit * 2,
     marginTop: theme.spacing.unit * 2,
   },
+  toggleButton: {
+    position: "fixed",
+    bottom: 0,
+    width: "100%",
+  },
 });
 
 class Game extends Component {
@@ -115,12 +120,13 @@ class Game extends Component {
               <UserTerminal player={player} />
             </Hidden>
             <Hidden only={['lg', 'xl']}>
-              <Button onClick={() => this.toggleUserTerminal(true)}>Open</Button>
+              <Button className={classes.toggleButton} color="secondary" variant="raised" onClick={() => this.toggleUserTerminal(true)}>Open</Button>
               <SwipeableDrawer
                 anchor="bottom"
                 onClose={() => this.toggleUserTerminal(false)}
                 onOpen={() => this.toggleUserTerminal(true)}
                 open={this.state.terminalOpen}
+                SlideProps={{elevation: 0, style: {backgroundColor: "rgba(0, 0,0,0)"}}}
               >
                 <UserTerminal player={player} />
               </SwipeableDrawer>
