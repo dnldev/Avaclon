@@ -15,6 +15,7 @@ import UserTerminal from "./UserTerminal";
 import AdminArea from "./AdminArea";
 import Board from "./Board";
 import UserControlArea from "./UserControlArea";
+import { Hidden, SwipeableDrawer, Button, Paper } from "@material-ui/core";
 
 const styles = theme => ({
   root: {
@@ -44,6 +45,7 @@ class Game extends Component {
 
     this.state.isAdmin = true;
     this.state.loading = false;
+    this.state.terminalOpen = false;
 
     this.state.currentMissionWon = this.currentMissionWon.bind(this);
     this.state.resetGame = this.resetGame.bind(this);
@@ -52,6 +54,7 @@ class Game extends Component {
     this.getClonedStartingValues = this.getClonedStartingValues.bind(this);
     this.resetGame = this.resetGame.bind(this);
     this.switchLanguage = this.switchLanguage.bind(this);
+    this.toggleUserTerminal = this.toggleUserTerminal.bind(this);
   }
 
 
@@ -86,9 +89,20 @@ class Game extends Component {
     this.setState({});
   }
 
+  toggleUserTerminal(open) {
+    this.setState({ terminalOpen: open });
+  }
+
   render() {
     const { classes } = this.props;
-
+    const player = {
+      name: "Josh",
+      role: {
+        affiliation: "evil",
+        image: "genred",
+        name: "Generic Red",
+      }
+    };
 
     if (!this.state.loading) {
       return (
@@ -97,14 +111,20 @@ class Game extends Component {
             {this.state.isAdmin ? <AdminArea /> : <UserControlArea />}
 
             <Board />
-            <UserTerminal player={{
-              name: "Josh",
-              role: {
-                affiliation: "good",
-                image: "genblue",
-                name: "Generic Blue",
-              }
-            }} />
+            <Hidden only={['xs', 'sm', 'md']}>
+              <UserTerminal player={player} />
+            </Hidden>
+            <Hidden only={['lg', 'xl']}>
+              <Button onClick={() => this.toggleUserTerminal(true)}>Open</Button>
+              <SwipeableDrawer
+                anchor="bottom"
+                onClose={() => this.toggleUserTerminal(false)}
+                onOpen={() => this.toggleUserTerminal(true)}
+                open={this.state.terminalOpen}
+              >
+                <UserTerminal player={player} />
+              </SwipeableDrawer>
+            </Hidden>
           </GameContext.Provider>
         </div>
       );

@@ -15,10 +15,10 @@ const images = {
 
 const styles = theme => ({
   root: {
-    bottom: theme.spacing.unit * 2,
-    position: "absolute",
     width: "95%",
     [theme.breakpoints.between("md", "xl")]: {
+      bottom: theme.spacing.unit * 2,
+      position: "absolute",
       marginLeft: "20%",
       width: "50%",
     },
@@ -100,7 +100,7 @@ class UserTerminal extends Component {
 
     return (
       <Grid container className={classes.root} alignItems="flex-end">
-        <Grid item xs={9}>
+        <Grid item xs={9} lg={10}>
           <Paper className={classes.namePaper} elevation={2}>
             <Grid container>
               <Grid item xs={2} className={classes.iconArea}>
@@ -127,7 +127,7 @@ class UserTerminal extends Component {
             </div>
           </Paper>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={3} lg={2}>
           {/* // TODO: hide image (show backside) on click; show on hover */}
           <img className={classes.roleImage} src={images[role.image]} alt={role.name} />
         </Grid>
