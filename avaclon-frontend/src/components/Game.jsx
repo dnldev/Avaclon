@@ -108,6 +108,11 @@ class Game extends Component {
         name: "Generic Red",
       }
     };
+    // given to slideProps to make the slide invisible
+    const transparentSlideProps = {
+      elevation: 0,
+      style: { backgroundColor: "transparent" },
+    };
 
     if (!this.state.loading) {
       return (
@@ -120,13 +125,19 @@ class Game extends Component {
               <UserTerminal player={player} />
             </Hidden>
             <Hidden only={['lg', 'xl']}>
-              <Button className={classes.toggleButton} color="secondary" variant="raised" onClick={() => this.toggleUserTerminal(true)}>Open</Button>
+              <Button className={classes.toggleButton}
+                color="secondary"
+                variant="raised"
+                onClick={() => this.toggleUserTerminal(true)}
+              >
+                Open Player Area
+              </Button>
               <SwipeableDrawer
                 anchor="bottom"
                 onClose={() => this.toggleUserTerminal(false)}
                 onOpen={() => this.toggleUserTerminal(true)}
                 open={this.state.terminalOpen}
-                SlideProps={{elevation: 0, style: {backgroundColor: "rgba(0, 0,0,0)"}}}
+                SlideProps={transparentSlideProps}
               >
                 <UserTerminal player={player} />
               </SwipeableDrawer>
