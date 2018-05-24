@@ -3,8 +3,10 @@ import PropTypes from "prop-types";
 
 import { withStyles } from "@material-ui/core/styles";
 
-// import Typography from "@material-ui/core/Typography";
-
+import Button from "@material-ui/core/Button";
+import Hidden from "@material-ui/core/Hidden";
+import Icon from "@material-ui/core/Icon";
+import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 
 import strings from "../localization/game-locale";
 
@@ -15,7 +17,6 @@ import UserTerminal from "./UserTerminal";
 import AdminArea from "./AdminArea";
 import Board from "./Board";
 import UserControlArea from "./UserControlArea";
-import { Hidden, SwipeableDrawer, Button, Paper, Icon } from "@material-ui/core";
 
 const styles = theme => ({
   root: {
@@ -36,57 +37,29 @@ const styles = theme => ({
 class Game extends Component {
   currentLanguage = "en";
 
-  startingValues = {
-    currentMission: 0,
-    gameEnded: false,
-    playerCount: 10,
-    voteMarker: 0,
-    wonMissions: [],
-  };
-
   constructor(props) {
     super(props);
 
-    this.state = this.getClonedStartingValues();
+    this.state = {  // TODO: get state init values from socket.io
+      currentMission: 0,
+      gameEnded: false,
+      playerCount: 10,
+      voteMarker: 0,
+      wonMissions: [],
+    };
 
     this.state.isAdmin = true;
     this.state.loading = false;
     this.state.terminalOpen = false;
 
-    this.state.currentMissionWon = this.currentMissionWon.bind(this);
-    this.state.resetGame = this.resetGame.bind(this);
     this.state.switchLanguage = this.switchLanguage.bind(this);
 
-    this.getClonedStartingValues = this.getClonedStartingValues.bind(this);
-    this.resetGame = this.resetGame.bind(this);
     this.switchLanguage = this.switchLanguage.bind(this);
     this.toggleUserTerminal = this.toggleUserTerminal.bind(this);
   }
 
-
-  currentMissionWon(winner) {
-    this.setState(prevState => {
-      prevState.wonMissions.push(winner);
-      return {
-        currentMission: prevState.currentMission + 1,
-        gameEnded: this.hasGameEnded(prevState.wonMissions),
-        wonMissions: prevState.wonMissions
-      }
-    })
-  }
-
-  getClonedStartingValues() {
-    return JSON.parse(JSON.stringify(this.startingValues)); // clone object
-  }
-
-  // TODO: socket.io back-end check
-  hasGameEnded(wonMissions) {
-    return ((wonMissions.filter(el => el === "evil")).length === 3
-      || (wonMissions.filter(el => el === "good")).length === 3);
-  }
-
-  resetGame() {
-    this.setState(this.getClonedStartingValues());
+  getClonedObject(object) {
+    return JSON.parse(JSON.stringify(object));
   }
 
   switchLanguage() {
@@ -107,7 +80,7 @@ class Game extends Component {
         affiliation: "evil",
         image: "genred",
         name: "Generic Red",
-      }
+      },
     };
     // given to slideProps to make the slide invisible
     const transparentSlideProps = {
