@@ -2,7 +2,10 @@ import React, { Component } from "react"
 import PropTypes from "prop-types";
 
 import { withStyles } from "@material-ui/core/styles";
-import { Chip, Avatar, Icon, Tooltip } from "@material-ui/core";
+import Chip from "@material-ui/Chip";
+import Avatar from "@material-ui/Avatar";
+import Icon from "@material-ui/Icon";
+import Tooltip from "@material-ui/Tooltip";
 
 import strings from "../localization/game-locale"
 
