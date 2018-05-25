@@ -27,10 +27,10 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 2,
   },
   toggleTerminalButton: {
-    bottom: theme.spacing.unit * 2,
+    bottom: theme.spacing.unit,
     height: theme.spacing.unit * 4,
     position: "fixed",
-    width: "100%",
+    width: "calc(100% - " + theme.spacing.unit * 2 + "px)",
   },
 });
 
@@ -79,13 +79,17 @@ class Game extends Component {
       role: {
         affiliation: "evil",
         image: "genred",
-        name: "Generic Red",
+        name: strings.roles.evil,
       },
     };
-    // given to slideProps to make the slide invisible
+
     const transparentSlideProps = {
       elevation: 0,
-      style: { backgroundColor: "transparent" },
+      style: {
+        backgroundColor: "transparent", 
+        marginBottom: 8,
+        marginLeft: 16,
+      },
     };
 
     if (!this.state.loading) {
@@ -99,7 +103,8 @@ class Game extends Component {
               <UserTerminal player={player} />
             </Hidden>
             <Hidden only={['lg', 'xl']}>
-              <Button className={classes.toggleTerminalButton}
+              <Button 
+                className={classes.toggleTerminalButton}
                 color="secondary"
                 onClick={() => this.toggleUserTerminal(true)}
                 variant="raised"
