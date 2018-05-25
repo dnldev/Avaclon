@@ -3,22 +3,25 @@ import LocalizedStrings from 'react-localization';
 const strings = new LocalizedStrings({
   en: {
     adminArea: "Admin Area",
-    approveMission: "Approve",
     approveRejectTokens: "Vote Tokens",
     blueRedMarkers: "Score Markers",
     characterCards: "Character Cards",
-    currentMission: "Current Mission",
     lady: "Lady of the Lake",
     ladyCards: "Loyalty Cards",
     leaderToken: "Leader Token",
-    missionFailure: "Fail",
-    missionSuccess: "Success",
     newGame: "New Game",
-    rejectMission: "Reject",
     roundMarker: "Round Marker",
     switchLanguage: "Switch Language",
     voteCards: "Quest Cards",
     voteTrackMarker: "Vote Track Marker",
+
+    mission: {
+      approve: "Approve",
+      current: "Current Mission",
+      failure: "Fail",
+      reject: "Reject",
+      success: "Success",
+    },
 
     roles: {
       evil: "Minion of Mordred",
@@ -33,11 +36,16 @@ const strings = new LocalizedStrings({
   },
   de: {
     adminArea: "Admin Bereich",
-    currentMission: "Derzeitige Mission",
-    missionFailure: "Fehlschlag",
-    missionSuccess: "Erfolg",
     newGame: "Neues Spiel",
     switchLanguage: "Sprache wechseln",
+
+    mission: {
+      approve: "Pro",
+      current: "Derzeitige Mission",
+      failure: "Fehlschlag",
+      reject: "Contra",
+      success: "Erfolg",
+    },
 
     roles: {
       evil: "Diener Mordreds",
