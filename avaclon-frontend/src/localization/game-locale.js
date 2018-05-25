@@ -6,7 +6,6 @@ const strings = new LocalizedStrings({
     approveRejectTokens: "Vote Tokens",
     blueRedMarkers: "Score Markers",
     characterCards: "Character Cards",
-    characterCards: "characterCards",
     currentMission: "Current Mission",
     lady: "Lady of the Lake",
     ladyCards: "Loyalty Cards",
