@@ -2,8 +2,15 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import { withStyles } from "@material-ui/core/styles";
-import { Paper, Typography, Divider, Grid, Icon } from "@material-ui/core";
+
 import Button from "@material-ui/core/Button";
+import Divider from "@material-ui/core/Divider";
+import Grid from "@material-ui/core/Grid";
+import Icon from "@material-ui/core/Icon";
+import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
+
+import strings from "../localization/game-locale";
 
 import genblue from "./../static/genblue.JPG";
 import genred from "./../static/genred.JPG";
@@ -71,23 +78,31 @@ class UserTerminal extends Component {
     super(props);
 
     this.state = {
+      hideRole: true,
       inTeam: true,
       isLeader: true,
     };
 
-    this.sendVote = this.sendVote.bind(this);
     this.getPlayerNameClass = this.getPlayerNameClass.bind(this);
+    this.toggleRoleConcealment = this.toggleRoleConcealment.bind(this);
+    this.sendVote = this.sendVote.bind(this);
+  }
+  
+  getPlayerNameClass(classes) {
+    return this.props.player.role.affiliation === "evil"
+    ? classes.evilPlayer
+    : classes.goodPlayer;
   }
 
+  toggleRoleConcealment() {
+    this.setState((prevState) => {
+      return {hideRole: !prevState.hideRole};
+    });
+  }
+  
   sendVote(vote) {
     // TODO: emit event
     // TODO: visual presentation for successful vote
-  }
-
-  getPlayerNameClass(classes) {
-    return this.props.player.role.affiliation === "evil"
-      ? classes.evilPlayer
-      : classes.goodPlayer;
   }
 
   render() {
@@ -119,17 +134,21 @@ class UserTerminal extends Component {
             <Divider />
             <div className={classes.playerControls}>
               <Button className={classes.voteButton} onClick={this.sendVote("Approve")}>
-                Approve
-                </Button>
+                {strings.mission.approve}
+              </Button>
               <Button className={classes.voteButton} onClick={this.sendVote("Reject")}>
-                Reject
-                </Button>
+                {strings.mission.reject}
+              </Button>
             </div>
           </Paper>
         </Grid>
         <Grid item xs={3} lg={2}>
           {/* // TODO: hide image (show backside) on click; show on hover */}
-          <img className={classes.roleImage} src={images[role.image]} alt={role.name} />
+          <img 
+            className={classes.roleImage} 
+            src={images[role.image]} 
+            alt={role.name} 
+          />
         </Grid>
       </Grid>
     );
