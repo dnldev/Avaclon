@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import PropTypes from "prop-types";
 
 import { withStyles } from "@material-ui/core/styles";
-import Grid  from "@material-ui/Grid";
+import Grid from "@material-ui/Grid";
 import Player from "./Player";
 
 const styles = theme => ({
@@ -22,6 +22,11 @@ class PlayerView extends Component {
       </Grid>
     );
   }
+}
+
+PlayerView.PropTypes = {
+  classes: PropTypes.object.isRequired,
+  players: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles)(PlayerView);

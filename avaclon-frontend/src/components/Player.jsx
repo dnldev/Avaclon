@@ -58,7 +58,10 @@ class Player extends Component {
 }
 
 Player.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
+  id: PropTypes.object.isRequired,
+  role: propTypes.object.isRequired,
 };
 
 export default withStyles(styles)(Player)
