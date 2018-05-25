@@ -17,7 +17,7 @@ class PlayerView extends Component {
     return (
       <Grid container className={classes.props} wrap="wrap" justify="space-between">
         {this.props.players.map(player => (
-          <Player name={player.name} id={player.id} role={player.role} />
+          <Player key={player.id} name={player.name} id={player.id} role={player.role} />
         ))}
       </Grid>
     );
