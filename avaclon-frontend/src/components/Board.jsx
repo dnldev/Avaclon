@@ -38,7 +38,7 @@ class Board extends Component {
             return (
               <Paper className={classes.root} elevation={5}>
                 <Typography className={classes.headline} variant="headline" component="h3">
-                  {strings.currentMission}: {context.currentMission + 1}
+                  {strings.mission.current}: {context.currentMission + 1}
                 </Typography>
 
                 {this.missionPlayersForPlayerCount[context.playerCount]
