@@ -2,10 +2,10 @@ import React, { Component } from "react"
 import PropTypes from "prop-types";
 
 import { withStyles } from "@material-ui/core/styles";
-import Chip from "@material-ui/Chip";
-import Avatar from "@material-ui/Avatar";
-import Icon from "@material-ui/Icon";
-import Tooltip from "@material-ui/Tooltip";
+import Chip from "@material-ui/core/Chip";
+import Avatar from "@material-ui/core/Avatar";
+import Icon from "@material-ui/core/Icon";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import strings from "../localization/game-locale"
 
@@ -26,12 +26,14 @@ class Player extends Component {
 
     this.state = {
       isLeader: true,
-      inTeam: true
+      inTeam: true,
     }
+
+    this.getInitials = this.getInitials.bind(this);
   }
 
-  showInfo(infoObject) {
-    console.log(infoObject);
+  getInitials() {
+    return this.props.name.substring(0, 2);
   }
 
   render() {
@@ -45,11 +47,8 @@ class Player extends Component {
         </div>
         <Tooltip title={strings.roles[this.props.role]}>
           <Chip
-            avatar={
-              <Avatar>{this.props.name.substring(0, 2)}</Avatar>
-            }
+            avatar={<Avatar>{this.getInitials()}</Avatar>}
             label={this.props.name}
-            onClick={() => this.showInfo(this.props.role)}
           />
         </Tooltip>
       </div>
@@ -59,9 +58,9 @@ class Player extends Component {
 
 Player.propTypes = {
   classes: PropTypes.object.isRequired,
-  name: PropTypes.string.isRequired,
   id: PropTypes.object.isRequired,
-  role: propTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
+  role: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(Player)
