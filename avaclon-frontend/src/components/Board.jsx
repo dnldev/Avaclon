@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 
 import { withStyles } from "@material-ui/core/styles";
 
-import Button from "@material-ui/core/Button";
-import Divider from "@material-ui/core/Divider";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 
@@ -20,17 +18,16 @@ const styles = theme => ({
     paddingBottom: 16,
     marginTop: theme.spacing.unit * 3,
   }),
-  buttonContainer: {
-    marginTop: theme.spacing.unit,
-  },
   headline: {
     marginBottom: theme.spacing.unit,
   }
 });
 
 class Board extends Component {
-  missionPlayersForPlayerCount = {5: [2, 3, 2, 3, 3], 6: [2, 3, 4, 3, 4], 7: [2, 3, 3, 4, 4], 8: [3, 4, 4, 5, 5], 
-                                  9: [3, 4, 4, 5, 5], 10: [3, 4, 4, 5, 5]};
+  missionPlayersForPlayerCount = {
+    5: [2, 3, 2, 3, 3], 6: [2, 3, 4, 3, 4], 7: [2, 3, 3, 4, 4], 
+    8: [3, 4, 4, 5, 5], 9: [3, 4, 4, 5, 5], 10: [3, 4, 4, 5, 5]
+  };
 
   render() {
     const { classes } = this.props;
@@ -39,7 +36,7 @@ class Board extends Component {
         <GameContext.Consumer>
           {(context) => {
             return (
-              <Paper className={classes.root} elevation={10}>
+              <Paper className={classes.root} elevation={5}>
                 <Typography className={classes.headline} variant="headline" component="h3">
                   {strings.currentMission}: {context.currentMission + 1}
                 </Typography>
@@ -50,15 +47,6 @@ class Board extends Component {
                               playersOnMission={missionPlayers} wonBy={context.wonMissions[i]}/>)
                     })
                 }
-                <Divider />
-                <div className={classes.buttonContainer}>
-                  <Button disabled={context.gameEnded} size="small" onClick={() => context.currentMissionWon("good")}>
-                    {strings.missionSuccess}
-                  </Button>
-                  <Button disabled={context.gameEnded} size="small" onClick={() => context.currentMissionWon("evil")}>
-                    {strings.missionFailure}
-                  </Button>
-                </div>
               </Paper>
             )
           }}
