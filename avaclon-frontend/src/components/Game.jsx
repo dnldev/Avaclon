@@ -118,10 +118,10 @@ class Game extends Component {
                 {this.state.isAdmin ? <AdminArea /> : <UserControlArea />}
               </Grid>
 
-              <Grid lg={6} md={8} sm={10} xs={12} justify="flex-start" item>
+              <Grid lg={6} md={8} sm={10} xs={12} item>
                 <Board />
               </Grid>
-              <Grid className={classes.userTerminalArea} md={6} lg={8} xs={12} justify="flex-end" item>
+              <Grid className={classes.userTerminalArea} md={6} lg={8} xs={12} item>
                 <Hidden only={["xs", "sm"]}>
                   <UserTerminal player={player} />
                 </Hidden>
