@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import Hidden from "@material-ui/core/Hidden";
 import Icon from "@material-ui/core/Icon";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
+import Grid from "@material-ui/core/Grid";
 
 import strings from "../localization/game-locale";
 
@@ -31,6 +32,13 @@ const styles = theme => ({
     height: theme.spacing.unit * 4,
     position: "fixed",
     width: "calc(100% - " + theme.spacing.unit * 2 + "px)",
+  },
+  userTerminal: {
+    bottom: theme.spacing.unit * 2,
+    position: "relative",
+    [theme.breakpoints.up("lg")]: {
+      position: "absolute",
+    },
   },
 });
 
@@ -82,11 +90,16 @@ class Game extends Component {
         name: strings.roles.evil,
       },
     };
+    const userTerminal = <Grid container className={classes.userTerminal} justify="center" >
+      <Grid item xs={12} md={8}>
+        <UserTerminal player={player} />
+      </ Grid>
+    </ Grid>
 
     const transparentSlideProps = {
       elevation: 0,
       style: {
-        backgroundColor: "transparent", 
+        backgroundColor: "transparent",
         marginBottom: 8,
         marginLeft: 16,
       },
@@ -100,10 +113,10 @@ class Game extends Component {
 
             <Board />
             <Hidden only={['xs', 'sm', 'md']}>
-              <UserTerminal player={player} />
+              {userTerminal}
             </Hidden>
             <Hidden only={['lg', 'xl']}>
-              <Button 
+              <Button
                 className={classes.toggleTerminalButton}
                 color="secondary"
                 onClick={() => this.toggleUserTerminal(true)}
@@ -118,7 +131,7 @@ class Game extends Component {
                 open={this.state.terminalOpen}
                 SlideProps={transparentSlideProps}
               >
-                <UserTerminal player={player} />
+                {userTerminal}
               </SwipeableDrawer>
             </Hidden>
           </GameContext.Provider>
