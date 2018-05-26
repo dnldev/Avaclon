@@ -14,10 +14,12 @@ import strings from "../localization/game-locale";
 
 import genblue from "./../static/genblue.JPG";
 import genred from "./../static/genred.JPG";
+import backside from "./../static/backside.JPG";
 
 const images = {
+  backside: backside,
   genblue: genblue,
-  genred: genred
+  genred: genred,
 };
 
 const styles = theme => ({
@@ -98,10 +100,6 @@ class UserTerminal extends Component {
   render() {
     const { classes } = this.props;
     const { role } = this.props.player;
-    const headerClasses = [
-      classes.playerName,
-      this.getPlayerNameClass(classes)
-    ].join(" ");
 
     return (
       <Grid container className={classes.root} alignItems="flex-end">
@@ -113,14 +111,19 @@ class UserTerminal extends Component {
                 {this.state.inTeam && <Icon>group</Icon>}
               </Grid>
               <Grid item xs={8}>
-                <Typography className={headerClasses} variant="headline" component="h3">
+                <Typography className={classes.playerName} variant="headline" component="h3">
                   {this.props.player.name}
                 </Typography>
               </Grid>
             </Grid>
-            <Typography className={classes.roleName} variant="subheading" component="p">
-              {role.name}
+            <Typography 
+              className={classes.roleName} 
+              component="p"
+              variant="subheading"
+            >
+              {!this.state.hideRole ? role.name : strings.roles.hidden}
             </Typography>
+            
             <Divider />
             <div className={classes.playerControls}>
               <Button className={classes.voteButton} onClick={this.sendVote("Approve")}>
@@ -133,12 +136,17 @@ class UserTerminal extends Component {
           </Paper>
         </Grid>
         <Grid item xs={3} lg={2}>
-          {/* // TODO: hide image (show backside) on click; show on hover */}
-          <img 
-            className={classes.roleImage} 
-            src={images[role.image]} 
-            alt={role.name} 
-          />
+          <div 
+            className={classes.imageContainer} 
+            onClick={() => this.toggleRoleConcealment()}
+          >
+            <img 
+              className={classes.roleImage}
+              
+              src={!this.state.hideRole ? images[role.image] : images['backside']} 
+              alt={role.name} 
+            />
+          </div>
         </Grid>
       </Grid>
     );
