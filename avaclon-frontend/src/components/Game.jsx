@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 
 import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import Icon from "@material-ui/core/Icon";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
@@ -26,11 +27,24 @@ const styles = theme => ({
     marginRight: theme.spacing.unit * 2,
     marginTop: theme.spacing.unit * 2,
   },
+  mainGrid: {
+    height: "calc(100vh - 48px - " + theme.spacing.unit * 2 + "px)",
+    alignContent: "stretch",
+    [theme.breakpoints.up("md")]: {
+      alignContent: "space-between",
+    },
+    [theme.breakpoints.up("sm")]: {
+      height: "calc(100vh - 64px - " + theme.spacing.unit * 2 + "px)",
+    }
+  },
   toggleTerminalButton: {
     bottom: theme.spacing.unit,
     height: theme.spacing.unit * 4,
     position: "fixed",
     width: "calc(100% - " + theme.spacing.unit * 2 + "px)",
+  },
+  userTerminalArea: {
+    marginTop: theme.spacing.unit * 2,
   },
 });
 
@@ -87,8 +101,7 @@ class Game extends Component {
       elevation: 0,
       style: {
         backgroundColor: "transparent", 
-        marginBottom: 8,
-        marginLeft: 16,
+        margin: 8,
       },
     };
 
@@ -96,31 +109,43 @@ class Game extends Component {
       return (
         <div className={classes.root}>
           <GameContext.Provider value={this.state}>
-            {this.state.isAdmin ? <AdminArea /> : <UserControlArea />}
+            <Grid 
+              className={classes.mainGrid}  
+              justify="center" 
+              container
+            >
+              <Grid xs={12} item>
+                {this.state.isAdmin ? <AdminArea /> : <UserControlArea />}
+              </Grid>
 
-            <Board />
-            <Hidden only={['xs', 'sm', 'md']}>
-              <UserTerminal player={player} />
-            </Hidden>
-            <Hidden only={['lg', 'xl']}>
-              <Button 
-                className={classes.toggleTerminalButton}
-                color="secondary"
-                onClick={() => this.toggleUserTerminal(true)}
-                variant="raised"
-              >
-                <Icon>expand_more</Icon>
-              </Button>
-              <SwipeableDrawer
-                anchor="bottom"
-                onClose={() => this.toggleUserTerminal(false)}
-                onOpen={() => this.toggleUserTerminal(true)}
-                open={this.state.terminalOpen}
-                SlideProps={transparentSlideProps}
-              >
-                <UserTerminal player={player} />
-              </SwipeableDrawer>
-            </Hidden>
+              <Grid lg={6} md={8} sm={10} xs={12} justify="flex-start" item>
+                <Board />
+              </Grid>
+              <Grid className={classes.userTerminalArea} md={6} lg={8} xs={12} justify="flex-end" item>
+                <Hidden only={["xs", "sm"]}>
+                  <UserTerminal player={player} />
+                </Hidden>
+                <Hidden only={["md", "lg", "xl"]}>
+                  <Button 
+                    className={classes.toggleTerminalButton}
+                    color="secondary"
+                    onClick={() => this.toggleUserTerminal(true)}
+                    variant="raised"
+                  >
+                    {this.state.terminalOpen ? <Icon>expand_less</Icon> : <Icon>expand_more</Icon>}
+                  </Button>
+                  <SwipeableDrawer
+                    anchor="bottom"
+                    onClose={() => this.toggleUserTerminal(false)}
+                    onOpen={() => this.toggleUserTerminal(true)}
+                    open={this.state.terminalOpen}
+                    SlideProps={transparentSlideProps}
+                  >
+                    <UserTerminal player={player} />
+                  </SwipeableDrawer>
+                </Hidden>
+              </Grid>
+            </Grid>
           </GameContext.Provider>
         </div>
       );

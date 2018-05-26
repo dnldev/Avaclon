@@ -22,17 +22,7 @@ const images = {
 
 const styles = theme => ({
   root: {
-    width: "95%",
-    [theme.breakpoints.between("md", "xl")]: {
-      bottom: theme.spacing.unit * 2,
-      position: "absolute",
-      marginLeft: "20%",
-      width: "50%",
-    },
-    [theme.breakpoints.between("sm", "md")]: {
-      marginLeft: "10%",
-      width: "75%",
-    },
+    
   },
   evilPlayer: {
     textDecorationColor: theme.palette.teams.evil,
@@ -90,8 +80,8 @@ class UserTerminal extends Component {
   
   getPlayerNameClass(classes) {
     return this.props.player.role.affiliation === "evil"
-    ? classes.evilPlayer
-    : classes.goodPlayer;
+      ? classes.evilPlayer
+      : classes.goodPlayer;
   }
 
   toggleRoleConcealment() {
