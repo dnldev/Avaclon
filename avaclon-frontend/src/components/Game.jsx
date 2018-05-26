@@ -88,7 +88,15 @@ class Game extends Component {
 
   render() {
     const { classes } = this.props;
-    const player = {
+    const goodPlayer = {
+      name: "Daniel",
+      role: {
+        affiliation: "good",
+        image: "genblue",
+        name: strings.roles.good,
+      },
+    };
+    const evilPlayer = {
       name: "Josh",
       role: {
         affiliation: "evil",
@@ -104,6 +112,8 @@ class Game extends Component {
         margin: 8,
       },
     };
+
+    const userTerminal = (<UserTerminal player={goodPlayer} />) 
 
     if (!this.state.loading) {
       return (
@@ -123,7 +133,7 @@ class Game extends Component {
               </Grid>
               <Grid className={classes.userTerminalArea} md={6} lg={8} xs={12} item>
                 <Hidden only={["xs", "sm"]}>
-                  <UserTerminal player={player} />
+                  {userTerminal}
                 </Hidden>
                 <Hidden only={["md", "lg", "xl"]}>
                   <Button 
@@ -141,7 +151,7 @@ class Game extends Component {
                     open={this.state.terminalOpen}
                     SlideProps={transparentSlideProps}
                   >
-                    <UserTerminal player={player} />
+                    {userTerminal}
                   </SwipeableDrawer>
                 </Hidden>
               </Grid>
