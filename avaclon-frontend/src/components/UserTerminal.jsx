@@ -12,6 +12,8 @@ import Typography from "@material-ui/core/Typography";
 
 import strings from "../localization/game-locale";
 
+import GameContext from "./game-context";
+
 import genblue from "./../static/genblue.JPG";
 import genred from "./../static/genred.JPG";
 import backside from "./../static/backside.JPG";
@@ -76,7 +78,6 @@ class UserTerminal extends Component {
     };
 
     this.getPlayerNameClass = this.getPlayerNameClass.bind(this);
-    this.toggleRoleConcealment = this.toggleRoleConcealment.bind(this);
     this.sendVote = this.sendVote.bind(this);
   }
   
@@ -84,12 +85,6 @@ class UserTerminal extends Component {
     return this.props.player.role.affiliation === "evil"
       ? classes.evilPlayer
       : classes.goodPlayer;
-  }
-
-  toggleRoleConcealment() {
-    this.setState((prevState) => {
-      return {hideRole: !prevState.hideRole};
-    });
   }
   
   sendVote(vote) {
@@ -102,53 +97,72 @@ class UserTerminal extends Component {
     const { role } = this.props.player;
 
     return (
-      <Grid container className={classes.root} alignItems="flex-end">
-        <Grid item xs={9} lg={10}>
-          <Paper className={classes.namePaper} elevation={2}>
-            <Grid container>
-              <Grid item xs={2} className={classes.iconArea}>
-                {this.state.isLeader && <Icon>star_border</Icon>}
-                {this.state.inTeam && <Icon>group</Icon>}
+      <GameContext.Consumer>
+          {(context) => {
+            return (
+              <Grid container className={classes.root} alignItems="flex-end">
+                <Grid item xs={9} lg={10}>
+                  <Paper className={classes.namePaper} elevation={2}>
+                    <Grid container>
+                      <Grid item xs={2} className={classes.iconArea}>
+                        {this.state.isLeader && <Icon>star_border</Icon>}
+                        {this.state.inTeam && <Icon>group</Icon>}
+                      </Grid>
+                      <Grid item xs={8}>
+                        <Typography 
+                          className={classes.playerName} 
+                          variant="headline" 
+                          component="h3"
+                        >
+                          {this.props.player.name}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                    <Typography 
+                      className={classes.roleName} 
+                      component="p"
+                      variant="subheading"
+                    >
+                      {!context.hideRole ? role.name : strings.roles.hidden}
+                    </Typography>
+                    
+                    <Divider />
+                    <div className={classes.playerControls}>
+                      <Button 
+                        className={classes.voteButton} 
+                        onClick={this.sendVote("Approve")}
+                      >
+                        {strings.mission.approve}
+                      </Button>
+                      <Button 
+                        className={classes.voteButton} 
+                        onClick={this.sendVote("Reject")}
+                      >
+                        {strings.mission.reject}
+                      </Button>
+                    </div>
+                  </Paper>
+                </Grid>
+                <Grid item xs={3} lg={2}>
+                  <div 
+                    className={classes.imageContainer} 
+                    onClick={() => context.toggleRoleConcealment()}
+                  >
+                    <img 
+                      className={classes.roleImage}
+                      
+                      src={!context.hideRole
+                            ? images[role.image] 
+                            : images['backside']} 
+                      alt={role.name} 
+                    />
+                  </div>
+                </Grid>
               </Grid>
-              <Grid item xs={8}>
-                <Typography className={classes.playerName} variant="headline" component="h3">
-                  {this.props.player.name}
-                </Typography>
-              </Grid>
-            </Grid>
-            <Typography 
-              className={classes.roleName} 
-              component="p"
-              variant="subheading"
-            >
-              {!this.state.hideRole ? role.name : strings.roles.hidden}
-            </Typography>
-            
-            <Divider />
-            <div className={classes.playerControls}>
-              <Button className={classes.voteButton} onClick={this.sendVote("Approve")}>
-                {strings.mission.approve}
-              </Button>
-              <Button className={classes.voteButton} onClick={this.sendVote("Reject")}>
-                {strings.mission.reject}
-              </Button>
-            </div>
-          </Paper>
-        </Grid>
-        <Grid item xs={3} lg={2}>
-          <div 
-            className={classes.imageContainer} 
-            onClick={() => this.toggleRoleConcealment()}
-          >
-            <img 
-              className={classes.roleImage}
-              
-              src={!this.state.hideRole ? images[role.image] : images['backside']} 
-              alt={role.name} 
-            />
-          </div>
-        </Grid>
-      </Grid>
+            )
+          }
+        }
+      </GameContext.Consumer>
     );
   }
 }

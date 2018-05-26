@@ -57,17 +57,19 @@ class Game extends Component {
     this.state = {  // TODO: get state init values from socket.io
       currentMission: 0,
       gameEnded: false,
+      hideRole: true,
       playerCount: 10,
       voteMarker: 0,
       wonMissions: [],
     };
 
-    this.state.isAdmin = true;
+    this.state.isAdmin = false;
     this.state.loading = false;
     this.state.terminalOpen = false;
 
     this.state.resetGame = this.resetGame.bind(this);
     this.state.switchLanguage = this.switchLanguage.bind(this);
+    this.state.toggleRoleConcealment = this.toggleRoleConcealment.bind(this);
 
     this.switchLanguage = this.switchLanguage.bind(this);
     this.toggleUserTerminal = this.toggleUserTerminal.bind(this);
@@ -75,6 +77,12 @@ class Game extends Component {
 
   getClonedObject(object) {
     return JSON.parse(JSON.stringify(object));
+  }
+
+  toggleRoleConcealment() {
+    this.setState((prevState) => {
+      return {hideRole: !prevState.hideRole};
+    });
   }
 
   resetGame() {
