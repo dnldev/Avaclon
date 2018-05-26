@@ -66,6 +66,7 @@ class Game extends Component {
     this.state.loading = false;
     this.state.terminalOpen = false;
 
+    this.state.resetGame = this.resetGame.bind(this);
     this.state.switchLanguage = this.switchLanguage.bind(this);
 
     this.switchLanguage = this.switchLanguage.bind(this);
@@ -74,6 +75,12 @@ class Game extends Component {
 
   getClonedObject(object) {
     return JSON.parse(JSON.stringify(object));
+  }
+
+  resetGame() {
+    console.log("Not implemented");
+
+    // TODO: force new game with Socket.IO
   }
 
   switchLanguage() {
