@@ -26,9 +26,9 @@ class PlayerView extends Component {
   }
 }
 
-PlayerView.PropTypes = {
+PlayerView.propTypes = {
   classes: PropTypes.object.isRequired,
-  players: PropTypes.object.isRequired,
+  players: PropTypes.array.isRequired,
 }
 
 export default withStyles(styles)(PlayerView);
