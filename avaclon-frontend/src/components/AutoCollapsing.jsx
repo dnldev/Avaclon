@@ -70,7 +70,6 @@ class AutoCollapsing extends PureComponent {
             anchor={this.props.anchor}
             SlideProps={this.props.SlideProps}
             open={this.state.isOpen}
-            onOpen={() => this.toggleContent(true)}
             onClose={() => this.toggleContent(false)}
           >
             {children}
