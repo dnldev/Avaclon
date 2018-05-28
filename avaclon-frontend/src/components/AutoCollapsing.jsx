@@ -36,10 +36,19 @@ class AutoCollapsing extends Component {
           {children}
         </Hidden>
         <Hidden only={fullSizes}>
-          <Button {...this.props.ButtonProps}>
+          <Button
+            {...this.props.ButtonProps}
+            onClick={() => this.toggleContent(true)}
+          >
             <Icon>expand_more</Icon>
           </Button>
-          <SwipeableDrawer anchor={this.props.anchor} SlideProps={this.props.SlideProps}>
+          <SwipeableDrawer
+            anchor={this.props.anchor}
+            SlideProps={this.props.SlideProps}
+            open={this.state.isOpen}
+            onOpen={() => this.toggleContent(true)}
+            onClose={() => this.toggleContent(false)}
+          >
             {children}
           </SwipeableDrawer>
         </Hidden>
@@ -59,10 +68,10 @@ AutoCollapsing.defaultProps = {
   },
   SlideProps: {
     elevation: 0,
-      style: {
-        backgroundColor: "transparent",
-        margin: 8,
-      },
+    style: {
+      backgroundColor: "transparent",
+      margin: 8,
+    },
   },
   anchor: "bottom",
 }
