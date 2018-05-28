@@ -14,9 +14,9 @@ import strings from "../localization/game-locale";
 
 import GameContext from "./game-context";
 
-import genblue from "./../static/genblue.JPG";
-import genred from "./../static/genred.JPG";
-import backside from "./../static/backside.JPG";
+import genblue from "./../static/images/genblue.JPG";
+import genred from "./../static/images/genred.JPG";
+import backside from "./../static/images/backside.png";
 
 const images = {
   backside: backside,
