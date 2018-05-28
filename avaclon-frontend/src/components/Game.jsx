@@ -3,11 +3,7 @@ import PropTypes from "prop-types";
 
 import { withStyles } from "@material-ui/core/styles";
 
-import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import Hidden from "@material-ui/core/Hidden";
-import Icon from "@material-ui/core/Icon";
-import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 
 import strings from "../localization/game-locale";
 
@@ -18,6 +14,7 @@ import UserTerminal from "./UserTerminal";
 import AdminArea from "./AdminArea";
 import Board from "./Board";
 import UserControlArea from "./UserControlArea";
+import AutoCollapsing from "./AutoCollapsing";
 
 const styles = theme => ({
   root: {
@@ -81,7 +78,7 @@ class Game extends Component {
 
   toggleRoleConcealment() {
     this.setState((prevState) => {
-      return {hideRole: !prevState.hideRole};
+      return { hideRole: !prevState.hideRole };
     });
   }
 
@@ -111,32 +108,22 @@ class Game extends Component {
         name: strings.roles.good,
       },
     };
-    const evilPlayer = {
-      name: "Josh",
-      role: {
-        affiliation: "evil",
-        image: "genred",
-        name: strings.roles.evil,
-      },
-    };
-
-    const transparentSlideProps = {
-      elevation: 0,
-      style: {
-        backgroundColor: "transparent", 
-        margin: 8,
-      },
-    };
-
-    const userTerminal = (<UserTerminal player={goodPlayer} />) 
+    // const evilPlayer = {
+    //   name: "Josh",
+    //   role: {
+    //     affiliation: "evil",
+    //     image: "genred",
+    //     name: strings.roles.evil,
+    //   },
+    // };
 
     if (!this.state.loading) {
       return (
         <div className={classes.root}>
           <GameContext.Provider value={this.state}>
-            <Grid 
-              className={classes.mainGrid}  
-              justify="center" 
+            <Grid
+              className={classes.mainGrid}
+              justify="center"
               container
             >
               <Grid xs={12} item>
@@ -147,28 +134,9 @@ class Game extends Component {
                 <Board />
               </Grid>
               <Grid className={classes.userTerminalArea} md={6} lg={8} xs={12} item>
-                <Hidden only={["xs", "sm"]}>
-                  {userTerminal}
-                </Hidden>
-                <Hidden only={["md", "lg", "xl"]}>
-                  <Button 
-                    className={classes.toggleTerminalButton}
-                    color="secondary"
-                    onClick={() => this.toggleUserTerminal(true)}
-                    variant="raised"
-                  >
-                    {this.state.terminalOpen ? <Icon>expand_less</Icon> : <Icon>expand_more</Icon>}
-                  </Button>
-                  <SwipeableDrawer
-                    anchor="bottom"
-                    onClose={() => this.toggleUserTerminal(false)}
-                    onOpen={() => this.toggleUserTerminal(true)}
-                    open={this.state.terminalOpen}
-                    SlideProps={transparentSlideProps}
-                  >
-                    {userTerminal}
-                  </SwipeableDrawer>
-                </Hidden>
+                <AutoCollapsing>
+                  <UserTerminal player={goodPlayer} />
+                </AutoCollapsing>
               </Grid>
             </Grid>
           </GameContext.Provider>
