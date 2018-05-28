@@ -69,7 +69,6 @@ class Game extends Component {
     this.state.toggleRoleConcealment = this.toggleRoleConcealment.bind(this);
 
     this.switchLanguage = this.switchLanguage.bind(this);
-    this.toggleUserTerminal = this.toggleUserTerminal.bind(this);
   }
 
   getClonedObject(object) {
@@ -92,10 +91,6 @@ class Game extends Component {
     this.currentLanguage = this.currentLanguage === "en" ? "de" : "en";
     strings.setLanguage(this.currentLanguage);
     this.setState({});
-  }
-
-  toggleUserTerminal(open) {
-    this.setState({ terminalOpen: open });
   }
 
   render() {
