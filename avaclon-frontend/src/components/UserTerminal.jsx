@@ -154,7 +154,9 @@ class UserTerminal extends Component {
                       src={!context.hideRole
                             ? images[role.image] 
                             : images['backside']} 
-                      alt={role.name} 
+                      alt={!context.hideRole
+                            ? role.name
+                            : strings.backside} 
                     />
                   </div>
                 </Grid>
