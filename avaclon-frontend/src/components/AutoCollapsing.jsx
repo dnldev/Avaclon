@@ -1,13 +1,25 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
+
+import { withStyles } from "@material-ui/core/styles";
+
 import Hidden from "@material-ui/core/Hidden";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
-import { SwipeableDrawer } from "@material-ui/core";
+import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 
-const sizes = ['xs', 'sm', 'md', 'lg', 'xl'];
+const styles = theme => ({
+  root: { width: "100%" },
+  toggleButton: {
+    bottom: theme.spacing.unit,
+    position: "fixed",
+    width: "calc(100% - " + theme.spacing.unit * 2 + "px)",
+  },
+});
 
-class AutoCollapsing extends Component {
+class AutoCollapsing extends PureComponent {
+
+  sizes = ['xs', 'sm', 'md', 'lg', 'xl'];
 
   constructor(props) {
     super(props);
@@ -24,6 +36,8 @@ class AutoCollapsing extends Component {
   }
 
   render() {
+    const { classes } = this.props;
+
     const breakPosition = sizes.indexOf(this.props.breakAt) + 1;
     const collapsedSizes = sizes.slice(0, breakPosition);
     const fullSizes = sizes.slice(breakPosition, sizes.length);
@@ -31,12 +45,13 @@ class AutoCollapsing extends Component {
     const children = this.props.children;
 
     return (
-      <div>
+      <div className={classes.root}>
         <Hidden only={collapsedSizes}>
           {children}
         </Hidden>
         <Hidden only={fullSizes}>
           <Button
+            className={classes.toggleButton}
             {...this.props.ButtonProps}
             onClick={() => this.toggleContent(true)}
           >
@@ -58,13 +73,14 @@ class AutoCollapsing extends Component {
 
 AutoCollapsing.propTypes = {
   breakAt: PropTypes.string.isRequired,
+  classes: PropTypes.object.isRequired,
 }
 
 AutoCollapsing.defaultProps = {
   breakAt: "sm",
   ButtonProps: {
     color: "secondary",
-    varian: "raised",
+    variant: "raised",
   },
   SlideProps: {
     elevation: 0,
@@ -76,4 +92,4 @@ AutoCollapsing.defaultProps = {
   anchor: "bottom",
 }
 
-export default AutoCollapsing;
+export default withStyles(styles)(AutoCollapsing);
