@@ -4,6 +4,7 @@ const strings = new LocalizedStrings({
   en: {
     adminArea: "Admin Area",
     approveRejectTokens: "Vote Tokens",
+    backside: "Cardback",
     blueRedMarkers: "Score Markers",
     characterCards: "Character Cards",
     lady: "Lady of the Lake",
@@ -37,6 +38,7 @@ const strings = new LocalizedStrings({
   },
   de: {
     adminArea: "Admin Bereich",
+    backside: "Kartenrücken",
     newGame: "Neues Spiel",
     switchLanguage: "Sprache wechseln",
 
