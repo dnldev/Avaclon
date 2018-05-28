@@ -75,9 +75,7 @@ class Game extends Component {
   }
 
   toggleRoleConcealment() {
-    this.setState((prevState) => {
-      return { hideRole: !prevState.hideRole };
-    });
+    this.setState((prevState) => ({ hideRole: !prevState.hideRole }));
   }
 
   resetGame() {

@@ -25,8 +25,6 @@ class AutoCollapsing extends PureComponent {
     this.state = {
       isOpen: false,
     };
-
-    this.toggleContent = this.toggleContent.bind(this);
   }
 
   /** 
@@ -42,8 +40,8 @@ class AutoCollapsing extends PureComponent {
     return { collapsedSizes: collapsed, fullSizes: full };
   }
 
-  toggleContent(isOpen) {
-    this.setState({ isOpen: isOpen });
+  setOpen(open) {
+    this.setState({ isOpen: open });
   }
 
   render() {
@@ -62,7 +60,7 @@ class AutoCollapsing extends PureComponent {
           <Button
             className={classes.toggleButton}
             {...this.props.ButtonProps}
-            onClick={() => this.toggleContent(true)}
+            onClick={() => this.setOpen(true)}
           >
             <Icon>expand_less</Icon>
           </Button>
@@ -70,7 +68,7 @@ class AutoCollapsing extends PureComponent {
             anchor={this.props.anchor}
             SlideProps={this.props.SlideProps}
             open={this.state.isOpen}
-            onClose={() => this.toggleContent(false)}
+            onClose={() => this.setOpen(false)}
           >
             {children}
           </Drawer>
