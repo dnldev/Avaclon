@@ -6,10 +6,10 @@ import { withStyles } from "@material-ui/core/styles";
 import Hidden from "@material-ui/core/Hidden";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
-import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
+import Drawer from "@material-ui/core/Drawer";
 
 const styles = theme => ({
-  root: { width: "100%" },
+  root: {},
   toggleButton: {
     bottom: theme.spacing.unit,
     position: "fixed",
@@ -18,8 +18,6 @@ const styles = theme => ({
 });
 
 class AutoCollapsing extends PureComponent {
-
-  sizes = ['xs', 'sm', 'md', 'lg', 'xl'];
 
   constructor(props) {
     super(props);
@@ -31,6 +29,19 @@ class AutoCollapsing extends PureComponent {
     this.toggleContent = this.toggleContent.bind(this);
   }
 
+  /** 
+   * return 2 arrays indicating the screen sizes
+   * for which sizes to collapse and for which to expand  .
+   */
+  computeRequiredSizes(screenSize) {
+    const sizes = ['xs', 'sm', 'md', 'lg', 'xl'];
+    // position of screen size in array (relative to other sizes)
+    const breakPosition = sizes.indexOf(screenSize) + 1;
+    const collapsed = sizes.slice(0, breakPosition);
+    const full = sizes.slice(breakPosition, sizes.length);
+    return { collapsedSizes: collapsed, fullSizes: full };
+  }
+
   toggleContent(isOpen) {
     this.setState({ isOpen: isOpen });
   }
@@ -38,9 +49,7 @@ class AutoCollapsing extends PureComponent {
   render() {
     const { classes } = this.props;
 
-    const breakPosition = sizes.indexOf(this.props.breakAt) + 1;
-    const collapsedSizes = sizes.slice(0, breakPosition);
-    const fullSizes = sizes.slice(breakPosition, sizes.length);
+    const { collapsedSizes, fullSizes } = this.computeRequiredSizes(this.props.breakFrom);
 
     const children = this.props.children;
 
@@ -55,9 +64,9 @@ class AutoCollapsing extends PureComponent {
             {...this.props.ButtonProps}
             onClick={() => this.toggleContent(true)}
           >
-            <Icon>expand_more</Icon>
+            <Icon>expand_less</Icon>
           </Button>
-          <SwipeableDrawer
+          <Drawer
             anchor={this.props.anchor}
             SlideProps={this.props.SlideProps}
             open={this.state.isOpen}
@@ -65,19 +74,19 @@ class AutoCollapsing extends PureComponent {
             onClose={() => this.toggleContent(false)}
           >
             {children}
-          </SwipeableDrawer>
+          </Drawer>
         </Hidden>
       </div>);
   }
 }
 
 AutoCollapsing.propTypes = {
-  breakAt: PropTypes.string.isRequired,
+  breakFrom: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
 }
 
 AutoCollapsing.defaultProps = {
-  breakAt: "sm",
+  breakFrom: "sm",
   ButtonProps: {
     color: "secondary",
     variant: "raised",
