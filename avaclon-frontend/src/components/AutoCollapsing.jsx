@@ -3,10 +3,25 @@ import PropTypes from "prop-types";
 import Hidden from "@material-ui/core/Hidden";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
+import { SwipeableDrawer } from "@material-ui/core";
 
 const sizes = ['xs', 'sm', 'md', 'lg', 'xl'];
 
 class AutoCollapsing extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isOpen: false,
+    };
+
+    this.toggleContent = this.toggleContent.bind(this);
+  }
+
+  toggleContent(isOpen) {
+    this.setState({ isOpen: isOpen });
+  }
 
   render() {
     const breakPosition = sizes.indexOf(this.props.breakAt) + 1;
@@ -21,10 +36,12 @@ class AutoCollapsing extends Component {
           {children}
         </Hidden>
         <Hidden only={fullSizes}>
-          <Button {...this.props.buttonProps}>
+          <Button {...this.props.ButtonProps}>
             <Icon>expand_more</Icon>
           </Button>
-          {children}
+          <SwipeableDrawer anchor={this.props.anchor} SlideProps={this.props.SlideProps}>
+            {children}
+          </SwipeableDrawer>
         </Hidden>
       </div>);
   }
@@ -36,10 +53,18 @@ AutoCollapsing.propTypes = {
 
 AutoCollapsing.defaultProps = {
   breakAt: "sm",
-  buttonProps: {
+  ButtonProps: {
     color: "secondary",
     varian: "raised",
   },
+  SlideProps: {
+    elevation: 0,
+      style: {
+        backgroundColor: "transparent",
+        margin: 8,
+      },
+  },
+  anchor: "bottom",
 }
 
 export default AutoCollapsing;
