@@ -9,12 +9,11 @@ import strings from "../localization/game-locale";
 
 import GameContext from "./game-context";
 
-import UserTerminal from "./UserTerminal";
-
 import AdminArea from "./AdminArea";
+import AutoCollapsing from "./AutoCollapsing";
 import Board from "./Board";
 import UserControlArea from "./UserControlArea";
-import AutoCollapsing from "./AutoCollapsing";
+import UserTerminal from "./UserTerminal";
 
 const styles = theme => ({
   root: {

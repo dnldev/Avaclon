@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 
 import { withStyles } from "@material-ui/core/styles";
 
-import Hidden from "@material-ui/core/Hidden";
 import Button from "@material-ui/core/Button";
-import Icon from "@material-ui/core/Icon";
 import Drawer from "@material-ui/core/Drawer";
+import Hidden from "@material-ui/core/Hidden";
+import Icon from "@material-ui/core/Icon";
 
 const styles = theme => ({
   root: {},
@@ -80,11 +80,12 @@ class AutoCollapsing extends PureComponent {
 }
 
 AutoCollapsing.propTypes = {
-  breakFrom: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
+  breakFrom: PropTypes.string.isRequired,
 }
 
 AutoCollapsing.defaultProps = {
+  anchor: "bottom",
   breakFrom: "sm",
   ButtonProps: {
     color: "secondary",
@@ -97,7 +98,6 @@ AutoCollapsing.defaultProps = {
       margin: 8,
     },
   },
-  anchor: "bottom",
 }
 
 export default withStyles(styles)(AutoCollapsing);
