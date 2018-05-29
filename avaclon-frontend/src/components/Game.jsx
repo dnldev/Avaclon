@@ -103,24 +103,14 @@ class Game extends Component {
         name: strings.roles.good,
       },
     };
-    const evilPlayer = {
-      name: 'Josh',
-      role: {
-        affiliation: 'evil',
-        image: 'genred',
-        name: strings.roles.evil,
-      },
-    };
-
-    const transparentSlideProps = {
-      elevation: 0,
-      style: {
-        backgroundColor: 'transparent',
-        margin: 8,
-      },
-    };
-
-    const userTerminal = <UserTerminal player={goodPlayer} />;
+    // const evilPlayer = {
+    //   name: 'Josh',
+    //   role: {
+    //     affiliation: 'evil',
+    //     image: 'genred',
+    //     name: strings.roles.evil,
+    //   },
+    // };
 
     if (!this.state.loading) {
       return (
@@ -141,30 +131,9 @@ class Game extends Component {
                 xs={12}
                 item
               >
-                <Hidden only={['xs', 'sm']}>{userTerminal}</Hidden>
-                <Hidden only={['md', 'lg', 'xl']}>
-                  <Button
-                    className={classes.toggleTerminalButton}
-                    color="secondary"
-                    onClick={() => this.toggleUserTerminal(true)}
-                    variant="raised"
-                  >
-                    {this.state.terminalOpen ? (
-                      <Icon>expand_less</Icon>
-                    ) : (
-                      <Icon>expand_more</Icon>
-                    )}
-                  </Button>
-                  <SwipeableDrawer
-                    anchor="bottom"
-                    onClose={() => this.toggleUserTerminal(false)}
-                    onOpen={() => this.toggleUserTerminal(true)}
-                    open={this.state.terminalOpen}
-                    SlideProps={transparentSlideProps}
-                  >
-                    {userTerminal}
-                  </SwipeableDrawer>
-                </Hidden>
+                <AutoCollapsing>
+                  <UserTerminal player={goodPlayer} />
+                </AutoCollapsing>
               </Grid>
             </Grid>
           </GameContext.Provider>
