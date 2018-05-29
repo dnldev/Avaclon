@@ -52,12 +52,12 @@ class Game extends Component {
 
     this.state = {
       // TODO: get state init values from socket.io
-      currentMission: 0,
+      currentQuest: 0,
       gameEnded: false,
       hideRole: true,
       playerCount: 10,
       voteMarker: 0,
-      wonMissions: [],
+      wonQuests: [],
     };
 
     this.state.isAdmin = false;

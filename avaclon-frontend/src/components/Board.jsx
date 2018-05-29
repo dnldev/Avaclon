@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
-import Mission from './Mission';
+import Quest from './Quest';
 
 import strings from '../localization/game-locale';
 
@@ -24,7 +24,7 @@ const styles = theme => ({
 });
 
 class Board extends Component {
-  missionPlayersForPlayerCount = {
+  questPlayersForPlayerCount = {
     5: [2, 3, 2, 3, 3],
     6: [2, 3, 4, 3, 4],
     7: [2, 3, 3, 4, 4],
@@ -46,18 +46,18 @@ class Board extends Component {
                 variant="headline"
                 component="h3"
               >
-                {strings.mission.current}: {context.currentMission + 1}
+                {strings.quest.current}: {context.currentQuest + 1}
               </Typography>
 
-              {this.missionPlayersForPlayerCount[context.playerCount].map(
-                (missionPlayers, i) => {
+              {this.questPlayersForPlayerCount[context.playerCount].map(
+                (questPlayers, i) => {
                   return (
-                    <Mission
+                    <Quest
                       key={i}
-                      missionIndex={i}
-                      currentMission={context.currentMission}
-                      playersOnMission={missionPlayers}
-                      wonBy={context.wonMissions[i]}
+                      questIndex={i}
+                      currentQuest={context.currentQuest}
+                      playersOnQuest={questPlayers}
+                      wonBy={context.wonQuests[i]}
                     />
                   );
                 }
