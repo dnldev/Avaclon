@@ -1,19 +1,19 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from '@material-ui/core/styles';
 
-import Grid from "@material-ui/core/Grid";
+import Grid from '@material-ui/core/Grid';
 
-import strings from "../localization/game-locale";
+import strings from '../localization/game-locale';
 
-import GameContext from "./game-context";
+import GameContext from './game-context';
 
-import AdminArea from "./AdminArea";
-import AutoCollapsing from "./AutoCollapsing";
-import Board from "./Board";
-import UserControlArea from "./UserControlArea";
-import UserTerminal from "./UserTerminal";
+import AdminArea from './AdminArea';
+import AutoCollapsing from './AutoCollapsing';
+import Board from './Board';
+import UserControlArea from './UserControlArea';
+import UserTerminal from './UserTerminal';
 
 const styles = theme => ({
   root: {
@@ -24,20 +24,20 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 2,
   },
   mainGrid: {
-    height: "calc(100vh - 48px - " + theme.spacing.unit * 2 + "px)",
-    alignContent: "stretch",
-    [theme.breakpoints.up("md")]: {
-      alignContent: "space-between",
+    height: 'calc(100vh - 48px - ' + theme.spacing.unit * 2 + 'px)',
+    alignContent: 'stretch',
+    [theme.breakpoints.up('md')]: {
+      alignContent: 'space-between',
     },
-    [theme.breakpoints.up("sm")]: {
-      height: "calc(100vh - 64px - " + theme.spacing.unit * 2 + "px)",
-    }
+    [theme.breakpoints.up('sm')]: {
+      height: 'calc(100vh - 64px - ' + theme.spacing.unit * 2 + 'px)',
+    },
   },
   toggleTerminalButton: {
     bottom: theme.spacing.unit,
     height: theme.spacing.unit * 4,
-    position: "fixed",
-    width: "calc(100% - " + theme.spacing.unit * 2 + "px)",
+    position: 'fixed',
+    width: 'calc(100% - ' + theme.spacing.unit * 2 + 'px)',
   },
   userTerminalArea: {
     marginTop: theme.spacing.unit * 2,
@@ -45,12 +45,13 @@ const styles = theme => ({
 });
 
 class Game extends Component {
-  currentLanguage = "en";
+  currentLanguage = 'en';
 
   constructor(props) {
     super(props);
 
-    this.state = {  // TODO: get state init values from socket.io
+    this.state = {
+      // TODO: get state init values from socket.io
       currentMission: 0,
       gameEnded: false,
       hideRole: true,
@@ -75,17 +76,19 @@ class Game extends Component {
   }
 
   toggleRoleConcealment() {
-    this.setState((prevState) => ({ hideRole: !prevState.hideRole }));
+    this.setState(prevState => {
+      return { hideRole: !prevState.hideRole };
+    });
   }
 
   resetGame() {
-    console.log("Not implemented");
+    console.log('Not implemented');
 
     // TODO: force new game with Socket.IO
   }
 
   switchLanguage() {
-    this.currentLanguage = this.currentLanguage === "en" ? "de" : "en";
+    this.currentLanguage = this.currentLanguage === 'en' ? 'de' : 'en';
     strings.setLanguage(this.currentLanguage);
     this.setState({});
   }
@@ -93,31 +96,37 @@ class Game extends Component {
   render() {
     const { classes } = this.props;
     const goodPlayer = {
-      name: "Daniel",
+      name: 'Daniel',
       role: {
-        affiliation: "good",
-        image: "genblue",
+        affiliation: 'good',
+        image: 'genblue',
         name: strings.roles.good,
       },
     };
-    // const evilPlayer = {
-    //   name: "Josh",
-    //   role: {
-    //     affiliation: "evil",
-    //     image: "genred",
-    //     name: strings.roles.evil,
-    //   },
-    // };
+    const evilPlayer = {
+      name: 'Josh',
+      role: {
+        affiliation: 'evil',
+        image: 'genred',
+        name: strings.roles.evil,
+      },
+    };
+
+    const transparentSlideProps = {
+      elevation: 0,
+      style: {
+        backgroundColor: 'transparent',
+        margin: 8,
+      },
+    };
+
+    const userTerminal = <UserTerminal player={goodPlayer} />;
 
     if (!this.state.loading) {
       return (
         <div className={classes.root}>
           <GameContext.Provider value={this.state}>
-            <Grid
-              className={classes.mainGrid}
-              justify="center"
-              container
-            >
+            <Grid className={classes.mainGrid} justify="center" container>
               <Grid xs={12} item>
                 {this.state.isAdmin ? <AdminArea /> : <UserControlArea />}
               </Grid>
@@ -125,10 +134,37 @@ class Game extends Component {
               <Grid lg={6} md={8} sm={10} xs={12} item>
                 <Board />
               </Grid>
-              <Grid className={classes.userTerminalArea} md={6} lg={8} xs={12} item>
-                <AutoCollapsing>
-                  <UserTerminal player={goodPlayer} />
-                </AutoCollapsing>
+              <Grid
+                className={classes.userTerminalArea}
+                md={6}
+                lg={8}
+                xs={12}
+                item
+              >
+                <Hidden only={['xs', 'sm']}>{userTerminal}</Hidden>
+                <Hidden only={['md', 'lg', 'xl']}>
+                  <Button
+                    className={classes.toggleTerminalButton}
+                    color="secondary"
+                    onClick={() => this.toggleUserTerminal(true)}
+                    variant="raised"
+                  >
+                    {this.state.terminalOpen ? (
+                      <Icon>expand_less</Icon>
+                    ) : (
+                      <Icon>expand_more</Icon>
+                    )}
+                  </Button>
+                  <SwipeableDrawer
+                    anchor="bottom"
+                    onClose={() => this.toggleUserTerminal(false)}
+                    onOpen={() => this.toggleUserTerminal(true)}
+                    open={this.state.terminalOpen}
+                    SlideProps={transparentSlideProps}
+                  >
+                    {userTerminal}
+                  </SwipeableDrawer>
+                </Hidden>
               </Grid>
             </Grid>
           </GameContext.Provider>

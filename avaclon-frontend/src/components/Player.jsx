@@ -1,13 +1,13 @@
-import React, { Component } from "react"
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import { withStyles } from "@material-ui/core/styles";
-import Chip from "@material-ui/core/Chip";
-import Avatar from "@material-ui/core/Avatar";
-import Icon from "@material-ui/core/Icon";
-import Tooltip from "@material-ui/core/Tooltip";
+import { withStyles } from '@material-ui/core/styles';
+import Chip from '@material-ui/core/Chip';
+import Avatar from '@material-ui/core/Avatar';
+import Icon from '@material-ui/core/Icon';
+import Tooltip from '@material-ui/core/Tooltip';
 
-import strings from "../localization/game-locale"
+import strings from '../localization/game-locale';
 
 const styles = theme => ({
   root: {
@@ -20,14 +20,13 @@ const styles = theme => ({
 });
 
 class Player extends Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
       isLeader: true,
       inTeam: true,
-    }
+    };
 
     this.getInitials = this.getInitials.bind(this);
   }
@@ -63,4 +62,4 @@ Player.propTypes = {
   role: PropTypes.string.isRequired,
 };
 
-export default withStyles(styles)(Player)
+export default withStyles(styles)(Player);

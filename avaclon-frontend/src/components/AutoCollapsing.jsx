@@ -1,24 +1,23 @@
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from '@material-ui/core/styles';
 
-import Button from "@material-ui/core/Button";
-import Drawer from "@material-ui/core/Drawer";
-import Hidden from "@material-ui/core/Hidden";
-import Icon from "@material-ui/core/Icon";
+import Button from '@material-ui/core/Button';
+import Drawer from '@material-ui/core/Drawer';
+import Hidden from '@material-ui/core/Hidden';
+import Icon from '@material-ui/core/Icon';
 
 const styles = theme => ({
   root: {},
   toggleButton: {
     bottom: theme.spacing.unit,
-    position: "fixed",
-    width: "calc(100% - " + theme.spacing.unit * 2 + "px)",
+    position: 'fixed',
+    width: 'calc(100% - ' + theme.spacing.unit * 2 + 'px)',
   },
 });
 
 class AutoCollapsing extends PureComponent {
-
   constructor(props) {
     super(props);
 
@@ -27,7 +26,7 @@ class AutoCollapsing extends PureComponent {
     };
   }
 
-  /** 
+  /**
    * return 2 arrays indicating the screen sizes
    * for which sizes to collapse and for which to expand  .
    */
@@ -47,15 +46,15 @@ class AutoCollapsing extends PureComponent {
   render() {
     const { classes } = this.props;
 
-    const { collapsedSizes, fullSizes } = this.computeRequiredSizes(this.props.breakFrom);
+    const { collapsedSizes, fullSizes } = this.computeRequiredSizes(
+      this.props.breakFrom
+    );
 
     const children = this.props.children;
 
     return (
       <div className={classes.root}>
-        <Hidden only={collapsedSizes}>
-          {children}
-        </Hidden>
+        <Hidden only={collapsedSizes}>{children}</Hidden>
         <Hidden only={fullSizes}>
           <Button
             className={classes.toggleButton}
@@ -73,29 +72,30 @@ class AutoCollapsing extends PureComponent {
             {children}
           </Drawer>
         </Hidden>
-      </div>);
+      </div>
+    );
   }
 }
 
 AutoCollapsing.propTypes = {
   classes: PropTypes.object.isRequired,
   breakFrom: PropTypes.string.isRequired,
-}
+};
 
 AutoCollapsing.defaultProps = {
-  anchor: "bottom",
-  breakFrom: "sm",
+  anchor: 'bottom',
+  breakFrom: 'sm',
   ButtonProps: {
-    color: "secondary",
-    variant: "raised",
+    color: 'secondary',
+    variant: 'raised',
   },
   SlideProps: {
     elevation: 0,
     style: {
-      backgroundColor: "transparent",
+      backgroundColor: 'transparent',
       margin: 8,
     },
   },
-}
+};
 
 export default withStyles(styles)(AutoCollapsing);

@@ -1,19 +1,19 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from '@material-ui/core/styles';
 
-import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 
-import strings from "../localization/game-locale";
+import strings from '../localization/game-locale';
 
-import GameContext from "./game-context";
+import GameContext from './game-context';
 
 const styles = theme => ({
   root: {
     // backgroundColor: theme.palette.secondary.light,
-    paddingBottom: "2em",
+    paddingBottom: '2em',
   },
   userButton: {
     marginTop: theme.spacing.unit * 2,
@@ -27,21 +27,20 @@ class AdminArea extends Component {
 
     return (
       <GameContext.Consumer>
-          {(context) => {
-            return (
-              <Paper className={classes.root} elevation={1}>
-                <Button 
-                  className={classes.userButton} 
-                  color="primary" 
-                  variant="raised" 
-                  onClick={() => context.switchLanguage()}
-                >
-                  {strings.switchLanguage}
-                </Button>
-              </Paper>
-            )
-          }  
-        }
+        {context => {
+          return (
+            <Paper className={classes.root} elevation={1}>
+              <Button
+                className={classes.userButton}
+                color="primary"
+                variant="raised"
+                onClick={() => context.switchLanguage()}
+              >
+                {strings.switchLanguage}
+              </Button>
+            </Paper>
+          );
+        }}
       </GameContext.Consumer>
     );
   }
