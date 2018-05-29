@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
   root: {
@@ -25,8 +25,8 @@ const styles = theme => ({
     fill: theme.palette.teams.evil,
   },
   neutralCircleFill: {
-    fill: "transparent"
-  }
+    fill: 'transparent',
+  },
 });
 
 class Mission extends Component {
@@ -38,13 +38,16 @@ class Mission extends Component {
     return [
       classes.circle,
       this.isCurrentMission() ? classes.currentMissionCircle : '',
-      this.getMissionStatusClass(classes)
-    ].join(" ");
+      this.getMissionStatusClass(classes),
+    ].join(' ');
   }
 
   getMissionStatusClass(classes) {
-    return this.props.wonBy === undefined ? classes.neutralCircleFill 
-            : this.props.wonBy === "evil" ? classes.evilWinCircleFill : classes.goodWinCircleFill
+    return this.props.wonBy === undefined
+      ? classes.neutralCircleFill
+      : this.props.wonBy === 'evil'
+        ? classes.evilWinCircleFill
+        : classes.goodWinCircleFill;
   }
 
   render() {
