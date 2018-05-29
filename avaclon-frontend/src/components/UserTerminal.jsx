@@ -130,13 +130,13 @@ class UserTerminal extends Component {
                       className={classes.voteButton}
                       onClick={this.sendVote('Approve')}
                     >
-                      {strings.mission.approve}
+                      {strings.quest.approve}
                     </Button>
                     <Button
                       className={classes.voteButton}
                       onClick={this.sendVote('Reject')}
                     >
-                      {strings.mission.reject}
+                      {strings.quest.reject}
                     </Button>
                   </div>
                 </Paper>
