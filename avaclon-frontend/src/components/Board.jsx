@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 
 import Quest from './Quest';
+import VoteStepper from './VoteStepper';
 
 import GameContext from './game-context';
 
