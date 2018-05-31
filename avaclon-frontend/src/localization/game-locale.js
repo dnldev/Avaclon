@@ -7,6 +7,7 @@ const strings = new LocalizedStrings({
     backside: "Cardback",
     blueRedMarkers: "Score Markers",
     characterCards: "Character Cards",
+    hammer: "Last Chance to Approve a Team",
     lady: "Lady of the Lake",
     ladyCards: "Loyalty Cards",
     leaderToken: "Leader Token",
@@ -14,6 +15,7 @@ const strings = new LocalizedStrings({
     roundMarker: "Round Marker",
     switchLanguage: "Switch Language",
     voteCards: "Quest Cards",
+    voteTrackEnd: "Quest Win Goes to Evil",
     voteTrackMarker: "Vote Track Marker",
 
     mission: {
@@ -39,8 +41,10 @@ const strings = new LocalizedStrings({
   de: {
     adminArea: "Admin Bereich",
     backside: "Kartenrücken",
+    hammer: "Hammer",
     newGame: "Neues Spiel",
     switchLanguage: "Sprache wechseln",
+    voteTrackEnd: 'Missionssieg geht an Böse',
 
     mission: {
       approve: "Pro",
