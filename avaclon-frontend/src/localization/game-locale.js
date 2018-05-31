@@ -18,9 +18,9 @@ const strings = new LocalizedStrings({
     voteTrackEnd: "Quest Win Goes to Evil",
     voteTrackMarker: "Vote Track Marker",
 
-    mission: {
+    quest: {
       approve: "Approve",
-      current: "Current Mission",
+      current: "Current Quest",
       failure: "Fail",
       reject: "Reject",
       success: "Success",
@@ -46,7 +46,7 @@ const strings = new LocalizedStrings({
     switchLanguage: "Sprache wechseln",
     voteTrackEnd: 'Missionssieg geht an Böse',
 
-    mission: {
+    quest: {
       approve: "Pro",
       current: "Derzeitige Mission",
       failure: "Fehlschlag",

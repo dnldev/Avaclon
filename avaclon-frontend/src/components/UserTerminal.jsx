@@ -99,7 +99,7 @@ class UserTerminal extends Component {
         {context => {
           return (
             <Grid container className={classes.root} alignItems="flex-end">
-              <Grid item xs={9} lg={10}>
+              <Grid item xs={8} lg={10}>
                 <Paper className={classes.namePaper} elevation={2}>
                   <Grid container>
                     <Grid item xs={2} className={classes.iconArea}>
@@ -130,18 +130,18 @@ class UserTerminal extends Component {
                       className={classes.voteButton}
                       onClick={this.sendVote('Approve')}
                     >
-                      {strings.mission.approve}
+                      {strings.quest.approve}
                     </Button>
                     <Button
                       className={classes.voteButton}
                       onClick={this.sendVote('Reject')}
                     >
-                      {strings.mission.reject}
+                      {strings.quest.reject}
                     </Button>
                   </div>
                 </Paper>
               </Grid>
-              <Grid item xs={3} lg={2}>
+              <Grid item xs={4} lg={2}>
                 <div
                   className={classes.imageContainer}
                   onClick={() => context.toggleRoleConcealment()}

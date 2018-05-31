@@ -5,8 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Paper from '@material-ui/core/Paper';
 
-import Mission from './Mission';
-import VoteStepper from './VoteStepper';
+import Quest from './Quest';
 
 import GameContext from './game-context';
 
@@ -19,7 +18,7 @@ const styles = theme => ({
 });
 
 class Board extends Component {
-  missionPlayersForPlayerCount = {
+  questPlayersForPlayerCount = {
     5: [2, 3, 2, 3, 3],
     6: [2, 3, 4, 3, 4],
     7: [2, 3, 3, 4, 4],
@@ -36,15 +35,15 @@ class Board extends Component {
         {context => {
           return (
             <Paper className={classes.root} elevation={5}>
-              {this.missionPlayersForPlayerCount[context.playerCount].map(
-                (missionPlayers, i) => {
+              {this.questPlayersForPlayerCount[context.playerCount].map(
+                (questPlayers, i) => {
                   return (
-                    <Mission
+                    <Quest
                       key={i}
-                      missionIndex={i}
-                      currentMission={context.currentMission}
-                      playersOnMission={missionPlayers}
-                      wonBy={context.wonMissions[i]}
+                      questIndex={i}
+                      currentQuest={context.currentQuest}
+                      playersOnQuest={questPlayers}
+                      wonBy={context.wonQuests[i]}
                     />
                   );
                 }

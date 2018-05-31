@@ -15,7 +15,7 @@ const styles = theme => ({
     r: 40,
     strokeWidth: 3,
   },
-  currentMissionCircle: {
+  currentQuestCircle: {
     stroke: theme.palette.primary.dark,
   },
   goodWinCircleFill: {
@@ -29,20 +29,20 @@ const styles = theme => ({
   },
 });
 
-class Mission extends Component {
-  isCurrentMission() {
-    return this.props.missionIndex === this.props.currentMission;
+class Quest extends Component {
+  isCurrentQuest() {
+    return this.props.questIndex === this.props.currentQuest;
   }
 
   getCircleClasses(classes) {
     return [
       classes.circle,
-      this.isCurrentMission() ? classes.currentMissionCircle : '',
-      this.getMissionStatusClass(classes),
+      this.isCurrentQuest() ? classes.currentQuestCircle : '',
+      this.getQuestStatusClass(classes),
     ].join(' ');
   }
 
-  getMissionStatusClass(classes) {
+  getQuestStatusClass(classes) {
     return this.props.wonBy === undefined
       ? classes.neutralCircleFill
       : this.props.wonBy === 'evil'
@@ -57,15 +57,15 @@ class Mission extends Component {
       <svg className={classes.root}>
         <circle className={this.getCircleClasses(classes)} />
         <text fontSize="2em" x="50%" y="50%" textAnchor="middle" dy=".33em">
-          {this.props.playersOnMission}
+          {this.props.playersOnQuest}
         </text>
       </svg>
     );
   }
 }
 
-Mission.propTypes = {
+Quest.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Mission);
+export default withStyles(styles)(Quest);
