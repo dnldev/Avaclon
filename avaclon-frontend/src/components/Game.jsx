@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
 
+import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 
 import strings from '../localization/game-locale';
@@ -139,6 +140,8 @@ class Game extends Component {
           </GameContext.Provider>
         </div>
       );
+    } else {
+      return <LinearProgress color="secondary" />;
     }
   }
 }
