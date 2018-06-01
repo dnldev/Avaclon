@@ -5,11 +5,9 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 
 import Quest from './Quest';
-
-import strings from '../localization/game-locale';
+import VoteStepper from './VoteStepper';
 
 import GameContext from './game-context';
 
@@ -19,9 +17,6 @@ const styles = theme => ({
     paddingBottom: 16,
     marginTop: theme.spacing.unit * 3,
   }),
-  headline: {
-    marginBottom: theme.spacing.unit,
-  },
 });
 
 class Board extends Component {
@@ -42,14 +37,6 @@ class Board extends Component {
         {context => {
           return (
             <Paper className={classes.root} elevation={5}>
-              <Typography
-                className={classes.headline}
-                variant="headline"
-                component="h3"
-              >
-                {strings.quest.current}: {context.currentQuest + 1}
-              </Typography>
-
               <Grid container className={classes.quest} justify="center">
                 {this.questPlayersForPlayerCount[context.playerCount].map(
                   (questPlayers, i) => {
@@ -68,6 +55,8 @@ class Board extends Component {
                   }
                 )}
               </Grid>
+        
+              <VoteStepper />
             </Paper>
           );
         }}
