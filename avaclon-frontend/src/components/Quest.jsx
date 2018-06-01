@@ -4,15 +4,13 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
-  root: {
+  root: {},
+  svgRoot: {
     height: 100,
     width: 100,
   },
   circle: {
     stroke: theme.palette.secondary.dark,
-    cx: 50,
-    cy: 50,
-    r: 40,
     strokeWidth: 3,
   },
   currentQuestCircle: {
@@ -26,6 +24,10 @@ const styles = theme => ({
   },
   neutralCircleFill: {
     fill: 'transparent',
+  },
+  questText: {
+    fontSize: '2em',
+    textAnchor: 'middle',
   },
 });
 
@@ -54,12 +56,19 @@ class Quest extends Component {
     const { classes } = this.props;
 
     return (
-      <svg className={classes.root}>
-        <circle className={this.getCircleClasses(classes)} />
-        <text fontSize="2em" x="50%" y="50%" textAnchor="middle" dy=".33em">
-          {this.props.playersOnQuest}
-        </text>
-      </svg>
+      <div className={classes.root}>
+        <svg className={classes.svgRoot}>
+          <circle
+            className={this.getCircleClasses(classes)}
+            cx={50}
+            cy={50}
+            r={40}
+          />
+          <text className={classes.questText} dy=".33em" x="50" y="50">
+            {this.props.playersOnQuest}
+          </text>
+        </svg>
+      </div>
     );
   }
 }

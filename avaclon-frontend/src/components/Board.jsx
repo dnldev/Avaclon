@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
 
+import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
 import Quest from './Quest';
@@ -36,20 +37,25 @@ class Board extends Component {
         {context => {
           return (
             <Paper className={classes.root} elevation={5}>
-              {this.questPlayersForPlayerCount[context.playerCount].map(
-                (questPlayers, i) => {
-                  return (
-                    <Quest
-                      key={i}
-                      questIndex={i}
-                      currentQuest={context.currentQuest}
-                      playersOnQuest={questPlayers}
-                      wonBy={context.wonQuests[i]}
-                    />
-                  );
-                }
-              )}
-
+              <Grid container className={classes.quest} justify="center">
+                {this.questPlayersForPlayerCount[context.playerCount].map(
+                  (questPlayers, i) => {
+                    return (
+                      <Grid item key={i} xs={4} md={2}>
+                        <Grid container justify="center">
+                            <Quest
+                              questIndex={i}
+                              currentQuest={context.currentQuest}
+                              playersOnQuest={questPlayers}
+                              wonBy={context.wonQuests[i]}
+                            />
+                        </Grid>
+                      </Grid>
+                    );
+                  }
+                )}
+              </Grid>
+        
               <VoteStepper />
             </Paper>
           );
