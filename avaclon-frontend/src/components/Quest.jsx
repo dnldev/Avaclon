@@ -11,9 +11,6 @@ const styles = theme => ({
   },
   circle: {
     stroke: theme.palette.secondary.dark,
-    cx: 50,
-    cy: 50,
-    r: 40,
     strokeWidth: 3,
   },
   currentQuestCircle: {
@@ -61,7 +58,12 @@ class Quest extends Component {
     return (
       <div className={classes.root}>
         <svg className={classes.svgRoot}>
-          <circle className={this.getCircleClasses(classes)} />
+          <circle
+            className={this.getCircleClasses(classes)}
+            cx={50}
+            cy={50}
+            r={40}
+          />
           <text className={classes.questText} dy=".33em" x="50" y="50">
             {this.props.playersOnQuest}
           </text>
