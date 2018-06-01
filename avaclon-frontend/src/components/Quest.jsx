@@ -28,6 +28,10 @@ const styles = theme => ({
   neutralCircleFill: {
     fill: 'transparent',
   },
+  questText: {
+    fontSize: '2em',
+    textAnchor: 'middle',
+  },
 });
 
 class Quest extends Component {
@@ -58,7 +62,7 @@ class Quest extends Component {
       <div className={classes.root}>
         <svg className={classes.svgRoot}>
           <circle className={this.getCircleClasses(classes)} />
-          <text fontSize="2em" x="50" y="50%" textAnchor="middle" dy=".33em">
+          <text className={classes.questText} dy=".33em" x="50" y="50">
             {this.props.playersOnQuest}
           </text>
         </svg>
