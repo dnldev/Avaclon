@@ -61,7 +61,7 @@ class Quest extends Component {
         <circle className={this.getCircleClasses(classes)} />
         <text
           fontSize="2em"
-          x="calc(50 - 10vw)"
+          x="50"
           y="50%"
           textAnchor="middle"
           dy=".33em"
