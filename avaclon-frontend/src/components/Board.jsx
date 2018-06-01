@@ -50,17 +50,19 @@ class Board extends Component {
                 {strings.quest.current}: {context.currentQuest + 1}
               </Typography>
 
-              <Grid container justify="center">
+              <Grid container className={classes.quest} justify="center">
                 {this.questPlayersForPlayerCount[context.playerCount].map(
                   (questPlayers, i) => {
                     return (
                       <Grid item key={i} xs={4} md={2}>
-                        <Quest
-                          questIndex={i}
-                          currentQuest={context.currentQuest}
-                          playersOnQuest={questPlayers}
-                          wonBy={context.wonQuests[i]}
-                        />
+                        <Grid container justify="center">
+                            <Quest
+                              questIndex={i}
+                              currentQuest={context.currentQuest}
+                              playersOnQuest={questPlayers}
+                              wonBy={context.wonQuests[i]}
+                            />
+                        </Grid>
                       </Grid>
                     );
                   }
