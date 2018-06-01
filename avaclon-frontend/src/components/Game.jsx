@@ -24,12 +24,8 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 2,
   },
   mainGrid: {
-    height: 'calc(100vh - 48px - ' + theme.spacing.unit * 2 + 'px)',
-    alignContent: 'stretch',
     [theme.breakpoints.up('md')]: {
       alignContent: 'space-between',
-    },
-    [theme.breakpoints.up('sm')]: {
       height: 'calc(100vh - 64px - ' + theme.spacing.unit * 2 + 'px)',
     },
   },
