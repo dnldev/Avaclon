@@ -5,10 +5,10 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Stepper from '@material-ui/core/Stepper';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import strings from '../localization/game-locale';
 
@@ -19,6 +19,10 @@ const styles = theme => ({
     borderBottom: '0.8px dotted ' + theme.palette.secondary.main,
     height: 24,
     width: 24,
+  },
+  iconButton: {
+    height: 32,
+    width: 32,
   },
   primaryFill: {
     fill: theme.palette.primary.main,
@@ -62,7 +66,10 @@ class VoteStepper extends Component {
         placement="bottom"
         title={strings.voteTrackEnd}
       >
-        <IconButton onClick={this.toggleMissionLossOpen}>
+        <IconButton
+          className={classes.iconButton}
+          onClick={this.toggleMissionLossOpen}
+        >
           <Icon
             className={classes.icon}
             color={4 !== voteMarker ? 'secondary' : 'error'}
@@ -88,8 +95,12 @@ class VoteStepper extends Component {
         placement="bottom"
         title={strings.hammer}
       >
-        <IconButton onClick={this.toggleHammerOpen}>
+        <IconButton
+          className={classes.iconButton}
+          onClick={this.toggleHammerOpen}
+        >
           <svg className={classes.icon}>
+            {/* Custom svg path that draws a Hammer Icon */}
             <path
               className={
                 3 !== voteMarker ? classes.secondaryFill : classes.primaryFill
