@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
+import Grid from '@material-ui/core/Grid';
 import Icon from '@material-ui/core/Icon';
 import Tooltip from '@material-ui/core/Tooltip';
 
@@ -26,8 +27,8 @@ class Player extends Component {
 
     this.state = {
       showTooltip: false,
-      isLeader: true,
-      inTeam: true,
+      isLeader: false,
+      inTeam: false,
     };
 
     this.getInitials = this.getInitials.bind(this);
@@ -56,22 +57,26 @@ class Player extends Component {
 
     return (
       <div className={classes.root}>
-        <div className={classes.tokenArea}>
-          {this.state.inTeam && <Icon>star_border</Icon>}
-          {this.state.isLeader && <Icon>group</Icon>}
-        </div>
-        <Tooltip
-          onClose={this.handleTooltipClose}
-          onOpen={this.handleTooltipOpen}
-          open={this.state.showTooltip}
-          title={strings.roles[this.props.role]}
-        >
-          <Chip
-            avatar={<Avatar>{this.getInitials()}</Avatar>}
-            label={this.props.name}
-            onClick={this.toggleTooltip}
-          />
-        </Tooltip>
+        <Grid container justify="center">
+          <Grid item>
+            <div className={classes.tokenArea}>
+              {this.state.inTeam && <Icon>star_border</Icon>}
+              {this.state.isLeader && <Icon>group</Icon>}
+            </div>
+            <Tooltip
+              onClose={this.handleTooltipClose}
+              onOpen={this.handleTooltipOpen}
+              open={this.state.showTooltip}
+              title={strings.roles[this.props.role]}
+            >
+              <Chip
+                avatar={<Avatar>{this.getInitials()}</Avatar>}
+                label={this.props.name}
+                onClick={this.toggleTooltip}
+              />
+            </Tooltip>
+          </Grid>
+        </Grid>
       </div>
     );
   }
