@@ -3,13 +3,18 @@ import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
 
+import Button from '@material-ui/core/Button';
 import Collapse from '@material-ui/core/Collapse';
 import Grid from '@material-ui/core/Grid';
+import Icon from '@material-ui/core/Icon';
 
 import Player from './Player';
 
 const styles = theme => ({
   root: {},
+  toggleButton: {
+    width: '100%',
+  },
 });
 
 class PlayerView extends Component {
@@ -30,6 +35,10 @@ class PlayerView extends Component {
     this.setState({ expanded: true });
   };
 
+  toggleExpansion = () => {
+    this.setState({ expanded: !this.state.expanded });
+  };
+
   render() {
     const { classes } = this.props;
     const { players } = this.props;
@@ -40,7 +49,7 @@ class PlayerView extends Component {
         <Collapse
           in={this.state.expanded}
           onClick={this.expand}
-          collapsedHeight="40px"
+          collapsedHeight="35px"
         >
           <Grid container justify="center">
             {players.map(player => (
@@ -56,6 +65,9 @@ class PlayerView extends Component {
             ))}
           </Grid>
         </Collapse>
+        <Button className={classes.toggleButton} onClick={this.toggleExpansion}>
+          <Icon>{this.state.expanded ? 'expand_less' : 'expand_more'}</Icon>
+        </Button>
       </div>
     );
   }
