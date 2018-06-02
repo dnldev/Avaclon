@@ -27,17 +27,6 @@ const styles = theme => ({
     height: 32,
     width: 32,
   },
-  primaryFill: {
-    fill: theme.palette.primary.main,
-  },
-  secondaryFill: {
-    fill: theme.palette.secondary.main,
-  },
-  dottedLine: {
-    [theme.breakpoints.down('md')]: {
-      textDecorationStyle: 'dotted',
-    },
-  },
 });
 
 class VoteStepper extends Component {
@@ -68,9 +57,9 @@ class VoteStepper extends Component {
         >
           <Icon
             className={classes.icon}
-            color={4 !== voteMarker ? 'secondary' : 'error'}
+            color={voteMarker !== 4 ? 'secondary' : 'error'}
           >
-            highlight_off
+            error_outline
           </Icon>
         </IconButton>
       </Tooltip>
@@ -95,15 +84,12 @@ class VoteStepper extends Component {
           className={classes.iconButton}
           onClick={this.toggleHammerOpen}
         >
-          <svg className={classes.icon}>
-            {/* Custom svg path that draws a Hammer Icon */}
-            <path
-              className={
-                3 !== voteMarker ? classes.secondaryFill : classes.primaryFill
-              }
-              d="M16,5L19,8L18.5,8.5C19.5,9.5 20,10 20.5,9.5L22,11C22,12 20.5,13.5 19.5,13.5L18,12C18.5,11.5 18,11 17,10L16,11L13,8C14.5,6 13,4 9,5C10,4 11,3 12,3C12.5,3 14,3 16,5M2,20L4,22L14,12L12,10L2,20Z"
-            />
-          </svg>
+          <Icon
+            className={classes.icon}
+            color={voteMarker < 3 ? 'secondary' : 'primary'}
+          >
+            gavel
+          </Icon>
         </IconButton>
       </Tooltip>
     );
@@ -146,11 +132,7 @@ class VoteStepper extends Component {
       <GameContext.Consumer>
         {context => {
           return (
-            <Stepper
-              nonLinear
-              className={classes.root}
-              activeStep={context.voteMarker}
-            >
+            <Stepper className={classes.root} activeStep={context.voteMarker}>
               {this.props.voteMarkerLabels.map((label, index) => {
                 const props = {};
 
