@@ -10,11 +10,11 @@ import strings from '../localization/game-locale';
 
 import GameContext from './game-context';
 
-import AdminArea from './AdminArea';
+// import AdminArea from './AdminArea';
 import AutoCollapsing from './AutoCollapsing';
 import Board from './Board';
 import PlayerView from './PlayerView';
-import UserControlArea from './UserControlArea';
+// import UserControlArea from './UserControlArea';
 import UserTerminal from './UserTerminal';
 
 const styles = theme => ({
@@ -53,8 +53,8 @@ class Game extends Component {
       currentQuest: 2,
       gameEnded: false,
       hideRole: true,
-      playerCount: 10,
-      voteMarker: 0,
+      playerCount: 8,
+      voteMarker: 3,
       wonQuests: ['good', 'evil'],
     };
 
@@ -125,9 +125,10 @@ class Game extends Component {
         <div className={classes.root}>
           <GameContext.Provider value={this.state}>
             <Grid className={classes.mainGrid} justify="center" container>
-              <Grid xs={12} item>
+              {/* Uncomment to test different languages (also uncomment imports) */}
+              {/* <Grid xs={12} item> 
                 {this.state.isAdmin ? <AdminArea /> : <UserControlArea />}
-              </Grid>
+              </Grid> */}
 
               <Grid lg={8} md={9} sm={11} xs={12} item>
                 <PlayerView players={players} />
@@ -138,8 +139,8 @@ class Game extends Component {
               </Grid>
               <Grid
                 className={classes.userTerminalArea}
-                md={6}
                 lg={8}
+                md={9}
                 xs={12}
                 item
               >
