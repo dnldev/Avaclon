@@ -5,6 +5,9 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+
+import strings from '../localization/game-locale';
 
 import Quest from './Quest';
 import VoteStepper from './VoteStepper';
@@ -29,6 +32,10 @@ class Board extends Component {
     10: [3, 4, 4, 5, 5],
   };
 
+  twoFailsNeeded(playerCount, questIndex) {
+    return playerCount >= 7 && questIndex === 3;
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -43,19 +50,28 @@ class Board extends Component {
                     return (
                       <Grid item key={i} xs={4} md={2}>
                         <Grid container justify="center">
-                            <Quest
-                              questIndex={i}
-                              currentQuest={context.currentQuest}
-                              playersOnQuest={questPlayers}
-                              wonBy={context.wonQuests[i]}
-                            />
+                          <Quest
+                            currentQuest={context.currentQuest}
+                            playersOnQuest={questPlayers}
+                            questIndex={i}
+                            wonBy={context.wonQuests[i]}
+                          />
                         </Grid>
+                        {this.twoFailsNeeded(context.playerCount, i) && (
+                          <Typography
+                            align="center"
+                            gutterBottom
+                            variant="caption"
+                          >
+                            {strings.fourthMissionCaption}
+                          </Typography>
+                        )}
                       </Grid>
                     );
                   }
                 )}
               </Grid>
-        
+
               <VoteStepper />
             </Paper>
           );

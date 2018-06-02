@@ -7,6 +7,7 @@ const strings = new LocalizedStrings({
     backside: "Cardback",
     blueRedMarkers: "Score Markers",
     characterCards: "Character Cards",
+    fourthMissionCaption: "Two Fails Needed",
     hammer: "Last Chance to Approve a Team",
     lady: "Lady of the Lake",
     ladyCards: "Loyalty Cards",
@@ -41,6 +42,7 @@ const strings = new LocalizedStrings({
   de: {
     adminArea: "Admin Bereich",
     backside: "Kartenrücken",
+    fourthMissionCaption: "Benötigt zwei Fehlschläge",
     hammer: "Hammer",
     newGame: "Neues Spiel",
     switchLanguage: "Sprache wechseln",
