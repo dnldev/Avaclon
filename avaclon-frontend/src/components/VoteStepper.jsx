@@ -15,6 +15,9 @@ import strings from '../localization/game-locale';
 import GameContext from './game-context';
 
 const styles = theme => ({
+  root: {
+    paddingBottom: theme.spacing.unit,
+  },
   icon: {
     borderBottom: '0.8px dotted ' + theme.palette.secondary.main,
     height: 24,
@@ -150,7 +153,7 @@ class VoteStepper extends Component {
       <GameContext.Consumer>
         {context => {
           return (
-            <Stepper nonLinear activeStep={context.voteMarker}>
+            <Stepper nonLinear className={classes.root} activeStep={context.voteMarker}>
               {this.props.voteMarkerLabels.map((label, index) => {
                 const props = {};
 
