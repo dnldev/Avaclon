@@ -53,6 +53,7 @@ const styles = theme => ({
   },
   roleImage: {
     borderRadius: 25,
+    cursor: 'pointer',
     marginBottom: 0,
     width: '100%',
   },
