@@ -13,6 +13,7 @@ import GameContext from './game-context';
 import AdminArea from './AdminArea';
 import AutoCollapsing from './AutoCollapsing';
 import Board from './Board';
+import PlayerView from './PlayerView';
 import UserControlArea from './UserControlArea';
 import UserTerminal from './UserTerminal';
 
@@ -25,12 +26,8 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 2,
   },
   mainGrid: {
-    height: 'calc(100vh - 48px - ' + theme.spacing.unit * 2 + 'px)',
-    alignContent: 'stretch',
     [theme.breakpoints.up('md')]: {
       alignContent: 'space-between',
-    },
-    [theme.breakpoints.up('sm')]: {
       height: 'calc(100vh - 64px - ' + theme.spacing.unit * 2 + 'px)',
     },
   },
@@ -53,12 +50,12 @@ class Game extends Component {
 
     this.state = {
       // TODO: get state init values from socket.io
-      currentQuest: 0,
+      currentQuest: 2,
       gameEnded: false,
       hideRole: true,
       playerCount: 10,
       voteMarker: 0,
-      wonQuests: [],
+      wonQuests: ['good', 'evil'],
     };
 
     this.state.isAdmin = false;
@@ -113,6 +110,16 @@ class Game extends Component {
     //   },
     // };
 
+    const players = [
+      { name: 'Thomas', id: 1, role: 'unknown' },
+      { name: 'Josh', id: 2, role: 'unknown' },
+      { name: 'BRN', id: 3, role: 'unknown' },
+      { name: 'Martin', id: 4, role: 'merlinOrMorgana' },
+      { name: 'Benni', id: 5, role: 'unknown' },
+      { name: 'Kevin', id: 6, role: 'merlinOrMorgana' },
+      { name: 'Jess', id: 7, role: 'unknown' },
+    ];
+
     if (!this.state.loading) {
       return (
         <div className={classes.root}>
@@ -120,6 +127,10 @@ class Game extends Component {
             <Grid className={classes.mainGrid} justify="center" container>
               <Grid xs={12} item>
                 {this.state.isAdmin ? <AdminArea /> : <UserControlArea />}
+              </Grid>
+
+              <Grid lg={8} md={9} sm={11} xs={12} item>
+                <PlayerView players={players} />
               </Grid>
 
               <Grid lg={6} md={8} sm={10} xs={12} item>
