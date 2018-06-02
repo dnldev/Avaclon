@@ -48,13 +48,6 @@ class VoteStepper extends Component {
       hammerOpen: false,
       missionLossOpen: false,
     };
-
-    this.handleHammerClose = this.handleHammerClose.bind(this);
-    this.handleHammerOpen = this.handleHammerOpen.bind(this);
-    this.handleMissionLossClose = this.handleMissionLossClose.bind(this);
-    this.handleMissionLossOpen = this.handleMissionLossOpen.bind(this);
-    this.toggleHammerOpen = this.toggleHammerOpen.bind(this);
-    this.toggleMissionLossOpen = this.toggleMissionLossOpen.bind(this);
   }
 
   getMissionLossIcon(voteMarker, classes) {
@@ -118,33 +111,33 @@ class VoteStepper extends Component {
     return hammerIcon;
   }
 
-  handleHammerClose() {
+  handleHammerClose = () => {
     this.setState({ hammerOpen: false });
-  }
+  };
 
-  handleHammerOpen() {
+  handleHammerOpen = () => {
     this.setState({ hammerOpen: true });
-  }
+  };
 
-  handleMissionLossClose() {
+  handleMissionLossClose = () => {
     this.setState({ missionLossOpen: false });
-  }
+  };
 
-  handleMissionLossOpen() {
+  handleMissionLossOpen = () => {
     this.setState({ missionLossOpen: true });
-  }
+  };
 
-  toggleHammerOpen() {
+  toggleHammerOpen = () => {
     this.setState(prevState => {
       return { hammerOpen: !prevState.hammerOpen };
     });
-  }
+  };
 
-  toggleMissionLossOpen() {
+  toggleMissionLossOpen = () => {
     this.setState(prevState => {
       return { missionLossOpen: !prevState.missionLossOpen };
     });
-  }
+  };
 
   render() {
     const { classes } = this.props;
@@ -153,7 +146,11 @@ class VoteStepper extends Component {
       <GameContext.Consumer>
         {context => {
           return (
-            <Stepper nonLinear className={classes.root} activeStep={context.voteMarker}>
+            <Stepper
+              nonLinear
+              className={classes.root}
+              activeStep={context.voteMarker}
+            >
               {this.props.voteMarkerLabels.map((label, index) => {
                 const props = {};
 

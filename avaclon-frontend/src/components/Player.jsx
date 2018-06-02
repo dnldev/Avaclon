@@ -25,6 +25,7 @@ class Player extends Component {
     super(props);
 
     this.state = {
+      showTooltip: false,
       isLeader: true,
       inTeam: true,
     };
@@ -36,6 +37,20 @@ class Player extends Component {
     return this.props.name.substring(0, 2);
   }
 
+  handleTooltipClose = () => {
+    this.setState({ showTooltip: false });
+  };
+
+  handleTooltipOpen = () => {
+    this.setState({ showTooltip: true });
+  };
+
+  toggleTooltip = () => {
+    this.setState(prevState => {
+      return { showTooltip: !prevState.showTooltip };
+    });
+  };
+
   render() {
     const { classes } = this.props;
 
@@ -45,10 +60,16 @@ class Player extends Component {
           {this.state.inTeam && <Icon>star_border</Icon>}
           {this.state.isLeader && <Icon>group</Icon>}
         </div>
-        <Tooltip title={strings.roles[this.props.role]}>
+        <Tooltip
+          onClose={this.handleTooltipClose}
+          onOpen={this.handleTooltipOpen}
+          open={this.state.showTooltip}
+          title={strings.roles[this.props.role]}
+        >
           <Chip
             avatar={<Avatar>{this.getInitials()}</Avatar>}
             label={this.props.name}
+            onClick={this.toggleTooltip}
           />
         </Tooltip>
       </div>
