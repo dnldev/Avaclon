@@ -51,17 +51,17 @@ class Board extends Component {
                       <Grid item key={i} xs={4} md={2}>
                         <Grid container justify="center">
                           <Quest
-                            questIndex={i}
                             currentQuest={context.currentQuest}
                             playersOnQuest={questPlayers}
+                            questIndex={i}
                             wonBy={context.wonQuests[i]}
                           />
                         </Grid>
                         {this.twoFailsNeeded(context.playerCount, i) && (
                           <Typography
-                            variant="caption"
-                            gutterBottom
                             align="center"
+                            gutterBottom
+                            variant="caption"
                           >
                             {strings.fourthMissionCaption}
                           </Typography>
