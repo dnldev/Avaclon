@@ -52,7 +52,7 @@ const styles = theme => ({
     textAlign: 'center',
   },
   roleImage: {
-    borderRadius: 25,
+    borderRadius: 15,
     cursor: 'pointer',
     marginBottom: 0,
     width: '100%',
