@@ -18,13 +18,9 @@ const styles = theme => ({
 });
 
 class PlayerView extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      expanded: false,
-    };
-  }
+  state = {
+    expanded: false,
+  };
 
   calculateSize(base, itemCount, baseSize, alternateSize) {
     const overBase = itemCount % base;
@@ -47,9 +43,9 @@ class PlayerView extends Component {
     return (
       <div className={classes.root}>
         <Collapse
+          collapsedHeight="48px"
           in={this.state.expanded}
           onClick={this.expand}
-          collapsedHeight="35px"
         >
           <Grid container justify="center">
             {players.map(player => (
@@ -60,7 +56,7 @@ class PlayerView extends Component {
                 md={this.calculateSize(4, playerCount, 3, 4)}
                 key={player.id}
               >
-                <Player name={player.name} id={player.id} role={player.role} />
+                <Player id={player.id} name={player.name} role={player.role} />
               </Grid>
             ))}
           </Grid>
