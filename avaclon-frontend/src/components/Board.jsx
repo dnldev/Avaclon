@@ -63,7 +63,11 @@ class Board extends Component {
                             gutterBottom
                             variant="caption"
                           >
-                            {strings.fourthMissionCaption}
+                            {context.currentQuest === 3 ? (
+                              <strong>{strings.fourthMissionCaption}</strong>
+                            ) : (
+                              strings.fourthMissionCaption
+                            )}
                           </Typography>
                         )}
                       </Grid>
