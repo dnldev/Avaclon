@@ -64,9 +64,11 @@ class Quest extends Component {
             cy={50}
             r={40}
           />
-          <text className={classes.questText} dy=".33em" x="50" y="50">
-            {this.props.playersOnQuest}
-          </text>
+          {this.props.wonBy === undefined && (
+            <text className={classes.questText} dy=".33em" x="50" y="50">
+              {this.props.playersOnQuest}
+            </text>
+          )}
         </svg>
       </div>
     );
