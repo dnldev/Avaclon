@@ -1,4 +1,4 @@
-const affiliations = require('./Affiliation');
+const Affiliation = require('./Affiliation');
 
 const standardConfigs = Object.freeze({
   5: [...Array(2).fill('Generic Red'), ...Array(3).fill('Generic Blue')],
@@ -17,12 +17,12 @@ function standardConfigFor(playerCount) {
 // TODO: Entry for roles
 const roleLookup = Object.freeze({
   'Generic Blue': {
-    affiliation: affiliations.good,
+    affiliation: Affiliation.good,
     hiddenAction: null,
     image: 'genblue',
   },
   'Generic Red': {
-    affiliation: affiliations.evil,
+    affiliation: Affiliation.evil,
     hiddenAction: null,
     image: 'genred',
   },
