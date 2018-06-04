@@ -35,9 +35,9 @@ class Role {
     this.affiliation = this.roleInformation.affiliation;
     this.hiddenAction = this.roleInformation.hiddenAction;
     this.image = this.roleInformation.image;
-    this.missionOptions = [this.affiliation];
+    this.questOptions = [this.affiliation];
     if (this.affiliation === Affiliation.EVIL) {
-      this.missionOptions.push(Affiliation.GOOD);
+      this.questOptions.push(Affiliation.GOOD);
     }
   }
 }
