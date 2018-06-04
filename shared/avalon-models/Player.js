@@ -1,4 +1,4 @@
-const Role = require('./Role').Role;
+const { Role } = require('./Role');
 
 class Player {
   constructor(id, playerName, role) {
