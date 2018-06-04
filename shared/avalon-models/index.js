@@ -1,9 +1,9 @@
 const Player = require('./Player');
 const Role = require('./Role');
-const affiliations = require('./Affiliation');
+const Affiliation = require('./Affiliation');
 
 module.exports = {
+    Affiliation: Affiliation,
     Player: Player,
     Role: Role,
-    Affiliation: affiliations,
 };
