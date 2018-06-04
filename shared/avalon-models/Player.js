@@ -1,7 +1,7 @@
 const Role = require("./Role").Role;
 
 class Player {
-    constructor(playerName, role, id) {
+    constructor(id, playerName, role) {
         this.id = id;
         this.name = playerName;
         this.role = new Role(role);
