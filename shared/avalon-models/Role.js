@@ -1,13 +1,13 @@
 const affiliations = require('./Affiliation');
 
-const standardConfigs = {
+const standardConfigs = Object.freeze({
   5: [...Array(2).fill('Generic Red'), ...Array(3).fill('Generic Blue')],
   6: [...Array(2).fill('Generic Red'), ...Array(4).fill('Generic Blue')],
   7: [...Array(3).fill('Generic Red'), ...Array(4).fill('Generic Blue')],
   8: [...Array(3).fill('Generic Red'), ...Array(5).fill('Generic Blue')],
   9: [...Array(3).fill('Generic Red'), ...Array(6).fill('Generic Blue')],
   10: [...Array(4).fill('Generic Red'), ...Array(6).fill('Generic Blue')],
-};
+});
 
 function standardConfigFor(playerCount) {
   return standardConfigs[playerCount].map(roleName => new Role(roleName));
@@ -15,7 +15,7 @@ function standardConfigFor(playerCount) {
 
 // Information to construct the roles from names is stored here
 // TODO: Entry for roles
-const roleLookup = {
+const roleLookup = Object.freeze({
   'Generic Blue': {
     affiliation: affiliations.good,
     hiddenAction: null,
@@ -26,7 +26,7 @@ const roleLookup = {
     hiddenAction: null,
     image: 'genred',
   },
-};
+});
 
 class Role {
   constructor(roleName) {
