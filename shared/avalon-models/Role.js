@@ -17,12 +17,12 @@ const roleLookup = {
   "Generic Blue": {
     affiliation: 1,
     hiddenAction: null,
-    image: "path to genblue"
+    image: "genblue"
   },
   "Generic Red": {
     affiliation: 0,
     hiddenAction: null,
-    image: "path to genred"
+    image: "genred"
   }
 };
 
