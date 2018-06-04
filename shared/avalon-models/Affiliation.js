@@ -1,9 +1,9 @@
 const affiliations = Object.freeze({
-  good: {
+  GOOD: {
     value: 1,
     name: 'good',
   },
-  evil: {
+  EVIL: {
     value: 0,
     name: 'evil',
   },
