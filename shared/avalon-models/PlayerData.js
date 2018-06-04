@@ -1,6 +1,6 @@
 const { Role } = require('./Role');
 
-class Player {
+class PlayerData {
   constructor(id, playerName, role) {
     this.id = id;
     this.name = playerName;
@@ -8,4 +8,4 @@ class Player {
   }
 }
 
-module.exports = Player;
+module.exports = PlayerData;
