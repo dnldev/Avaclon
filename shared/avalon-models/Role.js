@@ -1,29 +1,31 @@
+const affiliations = require('./Affiliation');
+
 const standardConfigs = {
-  5: [...Array(2).fill("Generic Red"), ...Array(3).fill("Generic Blue")],
-  6: [...Array(2).fill("Generic Red"), ...Array(4).fill("Generic Blue")],
-  7: [...Array(3).fill("Generic Red"), ...Array(4).fill("Generic Blue")],
-  8: [...Array(3).fill("Generic Red"), ...Array(5).fill("Generic Blue")],
-  9: [...Array(3).fill("Generic Red"), ...Array(6).fill("Generic Blue")],
-  10: [...Array(4).fill("Generic Red"), ...Array(6).fill("Generic Blue")]
+  5: [...Array(2).fill('Generic Red'), ...Array(3).fill('Generic Blue')],
+  6: [...Array(2).fill('Generic Red'), ...Array(4).fill('Generic Blue')],
+  7: [...Array(3).fill('Generic Red'), ...Array(4).fill('Generic Blue')],
+  8: [...Array(3).fill('Generic Red'), ...Array(5).fill('Generic Blue')],
+  9: [...Array(3).fill('Generic Red'), ...Array(6).fill('Generic Blue')],
+  10: [...Array(4).fill('Generic Red'), ...Array(6).fill('Generic Blue')],
 };
 
 function standardConfigFor(playerCount) {
-    return standardConfigs[playerCount].map(roleName => new Role(roleName));
+  return standardConfigs[playerCount].map(roleName => new Role(roleName));
 }
 
 // Information to construct the roles from names is stored here
 // TODO: Entry for roles
 const roleLookup = {
-  "Generic Blue": {
-    affiliation: 1,
+  'Generic Blue': {
+    affiliation: affiliations.good,
     hiddenAction: null,
-    image: "genblue"
+    image: 'genblue',
   },
-  "Generic Red": {
-    affiliation: 0,
+  'Generic Red': {
+    affiliation: affiliations.evil,
     hiddenAction: null,
-    image: "genred"
-  }
+    image: 'genred',
+  },
 };
 
 class Role {
@@ -40,7 +42,7 @@ class Role {
   }
 }
 
-module.exports = { 
-    Role: Role,
-    standardConfig: standardConfigFor
+module.exports = {
+  Role: Role,
+  standardConfig: standardConfigFor,
 };
