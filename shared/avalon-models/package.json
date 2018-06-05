@@ -1,0 +1,11 @@
+{
+  "name": "avalon-models",
+  "version": "1.0.0",
+  "description": "A module that can be used in front- and back-end for communication purposes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Arkangels",
+  "license": "ISC"
+}
