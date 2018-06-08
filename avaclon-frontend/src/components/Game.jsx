@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import openSocket from 'socket.io-client';
+
 import { withStyles } from '@material-ui/core/styles';
 
 import Grid from '@material-ui/core/Grid';
@@ -43,7 +45,7 @@ const styles = theme => ({
 });
 
 class Game extends Component {
-  currentLanguage = 'en';
+  serverURL = 'localhost:5000/lobby';
 
   constructor(props) {
     super(props);
@@ -51,6 +53,7 @@ class Game extends Component {
     this.state = {
       // TODO: get state init values from socket.io
       currentQuest: 3,
+      currentLanguage: 'en',
       gameEnded: false,
       hideRole: true,
       playerCount: 8,
@@ -61,6 +64,8 @@ class Game extends Component {
     this.state.isAdmin = false;
     this.state.loading = false;
     this.state.terminalOpen = false;
+
+    this.state.socket = this.setupConnection(this.props.lobby);
 
     this.state.resetGame = this.resetGame.bind(this);
     this.state.switchLanguage = this.switchLanguage.bind(this);
@@ -85,10 +90,25 @@ class Game extends Component {
     // TODO: force new game with Socket.IO
   }
 
+  setupConnection(lobby_id) {
+    let socket = openSocket(this.serverURL + '/' + lobby_id);
+
+    socket.open();
+
+    socket.on('welcome', () => {
+      console.log('Connected');
+    });
+
+    socket.emit('new-game', {
+      gameData: { playerCount: 10 },
+      username: 'Daniel',
+    });
+  }
+
   switchLanguage() {
-    this.currentLanguage = this.currentLanguage === 'en' ? 'de' : 'en';
-    strings.setLanguage(this.currentLanguage);
-    this.setState({});
+    let newLanguage = this.state.currentLanguage === 'en' ? 'de' : 'en';
+    strings.setLanguage(newLanguage);
+    this.setState({ currentLanguage: newLanguage });
   }
 
   render() {
