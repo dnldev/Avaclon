@@ -4,12 +4,16 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "node server.js"
+    "start": "node server.js",
+    "test": "nodemon server.js"
   },
   "author": "Arkangels",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "debug": "^3.1.0",
     "express": "^4.16.3",
+    "randomstring": "^1.1.5",
     "socket.io": "^2.1.1"
   }
 }
