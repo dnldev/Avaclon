@@ -58,6 +58,14 @@ class AdminArea extends Component {
               >
                 {strings.switchLanguage}
               </Button>
+              <Button
+                className={classes.adminButton}
+                variant="outlined"
+                color="secondary"
+                onClick={() => context.openLobby()}
+              >
+                {strings.connect}
+              </Button>
             </Paper>
           );
         }}
