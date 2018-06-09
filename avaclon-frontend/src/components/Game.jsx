@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import axios from 'axios';
 import openSocket from 'socket.io-client';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -12,11 +13,11 @@ import strings from '../localization/game-locale';
 
 import GameContext from './game-context';
 
-// import AdminArea from './AdminArea';
+import AdminArea from './AdminArea';
 import AutoCollapsing from './AutoCollapsing';
 import Board from './Board';
 import PlayerView from './PlayerView';
-// import UserControlArea from './UserControlArea';
+import UserControlArea from './UserControlArea';
 import UserTerminal from './UserTerminal';
 
 const styles = theme => ({
@@ -61,12 +62,11 @@ class Game extends Component {
       wonQuests: ['good', 'evil', 'evil'],
     };
 
-    this.state.isAdmin = false;
+    this.state.isAdmin = true;
     this.state.loading = false;
     this.state.terminalOpen = false;
 
-    this.state.socket = this.setupConnection(this.props.lobby);
-
+    this.state.openLobby = this.openLobby.bind(this);
     this.state.resetGame = this.resetGame.bind(this);
     this.state.switchLanguage = this.switchLanguage.bind(this);
     this.state.toggleRoleConcealment = this.toggleRoleConcealment.bind(this);
@@ -78,10 +78,18 @@ class Game extends Component {
     return JSON.parse(JSON.stringify(object));
   }
 
-  toggleRoleConcealment() {
-    this.setState(prevState => {
-      return { hideRole: !prevState.hideRole };
-    });
+  // Test method --> will be moved to Lobby section in App
+  openLobby() {
+    axios
+      .post('http://' + this.serverURL)
+      .then(response => {
+        let lobby_id = response.data;
+        console.log(lobby_id);
+        this.setupConnection(lobby_id);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   resetGame() {
@@ -90,25 +98,35 @@ class Game extends Component {
     // TODO: force new game with Socket.IO
   }
 
+  // TODO: return promise --> .then(setup events)
   setupConnection(lobby_id) {
     let socket = openSocket(this.serverURL + '/' + lobby_id);
 
     socket.open();
 
+    // TODO: move events to different functions
     socket.on('welcome', () => {
-      console.log('Connected');
+      alert('Connected');
     });
 
     socket.emit('new-game', {
       gameData: { playerCount: 10 },
       username: 'Daniel',
     });
+
+    this.setState({ socket: socket });
   }
 
   switchLanguage() {
     let newLanguage = this.state.currentLanguage === 'en' ? 'de' : 'en';
     strings.setLanguage(newLanguage);
     this.setState({ currentLanguage: newLanguage });
+  }
+
+  toggleRoleConcealment() {
+    this.setState(prevState => {
+      return { hideRole: !prevState.hideRole };
+    });
   }
 
   render() {
@@ -144,25 +162,25 @@ class Game extends Component {
       return (
         <div className={classes.root}>
           <GameContext.Provider value={this.state}>
-            <Grid className={classes.mainGrid} justify="center" container>
+            <Grid container className={classes.mainGrid} justify="center">
               {/* Uncomment to test different languages (also uncomment imports) */}
-              {/* <Grid xs={12} item> 
+              <Grid item xs={12}>
                 {this.state.isAdmin ? <AdminArea /> : <UserControlArea />}
-              </Grid> */}
+              </Grid>
 
-              <Grid lg={8} md={9} sm={11} xs={12} item>
+              <Grid item lg={8} md={9} sm={11} xs={12}>
                 <PlayerView players={players} />
               </Grid>
 
-              <Grid lg={6} md={8} sm={10} xs={12} item>
+              <Grid item lg={6} md={8} sm={10} xs={12}>
                 <Board />
               </Grid>
               <Grid
+                item
                 className={classes.userTerminalArea}
                 lg={8}
                 md={9}
                 xs={12}
-                item
               >
                 <AutoCollapsing>
                   <UserTerminal player={goodPlayer} />
