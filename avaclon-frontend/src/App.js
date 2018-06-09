@@ -42,7 +42,7 @@ class App extends Component {
           </Toolbar>
         </AppBar>
         {/* other components */}
-        <Game lobby="a1bc23d" />
+        <Game />
       </MuiThemeProvider>
     );
   }
