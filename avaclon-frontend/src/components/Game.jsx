@@ -80,6 +80,10 @@ class Game extends Component {
 
   // Test method --> will be moved to Lobby section in App
   openLobby() {
+    if (this.state.socket) {
+      this.state.socket.close();
+    }
+
     axios
       .post('http://' + this.serverURL)
       .then(response => {
@@ -106,7 +110,7 @@ class Game extends Component {
 
     // TODO: move events to different functions
     socket.on('welcome', () => {
-      alert('Connected');
+      console.log('Connected');
     });
 
     socket.emit('new-game', {
