@@ -52,16 +52,16 @@ class AdminArea extends Component {
               </Button>
               <Button
                 className={classes.adminButton}
-                variant="outlined"
                 color="secondary"
+                variant="outlined"
                 onClick={() => context.switchLanguage()}
               >
                 {strings.switchLanguage}
               </Button>
               <Button
                 className={classes.adminButton}
-                variant="outlined"
                 color="secondary"
+                variant="outlined"
                 onClick={() => context.openLobby()}
               >
                 {strings.connect}
