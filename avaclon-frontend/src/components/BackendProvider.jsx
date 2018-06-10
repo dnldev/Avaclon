@@ -13,6 +13,9 @@ class BackendProvider extends Component {
     this.state = {
       loading: false,
     };
+
+    this.state.openLobby = this.openLobby.bind(this);
+    this.state.resetGame = this.resetGame.bind(this);
   }
 
   openLobby() {
@@ -34,6 +37,7 @@ class BackendProvider extends Component {
 
   resetGame() {
     // TODO: implement new game
+    console.log('Not implemented');
   }
 
   setupConnection(lobby_id) {
