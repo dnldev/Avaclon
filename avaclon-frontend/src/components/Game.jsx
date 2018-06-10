@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import axios from 'axios';
-import openSocket from 'socket.io-client';
-
 import { withStyles } from '@material-ui/core/styles';
 
 import Grid from '@material-ui/core/Grid';
@@ -11,6 +8,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 
 import strings from '../localization/game-locale';
 
+import BackendContext from '../context/backend-context';
 import GameContext from '../context/game-context';
 
 import AdminArea from './AdminArea';
@@ -46,8 +44,6 @@ const styles = theme => ({
 });
 
 class Game extends Component {
-  serverURL = 'localhost:5000/lobby';
-
   constructor(props) {
     super(props);
 
@@ -66,8 +62,6 @@ class Game extends Component {
     this.state.loading = false;
     this.state.terminalOpen = false;
 
-    this.state.openLobby = this.openLobby.bind(this);
-    this.state.resetGame = this.resetGame.bind(this);
     this.state.switchLanguage = this.switchLanguage.bind(this);
     this.state.toggleRoleConcealment = this.toggleRoleConcealment.bind(this);
 
@@ -76,49 +70,6 @@ class Game extends Component {
 
   getClonedObject(object) {
     return JSON.parse(JSON.stringify(object));
-  }
-
-  // Test method --> will be moved to Lobby section in App
-  openLobby() {
-    if (this.state.socket) {
-      this.state.socket.close();
-    }
-
-    axios
-      .post('http://' + this.serverURL)
-      .then(response => {
-        let lobby_id = response.data;
-        console.log(lobby_id);
-        this.setupConnection(lobby_id);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
-  resetGame() {
-    console.log('Not implemented');
-
-    // TODO: force new game with Socket.IO
-  }
-
-  // TODO: return promise --> .then(setup events)
-  setupConnection(lobby_id) {
-    let socket = openSocket(this.serverURL + '/' + lobby_id);
-
-    socket.open();
-
-    // TODO: move events to different functions
-    socket.on('welcome', () => {
-      console.log('Connected');
-    });
-
-    socket.emit('new-game', {
-      gameData: { playerCount: 10 },
-      username: 'Daniel',
-    });
-
-    this.setState({ socket: socket });
   }
 
   switchLanguage() {
@@ -162,41 +113,47 @@ class Game extends Component {
       { name: 'Jess', id: 7, role: 'unknown' },
     ];
 
-    if (!this.state.loading) {
-      return (
-        <div className={classes.root}>
-          <GameContext.Provider value={this.state}>
-            <Grid container className={classes.mainGrid} justify="center">
-              {/* Uncomment to test different languages (also uncomment imports) */}
-              <Grid item xs={12}>
-                {this.state.isAdmin ? <AdminArea /> : <UserControlArea />}
-              </Grid>
+    return (
+      <BackendContext.Consumer>
+        {context => {
+          if (!context.loading) {
+            return (
+              <div className={classes.root}>
+                <GameContext.Provider value={this.state}>
+                  <Grid container className={classes.mainGrid} justify="center">
+                    {/* Uncomment to test different languages (also uncomment imports) */}
+                    <Grid item xs={12}>
+                      {this.state.isAdmin ? <AdminArea /> : <UserControlArea />}
+                    </Grid>
 
-              <Grid item lg={8} md={9} sm={11} xs={12}>
-                <PlayerView players={players} />
-              </Grid>
+                    <Grid item lg={8} md={9} sm={11} xs={12}>
+                      <PlayerView players={players} />
+                    </Grid>
 
-              <Grid item lg={6} md={8} sm={10} xs={12}>
-                <Board />
-              </Grid>
-              <Grid
-                item
-                className={classes.userTerminalArea}
-                lg={8}
-                md={9}
-                xs={12}
-              >
-                <AutoCollapsing>
-                  <UserTerminal player={goodPlayer} />
-                </AutoCollapsing>
-              </Grid>
-            </Grid>
-          </GameContext.Provider>
-        </div>
-      );
-    } else {
-      return <LinearProgress color="secondary" />;
-    }
+                    <Grid item lg={6} md={8} sm={10} xs={12}>
+                      <Board />
+                    </Grid>
+                    <Grid
+                      item
+                      className={classes.userTerminalArea}
+                      lg={8}
+                      md={9}
+                      xs={12}
+                    >
+                      <AutoCollapsing>
+                        <UserTerminal player={goodPlayer} />
+                      </AutoCollapsing>
+                    </Grid>
+                  </Grid>
+                </GameContext.Provider>
+              </div>
+            );
+          } else {
+            return <LinearProgress color="secondary" />;
+          }
+        }}
+      </BackendContext.Consumer>
+    );
   }
 }
 
