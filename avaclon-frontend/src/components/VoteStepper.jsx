@@ -12,7 +12,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import strings from '../localization/game-locale';
 
-import GameContext from './game-context';
+import GameContext from '../context/game-context';
 
 const styles = theme => ({
   root: {

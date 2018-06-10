@@ -11,7 +11,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 
 import strings from '../localization/game-locale';
 
-import GameContext from './game-context';
+import GameContext from '../context/game-context';
 
 import AdminArea from './AdminArea';
 import AutoCollapsing from './AutoCollapsing';

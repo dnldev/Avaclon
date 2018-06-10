@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 
 import strings from '../localization/game-locale';
 
-import GameContext from './game-context';
+import GameContext from '../context/game-context';
 
 const styles = theme => ({
   root: {
