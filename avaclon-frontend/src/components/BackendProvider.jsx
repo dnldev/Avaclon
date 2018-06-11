@@ -10,17 +10,39 @@ class BackendProvider extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
-      currentQuest: 3,
+      connectedToLobby: false,
       gameEnded: false,
+      gameStarted: false,
       loading: false,
-      playerCount: 8,
-      voteMarker: 3,
-      wonQuests: ['good', 'evil', 'evil'],
+      playerCount: 5,
+      username: '',
     };
 
+    this.state.handleChange = this.handleChange.bind(this);
+    this.state.newGame = this.newGame.bind(this);
     this.state.openLobby = this.openLobby.bind(this);
-    this.state.resetGame = this.resetGame.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
+  listenForEvents() {
+    this.socket.on('start-new-game', gameData => {
+      console.log('New Game started');
+      this.setState({ loading: false, gameStarted: true, ...gameData });
+    });
+  }
+
+  newGame() {
+    this.socket.emit('new-game', {
+      gameData: { playerCount: this.state.playerCount },
+      username: this.state.username,
+    });
+
+    this.setState({ loading: true });
   }
 
   openLobby() {
@@ -40,27 +62,13 @@ class BackendProvider extends Component {
       });
   }
 
-  resetGame() {
-    // TODO: implement new game
-    console.log('Not implemented');
-  }
-
   setupConnection(lobby_id) {
-    let socket = openSocket(this.serverURL + '/' + lobby_id);
+    this.socket = openSocket(this.serverURL + '/' + lobby_id);
 
-    socket.open();
+    this.socket.open();
+    this.listenForEvents();
 
-    // TODO: move events to different functions
-    socket.on('welcome', () => {
-      console.log('Connected');
-    });
-
-    socket.emit('new-game', {
-      gameData: { playerCount: 10 },
-      username: 'Daniel',
-    });
-
-    this.setState({ socket: socket });
+    this.setState({ connectedToLobby: true });
   }
 
   render() {
