@@ -47,9 +47,7 @@ class Game extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      currentLanguage: 'en',
-    };
+    this.state = { currentLanguage: 'en', hideRole: true };
 
     this.state.isAdmin = true;
     this.state.loading = false;

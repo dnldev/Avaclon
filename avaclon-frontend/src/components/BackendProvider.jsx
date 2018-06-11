@@ -13,7 +13,6 @@ class BackendProvider extends Component {
     this.state = {
       currentQuest: 3,
       gameEnded: false,
-      hideRole: true,
       loading: false,
       playerCount: 8,
       voteMarker: 3,
