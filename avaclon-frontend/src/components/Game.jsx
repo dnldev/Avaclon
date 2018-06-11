@@ -48,14 +48,7 @@ class Game extends Component {
     super(props);
 
     this.state = {
-      // TODO: get state init values from socket.io
-      currentQuest: 3,
       currentLanguage: 'en',
-      gameEnded: false,
-      hideRole: true,
-      playerCount: 8,
-      voteMarker: 3,
-      wonQuests: ['good', 'evil', 'evil'],
     };
 
     this.state.isAdmin = true;
@@ -64,8 +57,6 @@ class Game extends Component {
 
     this.state.switchLanguage = this.switchLanguage.bind(this);
     this.state.toggleRoleConcealment = this.toggleRoleConcealment.bind(this);
-
-    this.switchLanguage = this.switchLanguage.bind(this);
   }
 
   getClonedObject(object) {

@@ -11,7 +11,13 @@ class BackendProvider extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentQuest: 3,
+      gameEnded: false,
+      hideRole: true,
       loading: false,
+      playerCount: 8,
+      voteMarker: 3,
+      wonQuests: ['good', 'evil', 'evil'],
     };
 
     this.state.openLobby = this.openLobby.bind(this);
