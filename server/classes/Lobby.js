@@ -42,7 +42,7 @@ class Lobby {
         });
       });
 
-      socket.on('join-game', name => {
+      socket.on('player-ready', name => {
         this.game.newPlayer(name, socket);
       });
 
