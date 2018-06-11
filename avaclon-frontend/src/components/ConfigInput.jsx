@@ -58,12 +58,12 @@ class ConfigInput extends Component {
                     onChange={context.handleChange}
                     value={context.playerCount}
                   >
-                    <MenuItem value={5}>{strings.numbers.five}</MenuItem>
-                    <MenuItem value={6}>{strings.numbers.six}</MenuItem>
-                    <MenuItem value={7}>{strings.numbers.seven}</MenuItem>
-                    <MenuItem value={8}>{strings.numbers.eight}</MenuItem>
-                    <MenuItem value={9}>{strings.numbers.nine}</MenuItem>
-                    <MenuItem value={10}>{strings.numbers.ten}</MenuItem>
+                    <MenuItem value={5}>{'(5) ' + strings.numbers.five}</MenuItem>
+                    <MenuItem value={6}>{'(6) ' + strings.numbers.six}</MenuItem>
+                    <MenuItem value={7}>{'(7) ' + strings.numbers.seven}</MenuItem>
+                    <MenuItem value={8}>{'(8) ' + strings.numbers.eight}</MenuItem>
+                    <MenuItem value={9}>{'(9) ' + strings.numbers.nine}</MenuItem>
+                    <MenuItem value={10}>{'(10) ' + strings.numbers.ten}</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
