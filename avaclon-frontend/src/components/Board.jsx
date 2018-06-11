@@ -12,7 +12,7 @@ import strings from '../localization/game-locale';
 import Quest from './Quest';
 import VoteStepper from './VoteStepper';
 
-import GameContext from './game-context';
+import BackendContext from '../context/backend-context';
 
 const styles = theme => ({
   root: theme.mixins.gutters({
@@ -40,7 +40,7 @@ class Board extends Component {
     const { classes } = this.props;
 
     return (
-      <GameContext.Consumer>
+      <BackendContext.Consumer>
         {context => {
           return (
             <Paper className={classes.root} elevation={5}>
@@ -80,7 +80,7 @@ class Board extends Component {
             </Paper>
           );
         }}
-      </GameContext.Consumer>
+      </BackendContext.Consumer>
     );
   }
 }

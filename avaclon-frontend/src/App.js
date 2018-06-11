@@ -7,6 +7,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
+import BackendProvider from './components/BackendProvider';
 import Game from './components/Game';
 
 const theme = createMuiTheme({
@@ -42,7 +43,9 @@ class App extends Component {
           </Toolbar>
         </AppBar>
         {/* other components */}
-        <Game />
+        <BackendProvider>
+          <Game />
+        </BackendProvider>
       </MuiThemeProvider>
     );
   }

@@ -12,7 +12,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import strings from '../localization/game-locale';
 
-import GameContext from './game-context';
+import BackendContext from '../context/backend-context';
 
 const styles = theme => ({
   root: {
@@ -129,7 +129,7 @@ class VoteStepper extends Component {
     const { classes } = this.props;
 
     return (
-      <GameContext.Consumer>
+      <BackendContext.Consumer>
         {context => {
           return (
             <Stepper className={classes.root} activeStep={context.voteMarker}>
@@ -160,7 +160,7 @@ class VoteStepper extends Component {
             </Stepper>
           );
         }}
-      </GameContext.Consumer>
+      </BackendContext.Consumer>
     );
   }
 }

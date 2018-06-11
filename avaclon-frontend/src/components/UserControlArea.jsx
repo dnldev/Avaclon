@@ -8,7 +8,7 @@ import Paper from '@material-ui/core/Paper';
 
 import strings from '../localization/game-locale';
 
-import GameContext from './game-context';
+import BackendContext from '../context/backend-context';
 
 const styles = theme => ({
   root: {
@@ -26,7 +26,7 @@ class AdminArea extends Component {
     const { classes } = this.props;
 
     return (
-      <GameContext.Consumer>
+      <BackendContext.Consumer>
         {context => {
           return (
             <Paper className={classes.root} elevation={1}>
@@ -41,7 +41,7 @@ class AdminArea extends Component {
             </Paper>
           );
         }}
-      </GameContext.Consumer>
+      </BackendContext.Consumer>
     );
   }
 }
