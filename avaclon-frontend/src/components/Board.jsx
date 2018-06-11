@@ -12,7 +12,7 @@ import strings from '../localization/game-locale';
 import Quest from './Quest';
 import VoteStepper from './VoteStepper';
 
-import BackendContext from '../context/backend-context';
+import { BackendContext } from './context';
 
 const styles = theme => ({
   root: theme.mixins.gutters({

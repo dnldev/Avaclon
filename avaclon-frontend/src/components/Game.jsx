@@ -8,8 +8,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 
 import strings from '../localization/game-locale';
 
-import BackendContext from '../context/backend-context';
-import GameContext from '../context/game-context';
+import { BackendContext, GameContext } from './context';
 
 import AdminArea from './AdminArea';
 import AutoCollapsing from './AutoCollapsing';

@@ -8,7 +8,7 @@ import Paper from '@material-ui/core/Paper';
 
 import strings from '../localization/game-locale';
 
-import BackendContext from '../context/backend-context';
+import { BackendContext } from './context';
 
 const styles = theme => ({
   root: {

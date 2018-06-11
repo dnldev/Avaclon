@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import openSocket from 'socket.io-client';
 
-import BackendContext from '../context/backend-context';
+import { BackendContext } from './context';
 
 class BackendProvider extends Component {
   serverURL = 'localhost:5000/lobby';
