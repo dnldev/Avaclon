@@ -27,7 +27,7 @@ class Lobby {
       socket.on('new-game', data => {
         this.game = new Game(
           data.gameData,
-          new Player(data.username, 'Generic Blue', socket),
+          new Player(data.username, socket, 'Generic Blue'),
           this.namespace
         );
 
