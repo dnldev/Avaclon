@@ -1,10 +1,10 @@
 const { Role } = require('./Role');
 
 class PlayerData {
-  constructor(id, playerName, role) {
+  constructor(id, playerName, roleName) {
     this.id = id;
     this.name = playerName;
-    this.role = new Role(role);
+    this.role = new Role(roleName);
   }
 }
 
