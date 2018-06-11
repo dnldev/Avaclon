@@ -1,11 +1,12 @@
 const game_log = require('debug')('game');
 
 const Player = require('./Player');
+const { Role, standardConfig } = require('avalon-models').Role;
 
 // Test purposes only
 const gameDataMock = {
   playerCount: 8,
-  specialRoles: [],
+  specialRoles: ["Merlin"],
 };
 
 class Game {
@@ -16,7 +17,7 @@ class Game {
     this.admin = admin;
     this.namespace = namespace;
 
-    this.roles = createRoles(gameData);
+    this.roles = this.createRoles(this.gameData);
     this.players = [admin];
 
     game_log(this.gameData);
@@ -40,7 +41,40 @@ class Game {
 
   // Utility Functions
 
-  createRoles(gameConfig) {}
+  createRoles(gameConfig) {
+    const base = standardConfig(gameConfig.playerCount).sort((a, b) =>
+      this.compareAffiliations(a, b)
+    );
+    const special = gameConfig.specialRoles
+      .map(role => new Role(role))
+      .sort((a, b) => this.compareAffiliations(a, b));
+    const roles = this.mergeRoles(base, special);
+    return roles;
+  }
+
+  mergeRoles(base, special) {
+    if (base.length == 0) {
+      return [];
+    } else {
+      const [baseRole, ...baseTail] = base;
+      const [nextSpecial, ...specialTail] = special;
+      if (nextSpecial && baseRole.affiliation === nextSpecial.affiliation) {
+        return [nextSpecial].concat(this.mergeRoles(baseTail, specialTail));
+      } else {
+        return [baseRole].concat(this.mergeRoles(baseTail, special));
+      }
+    }
+  }
+
+  compareAffiliations(role, otherRole) {
+    if (role.affiliation < otherRole.affiliation) {
+      return -1;
+    } else if (role.affiliation > otherRole.affiliation) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
 }
 
 module.exports = Game;
