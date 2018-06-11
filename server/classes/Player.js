@@ -1,6 +1,6 @@
 const game_log = require('debug')('game');
 
-const PlayerData = require('../../shared/avalon-models/PlayerData');
+const PlayerData = require('avalon-models').PlayerData;
 
 class Player {
   constructor(name, roleName, socket) {
