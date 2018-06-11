@@ -9,8 +9,7 @@ import Typography from '@material-ui/core/Typography';
 
 import strings from '../localization/game-locale';
 
-import BackendContext from '../context/backend-context';
-import GameContext from '../context/game-context';
+import { BackendContext, GameContext } from './context';
 
 const styles = theme => ({
   root: {

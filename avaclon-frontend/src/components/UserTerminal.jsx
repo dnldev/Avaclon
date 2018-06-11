@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 
 import strings from '../localization/game-locale';
 
-import GameContext from '../context/game-context';
+import { GameContext } from './context';
 
 import genblue from './../static/images/genblue.JPG';
 import genred from './../static/images/genred.JPG';
