@@ -37,11 +37,15 @@ class Game {
     const base = standardConfig(gameConfig.playerCount).sort((a, b) =>
       this.compareAffiliations(a, b)
     );
-    const special = gameConfig.specialRoles
+    let special = gameConfig.specialRoles;
+    if (special) {
+      let special = special
       .map(role => new Role(role))
       .sort((a, b) => this.compareAffiliations(a, b));
-    const roles = this.mergeRoles(base, special);
-    return roles;
+      return this.mergeRoles(base, special);
+    } else {
+      return base;
+    }
   }
 
   mergeRoles(base, special) {
