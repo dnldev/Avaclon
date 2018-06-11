@@ -15,7 +15,7 @@ class Game {
   }
 
   newPlayer(name, socket) {
-    this.players.push(new Player(name, socket));
+    this.players.push(new Player(name, 'Generic Blue', socket));
 
     if (this.players.length == this.gameData.playerCount) {
       this.admin.emit('last-player-joined');
