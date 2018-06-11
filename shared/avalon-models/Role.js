@@ -26,11 +26,6 @@ const roleLookup = Object.freeze({
     hiddenAction: null,
     image: 'genred',
   },
-  Merlin: {
-    affiliation: Affiliation.GOOD,
-    hiddenAction: null,
-    image: 'merlin',
-  },
 });
 
 class Role {

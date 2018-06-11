@@ -3,17 +3,9 @@ const game_log = require('debug')('game');
 const Player = require('./Player');
 const { Role, standardConfig } = require('avalon-models').Role;
 
-// Test purposes only
-const gameDataMock = {
-  playerCount: 8,
-  specialRoles: ["Merlin"],
-};
-
 class Game {
   constructor(gameData, admin, namespace) {
-    // commented for test purposes
-    // this.gameData = gameData;
-    this.gameData = gameDataMock;
+    this.gameData = gameData;
     this.admin = admin;
     this.namespace = namespace;
 
