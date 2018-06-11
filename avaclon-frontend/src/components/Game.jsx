@@ -11,11 +11,7 @@ import strings from '../localization/game-locale';
 import { BackendContext, GameContext } from './context';
 
 import AdminArea from './AdminArea';
-import AutoCollapsing from './AutoCollapsing';
-import Board from './Board';
-import PlayerView from './PlayerView';
-import UserControlArea from './UserControlArea';
-import UserTerminal from './UserTerminal';
+import GameUI from './GameUI';
 
 const styles = theme => ({
   root: {
@@ -74,32 +70,6 @@ class Game extends Component {
 
   render() {
     const { classes } = this.props;
-    const goodPlayer = {
-      name: 'Daniel',
-      role: {
-        affiliation: 'good',
-        image: 'genblue',
-        name: strings.roles.good,
-      },
-    };
-    // const evilPlayer = {
-    //   name: 'Josh',
-    //   role: {
-    //     affiliation: 'evil',
-    //     image: 'genred',
-    //     name: strings.roles.evil,
-    //   },
-    // };
-
-    const players = [
-      { name: 'Thomas', id: 1, role: 'unknown' },
-      { name: 'Josh', id: 2, role: 'unknown' },
-      { name: 'BRN', id: 3, role: 'unknown' },
-      { name: 'Martin', id: 4, role: 'merlinOrMorgana' },
-      { name: 'Benni', id: 5, role: 'unknown' },
-      { name: 'Kevin', id: 6, role: 'merlinOrMorgana' },
-      { name: 'Jess', id: 7, role: 'unknown' },
-    ];
 
     return (
       <BackendContext.Consumer>
@@ -109,28 +79,12 @@ class Game extends Component {
               <div className={classes.root}>
                 <GameContext.Provider value={this.state}>
                   <Grid container className={classes.mainGrid} justify="center">
-                    {/* Uncomment to test different languages (also uncomment imports) */}
                     <Grid item xs={12}>
-                      {this.state.isAdmin ? <AdminArea /> : <UserControlArea />}
-                    </Grid>
-
-                    <Grid item lg={8} md={9} sm={11} xs={12}>
-                      <PlayerView players={players} />
-                    </Grid>
-
-                    <Grid item lg={6} md={8} sm={10} xs={12}>
-                      <Board />
-                    </Grid>
-                    <Grid
-                      item
-                      className={classes.userTerminalArea}
-                      lg={8}
-                      md={9}
-                      xs={12}
-                    >
-                      <AutoCollapsing>
-                        <UserTerminal player={goodPlayer} />
-                      </AutoCollapsing>
+                      {!context.gameStarted ? (
+                        <AdminArea />
+                      ) : (
+                        <GameUI players={context.players} />
+                      )}
                     </Grid>
                   </Grid>
                 </GameContext.Provider>
