@@ -21,7 +21,7 @@ server.listen(port);
 app.post('/lobby', (req, res) => {
   express_log('New Lobby');
 
-  let id = random_string.generate(7);
+  let id = random_string.generate(4);
   let new_lobby = new Lobby(id, io.of('/lobby/' + id));
 
   lobbies[id] = new_lobby;
