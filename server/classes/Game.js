@@ -33,10 +33,15 @@ class Game {
   // Event Handler
 
   newPlayer(name, socket) {
-    this.players.push(new Player(name, socket));
+    this.players.push(new Player(name, 'Generic Blue', socket));
 
     if (this.players.length == this.gameData.playerCount) {
-      this.admin.emit('last-player-joined');
+      // Will be changed to emit an event signalizing that all players have joined
+      this.namespace.emit('start-new-game', {
+        player: this.game.admin.playerData,
+        ...this.game.gameData,
+        // TODO: function: getObject of other Players with the current player's information
+      });
     }
   }
 
