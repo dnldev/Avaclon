@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import axios from 'axios';
 import openSocket from 'socket.io-client';
@@ -6,18 +7,22 @@ import openSocket from 'socket.io-client';
 import { BackendContext } from './context';
 
 class BackendProvider extends Component {
-  serverURL = 'localhost:5000/lobby';
-
   constructor(props) {
     super(props);
 
+    this.serverUrl = 'localhost:5000/lobby';
+
     this.state = {
       connectedToLobby: false,
+      currentQuest: 0,
       gameEnded: false,
       gameStarted: false,
       loading: false,
       playerCount: 5,
       username: '',
+      players: [],
+      voteTracker: 0,
+      wonQuests: [],
     };
 
     this.state.handleChange = this.handleChange.bind(this);
@@ -51,7 +56,7 @@ class BackendProvider extends Component {
     }
 
     axios
-      .post('http://' + this.serverURL)
+      .post('http://' + this.serverUrl)
       .then(response => {
         let lobby_id = response.data;
         console.log(lobby_id);
@@ -63,7 +68,7 @@ class BackendProvider extends Component {
   }
 
   setupConnection(lobby_id) {
-    this.socket = openSocket(this.serverURL + '/' + lobby_id);
+    this.socket = openSocket(this.serverUrl + '/' + lobby_id);
 
     this.socket.open();
     this.listenForEvents();
@@ -79,5 +84,9 @@ class BackendProvider extends Component {
     );
   }
 }
+
+BackendProvider.propTypes = {
+  children: PropTypes.object.isRequired,
+};
 
 export default BackendProvider;
