@@ -23,14 +23,18 @@ const styles = theme => ({
 });
 
 class Board extends Component {
-  questPlayersForPlayerCount = {
-    5: [2, 3, 2, 3, 3],
-    6: [2, 3, 4, 3, 4],
-    7: [2, 3, 3, 4, 4],
-    8: [3, 4, 4, 5, 5],
-    9: [3, 4, 4, 5, 5],
-    10: [3, 4, 4, 5, 5],
-  };
+  constructor(props) {
+    super(props);
+
+    this.questPlayersForPlayerCount = {
+      5: [2, 3, 2, 3, 3],
+      6: [2, 3, 4, 3, 4],
+      7: [2, 3, 3, 4, 4],
+      8: [3, 4, 4, 5, 5],
+      9: [3, 4, 4, 5, 5],
+      10: [3, 4, 4, 5, 5],
+    };
+  }
 
   twoFailsNeeded(playerCount, questIndex) {
     return playerCount >= 7 && questIndex === 3;

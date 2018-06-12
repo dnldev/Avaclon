@@ -38,19 +38,19 @@ class Player extends Component {
     return this.props.name.substring(0, 2);
   }
 
-  handleTooltipClose = () => {
+  handleTooltipClose() {
     this.setState({ showTooltip: false });
-  };
+  }
 
-  handleTooltipOpen = () => {
+  handleTooltipOpen() {
     this.setState({ showTooltip: true });
-  };
+  }
 
-  toggleTooltip = () => {
+  toggleTooltip() {
     this.setState(prevState => {
       return { showTooltip: !prevState.showTooltip };
     });
-  };
+  }
 
   render() {
     const { classes } = this.props;

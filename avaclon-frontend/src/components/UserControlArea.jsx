@@ -34,7 +34,7 @@ class AdminArea extends Component {
                 className={classes.userButton}
                 color="primary"
                 variant="raised"
-                onClick={() => context.switchLanguage()}
+                onClick={context.switchLanguage}
               >
                 {strings.switchLanguage}
               </Button>

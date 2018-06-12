@@ -49,7 +49,7 @@ class AdminArea extends Component {
                   color="primary"
                   disabled={!context.connectedToLobby}
                   variant="raised"
-                  onClick={() => context.newGame()}
+                  onClick={context.newGame}
                 >
                   {strings.newGame}
                 </Button>
@@ -59,7 +59,7 @@ class AdminArea extends Component {
                   color="secondary"
                   disabled={context.connectedToLobby}
                   variant="raised"
-                  onClick={() => context.openLobby()}
+                  onClick={context.openLobby}
                 >
                   {strings.createLobby}
                 </Button>
@@ -75,7 +75,7 @@ class AdminArea extends Component {
                   className={classes.adminButton}
                   color="secondary"
                   variant="outlined"
-                  onClick={() => context.switchLanguage()}
+                  onClick={context.switchLanguage}
                 >
                   {strings.switchLanguage}
                 </Button>

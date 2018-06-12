@@ -87,6 +87,8 @@ class UserTerminal extends Component {
   }
 
   sendVote(vote) {
+    console.log('Not Implemented:', vote);
+
     // TODO: emit event
     // TODO: visual presentation for successful vote
   }
@@ -129,13 +131,13 @@ class UserTerminal extends Component {
                   <div className={classes.playerControls}>
                     <Button
                       className={classes.voteButton}
-                      onClick={this.sendVote('Approve')}
+                      onClick={() => this.sendVote('Approve')}
                     >
                       {strings.quest.approve}
                     </Button>
                     <Button
                       className={classes.voteButton}
-                      onClick={this.sendVote('Reject')}
+                      onClick={() => this.sendVote('Reject')}
                     >
                       {strings.quest.reject}
                     </Button>
@@ -145,7 +147,7 @@ class UserTerminal extends Component {
               <Grid item xs={4} md={3} lg={2}>
                 <div
                   className={classes.imageContainer}
-                  onClick={() => context.toggleRoleConcealment()}
+                  onClick={context.toggleRoleConcealment}
                 >
                   <img
                     className={classes.roleImage}
