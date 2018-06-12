@@ -3,12 +3,7 @@ const lobby_log = require('debug')('lobby');
 const Game = require('./Game');
 const Player = require('./Player');
 
-const startingConfig = {
-  currentQuest: 0,
-  players: [],
-  voteTracker: 0,
-  wonQuests: [],
-};
+const startingConfig = {};
 
 class Lobby {
   constructor(id, namespace) {
