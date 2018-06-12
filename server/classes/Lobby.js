@@ -25,13 +25,6 @@ class Lobby {
         );
 
         lobby_log('New Game: ', this.game);
-
-        // Temporary TODO: different for each player (specific role/name)
-        this.namespace.emit('start-new-game', {
-          player: this.game.admin.playerData,
-          // players: this.game.players, // TODO: function: getObject of other Players with the current player's information
-          ...this.game.gameData,
-        });
       });
 
       socket.on('player-ready', name => {

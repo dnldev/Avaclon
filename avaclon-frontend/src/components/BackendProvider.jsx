@@ -32,6 +32,7 @@ class BackendProvider extends Component {
   listenForEvents() {
     this.socket.on('start-new-game', gameData => {
       console.log('New Game started');
+      // TODO: player information
       this.setState({ loading: false, gameStarted: true, ...gameData });
     });
   }
