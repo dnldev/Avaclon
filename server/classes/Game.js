@@ -3,17 +3,31 @@ const game_log = require('debug')('game');
 const Player = require('./Player');
 const { Role, standardConfig } = require('avalon-models').Role;
 
+Array.prototype.shuffle = function() {
+  let input = this;
+
+  for (let i = input.length - 1; i >= 0; i--) {
+    const randomIndex = Math.floor(Math.random() * (i + 1));
+    const itemAtIndex = input[randomIndex];
+
+    input[randomIndex] = input[i];
+    input[i] = itemAtIndex;
+  }
+  return input;
+};
+
 class Game {
   constructor(gameData, admin, namespace) {
     this.gameData = gameData;
     this.admin = admin;
     this.namespace = namespace;
 
-    this.roles = this.createRoles(this.gameData);
+    this.roles = this.createRoles(this.gameData).shuffle();
     this.players = [admin];
 
     game_log(this.gameData);
     game_log(this.admin);
+    game_log(this.roles);
   }
 
   // Event Handler
@@ -40,8 +54,8 @@ class Game {
     let special = gameConfig.specialRoles;
     if (special) {
       let special = special
-      .map(role => new Role(role))
-      .sort((a, b) => this.compareAffiliations(a, b));
+        .map(role => new Role(role))
+        .sort((a, b) => this.compareAffiliations(a, b));
       return this.mergeRoles(base, special);
     } else {
       return base;
