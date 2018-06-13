@@ -36,17 +36,17 @@ class Game {
     this.players.push(new Player(name, 'Generic Blue', socket));
 
     if (this.players.length == this.gameData.playerCount) {
-      // Will be changed to emit an event signalizing that all players have joined
-      this.namespace.emit('start-new-game', {
-        player: this.game.admin.playerData,
-        ...this.game.gameData,
-        // TODO: function: getObject of other Players with the current player's information
-      });
+      this.start();
     }
   }
 
   start() {
-    // TODO: ... start the game
+    // Will be changed to emit an event signalizing that all players have joined
+    this.namespace.emit('start-new-game', {
+      player: this.game.admin.playerData,
+      ...this.game.gameData,
+      // TODO: function: getObject of other Players with the current player's information
+    });
     game_log('Game Started');
   }
 
