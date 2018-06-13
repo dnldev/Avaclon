@@ -36,12 +36,17 @@ class Game {
     this.players.push(new Player(name, 'Generic Blue', socket));
 
     if (this.players.length == this.gameData.playerCount) {
+      for (let index = 0; index < this.players.length; index++) {
+        let player = this.players[index];
+        const role = this.roles[index];
+        player.playerData.role = role;
+      }
+      // Will be changed to emit an event signalizing that all players have joined
       this.start();
     }
   }
 
   start() {
-    // Will be changed to emit an event signalizing that all players have joined
     this.namespace.emit('start-new-game', {
       player: this.game.admin.playerData,
       ...this.game.gameData,
