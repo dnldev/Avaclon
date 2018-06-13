@@ -48,11 +48,12 @@ class Game {
 
   start() {
     this.players.forEach(player => {
-      player.socket.emit('start-new-game', {
+      const info = {
         information: player.playerData.role.hiddenAction(this.players),
         player: player.playerData,
         ...this.game.gameData,
-      });
+      } 
+      player.socket.emit('start-new-game', info);
     });
     game_log('Game Started');
   }
