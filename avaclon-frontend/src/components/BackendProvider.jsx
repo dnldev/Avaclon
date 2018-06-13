@@ -31,7 +31,7 @@ class BackendProvider extends Component {
   }
 
   componentDidMount() {
-    let lobby_id = 'josh';
+    const lobby_id = 'josh';
 
     axios
       .get('http://' + this.serverUrl + lobby_id)
@@ -88,9 +88,7 @@ class BackendProvider extends Component {
 
     this.socket = openSocket(this.serverUrl + '/' + lobby_id);
 
-    this.socket.open(() => {
-      console.log('Open');
-    });
+    this.socket.open();
     this.listenForEvents();
 
     this.setState({ connectedToLobby: true });

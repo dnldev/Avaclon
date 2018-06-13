@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const express_log = require('debug')('express');
-const random_string = require('randomstring');
+// const random_string = require('randomstring');
 
 const Lobby = require('./classes/Lobby');
 
@@ -21,9 +21,9 @@ server.listen(port);
 app.post('/lobby', (req, res) => {
   express_log('New Lobby');
 
-  // let id = random_string.generate(4);
-  let id = 'josh';
-  let new_lobby = new Lobby(id, io.of('/lobby/' + id));
+  // const id = random_string.generate(4);
+  const id = 'josh';
+  const new_lobby = new Lobby(id, io.of('/lobby/' + id));
 
   lobbies[id] = new_lobby;
 
