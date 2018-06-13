@@ -10,7 +10,7 @@ class BackendProvider extends Component {
   constructor(props) {
     super(props);
 
-    this.serverUrl = 'localhost:5000/lobby';
+    this.serverUrl = 'localhost:5000/lobby/';
 
     this.state = {
       connectedToLobby: false,
@@ -28,6 +28,21 @@ class BackendProvider extends Component {
     this.state.handleChange = this.handleChange.bind(this);
     this.state.newGame = this.newGame.bind(this);
     this.state.openLobby = this.openLobby.bind(this);
+  }
+
+  componentDidMount() {
+    let lobby_id = 'josh';
+
+    axios
+      .get('http://' + this.serverUrl + lobby_id)
+      .then(response => {
+        console.log(response);
+        this.setupConnection(response.data);
+        this.setState({ loading: true });
+      })
+      .catch(err => {
+        console.log('Lobby not found\n' + err);
+      });
   }
 
   handleChange(event) {
@@ -69,9 +84,13 @@ class BackendProvider extends Component {
   }
 
   setupConnection(lobby_id) {
+    console.log('Setup Connection');
+
     this.socket = openSocket(this.serverUrl + '/' + lobby_id);
 
-    this.socket.open();
+    this.socket.open(() => {
+      console.log('Open');
+    });
     this.listenForEvents();
 
     this.setState({ connectedToLobby: true });
