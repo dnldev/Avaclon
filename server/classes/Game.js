@@ -33,7 +33,7 @@ class Game {
   // Event Handler
 
   newPlayer(name, socket) {
-    this.players.push(new Player(name, 'Generic Blue', socket));
+    this.players.push(new Player(name, socket));
 
     if (this.players.length == this.gameData.playerCount) {
       for (let index = 0; index < this.players.length; index++) {
@@ -47,13 +47,16 @@ class Game {
   }
 
   start() {
-    this.players.forEach(player => {
+    this.players.forEach(currentPlayer => {
       const info = {
-        information: player.playerData.role.hiddenAction(this.players),
-        player: player.playerData,
-        ...this.game.gameData,
-      } 
-      player.socket.emit('start-new-game', info);
+        information: currentPlayer.playerData.role.hiddenAction(
+          this.players.filter(p => p !== currentPlayer)
+        ),
+        player: currentPlayer.playerData,
+        ...this.gameData,
+      };
+      game_log(currentPlayer.playerData.name, ':', info.information);
+      currentPlayer.socket.emit('start-new-game', info);
     });
     game_log('Game Started');
   }

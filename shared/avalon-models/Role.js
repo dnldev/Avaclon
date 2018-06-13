@@ -24,10 +24,11 @@ const roleLookup = Object.freeze({
   'Generic Red': {
     affiliation: Affiliation.EVIL,
     hiddenAction: players =>
-      players.reduce((evil, players) => {
+      players.reduce((evil, player) => {
         if (player.playerData.role.affiliation === Affiliation.EVIL) {
-          return evil.concat(player.playerData.createInfo('evil'));
+          evil.push(player.playerData.createInfo('evil'));
         }
+        return evil;
       }, []),
     image: 'genred',
   },
