@@ -18,12 +18,12 @@ function standardConfigFor(playerCount) {
 const roleLookup = Object.freeze({
   'Generic Blue': {
     affiliation: Affiliation.GOOD,
-    hiddenAction: null,
+    hiddenAction: (_players) => [],
     image: 'genblue',
   },
   'Generic Red': {
     affiliation: Affiliation.EVIL,
-    hiddenAction: null,
+    hiddenAction: (players) => [],
     image: 'genred',
   },
 });

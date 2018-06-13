@@ -47,10 +47,12 @@ class Game {
   }
 
   start() {
-    this.namespace.emit('start-new-game', {
-      player: this.game.admin.playerData,
-      ...this.game.gameData,
-      // TODO: function: getObject of other Players with the current player's information
+    this.players.forEach(player => {
+      player.socket.emit('start-new-game', {
+        information: player.playerData.role.hiddenAction(this.players),
+        player: player.playerData,
+        ...this.game.gameData,
+      });
     });
     game_log('Game Started');
   }
