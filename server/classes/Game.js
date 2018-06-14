@@ -34,6 +34,7 @@ class Game {
 
   newPlayer(name, socket) {
     this.players.push(new Player(name, socket));
+    game_log('Player Count:', this.players.length);
 
     if (this.players.length == this.gameData.playerCount) {
       for (let index = 0; index < this.players.length; index++) {
@@ -49,13 +50,18 @@ class Game {
   start() {
     this.players.forEach(currentPlayer => {
       const info = {
-        information: currentPlayer.playerData.role.knowledge(
+        players: currentPlayer.playerData.role.knowledge(
           this.players.filter(p => p !== currentPlayer)
         ),
         player: currentPlayer.playerData,
         ...this.gameData,
       };
-      game_log(currentPlayer.playerData.name, ':', info.information);
+      game_log(
+        currentPlayer.playerData.name + " Information:",
+        info.players.map(
+          player => player.name + ' (' + player.roleInformation + ')'
+        )
+      );
       currentPlayer.socket.emit('start-new-game', info);
     });
     game_log('Game Started');

@@ -18,18 +18,19 @@ function standardConfigFor(playerCount) {
 const roleLookup = Object.freeze({
   'Generic Blue': {
     affiliation: Affiliation.GOOD,
-    knowledge: _players => [],
+    knowledge: players => players.map(player => player.playerData.createInfo('unknown')),
     image: 'genblue',
   },
   'Generic Red': {
     affiliation: Affiliation.EVIL,
     knowledge: players =>
-      players.reduce((evil, player) => {
+      players.map(player => { 
+        let role = 'good';
         if (player.playerData.role.affiliation === Affiliation.EVIL) {
-          evil.push(player.playerData.createInfo('evil'));
+          role = 'evil';
         }
-        return evil;
-      }, []),
+        return player.playerData.createInfo(role);
+      }),
     image: 'genred',
   },
 });
