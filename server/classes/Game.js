@@ -33,20 +33,31 @@ class Game {
   // Event Handler
 
   newPlayer(name, socket) {
-    this.players.push(new Player(name, 'Generic Blue', socket));
+    this.players.push(new Player(name, socket));
 
     if (this.players.length == this.gameData.playerCount) {
+      for (let index = 0; index < this.players.length; index++) {
+        let player = this.players[index];
+        const role = this.roles[index];
+        player.playerData.role = role;
+      }
       // Will be changed to emit an event signalizing that all players have joined
-      this.namespace.emit('start-new-game', {
-        player: this.game.admin.playerData,
-        ...this.game.gameData,
-        // TODO: function: getObject of other Players with the current player's information
-      });
+      this.start();
     }
   }
 
   start() {
-    // TODO: ... start the game
+    this.players.forEach(currentPlayer => {
+      const info = {
+        information: currentPlayer.playerData.role.knowledge(
+          this.players.filter(p => p !== currentPlayer)
+        ),
+        player: currentPlayer.playerData,
+        ...this.gameData,
+      };
+      game_log(currentPlayer.playerData.name, ':', info.information);
+      currentPlayer.socket.emit('start-new-game', info);
+    });
     game_log('Game Started');
   }
 

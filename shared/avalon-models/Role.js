@@ -18,12 +18,18 @@ function standardConfigFor(playerCount) {
 const roleLookup = Object.freeze({
   'Generic Blue': {
     affiliation: Affiliation.GOOD,
-    hiddenAction: null,
+    knowledge: _players => [],
     image: 'genblue',
   },
   'Generic Red': {
     affiliation: Affiliation.EVIL,
-    hiddenAction: null,
+    knowledge: players =>
+      players.reduce((evil, player) => {
+        if (player.playerData.role.affiliation === Affiliation.EVIL) {
+          evil.push(player.playerData.createInfo('evil'));
+        }
+        return evil;
+      }, []),
     image: 'genred',
   },
 });
@@ -33,7 +39,7 @@ class Role {
     this.name = roleName;
     this.roleInformation = roleLookup[roleName];
     this.affiliation = this.roleInformation.affiliation;
-    this.hiddenAction = this.roleInformation.hiddenAction;
+    this.knowledge = this.roleInformation.knowledge;
     this.image = this.roleInformation.image;
     this.questOptions = [this.affiliation];
     if (this.affiliation === Affiliation.EVIL) {
