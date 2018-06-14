@@ -82,7 +82,7 @@ class Player extends Component {
 
 Player.propTypes = {
   classes: PropTypes.object.isRequired,
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   inTeam: PropTypes.bool.isRequired,
   isLeader: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
