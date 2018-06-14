@@ -37,8 +37,10 @@ class BackendProvider extends Component {
       .get('http://' + this.serverUrl + lobby_id)
       .then(response => {
         console.log(response);
-        this.setupConnection(response.data);
         this.setState({ loading: true });
+        this.setupConnection(response.data);
+        this.socket.emit('player-ready', 'Me');
+        console.log('connected');
       })
       .catch(err => {
         console.log('Lobby not found\n' + err);
