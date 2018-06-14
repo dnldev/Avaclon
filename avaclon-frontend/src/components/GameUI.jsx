@@ -47,7 +47,11 @@ class GameUI extends Component {
           return (
             <Grid container className={classes.mainGrid} justify="center">
               <Grid item lg={8} md={9} sm={11} xs={12}>
-                <PlayerView players={context.players} />
+                <PlayerView
+                  leaderId={context.leaderId}
+                  players={context.players}
+                  teamIds={context.teamIds}
+                />
               </Grid>
 
               <Grid item lg={6} md={8} sm={10} xs={12}>
