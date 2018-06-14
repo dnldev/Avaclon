@@ -69,7 +69,7 @@ class PlayerView extends Component {
               >
                 <Player
                   id={player.id}
-                  inTeam={() => this.playerInTeam(player.id)}
+                  inTeam={this.playerInTeam(player.id)}
                   isLeader={player.id === this.props.leaderId}
                   name={player.name}
                   role={player.role}
