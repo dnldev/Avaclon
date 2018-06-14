@@ -67,10 +67,6 @@ class BackendProvider extends Component {
   }
 
   openLobby() {
-    if (this.state.socket) {
-      this.state.socket.close();
-    }
-
     axios
       .post('http://' + this.serverUrl)
       .then(response => {
@@ -86,9 +82,8 @@ class BackendProvider extends Component {
   setupConnection(lobby_id) {
     console.log('Setup Connection');
 
-    this.socket = openSocket(this.serverUrl + '/' + lobby_id);
+    this.socket = openSocket(this.serverUrl + lobby_id);
 
-    this.socket.open();
     this.listenForEvents();
 
     this.setState({ connectedToLobby: true });
