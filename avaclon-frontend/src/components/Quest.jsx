@@ -28,7 +28,6 @@ const styles = theme => ({
   questText: {
     fontSize: '2em',
     textAnchor: 'middle',
-    userSelect: 'none',
   },
 });
 
@@ -78,10 +77,6 @@ class Quest extends Component {
 
 Quest.propTypes = {
   classes: PropTypes.object.isRequired,
-  currentQuest: PropTypes.number.isRequired,
-  playersOnQuest: PropTypes.number.isRequired,
-  questIndex: PropTypes.number.isRequired,
-  wonBy: PropTypes.bool.isRequired,
 };
 
 export default withStyles(styles)(Quest);
