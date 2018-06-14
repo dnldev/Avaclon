@@ -70,12 +70,6 @@ class UserTerminal extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      hideRole: true,
-      inTeam: true,
-      isLeader: true,
-    };
-
     this.getPlayerNameClass = this.getPlayerNameClass.bind(this);
     this.sendVote = this.sendVote.bind(this);
   }
@@ -106,8 +100,8 @@ class UserTerminal extends Component {
                 <Paper className={classes.namePaper} elevation={2}>
                   <Grid container>
                     <Grid item xs={2} className={classes.iconArea}>
-                      {this.state.isLeader && <Icon>star_border</Icon>}
-                      {this.state.inTeam && <Icon>group</Icon>}
+                      {this.props.isLeader && <Icon>star_border</Icon>}
+                      {this.props.inTeam && <Icon>group</Icon>}
                     </Grid>
                     <Grid item xs={8}>
                       <Typography
@@ -170,6 +164,8 @@ class UserTerminal extends Component {
 
 UserTerminal.propTypes = {
   classes: PropTypes.object.isRequired,
+  isLeader: PropTypes.bool.isRequired,
+  inTeam: PropTypes.bool.isRequired,
   player: PropTypes.object.isRequired,
 };
 

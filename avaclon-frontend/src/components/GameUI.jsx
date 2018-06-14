@@ -38,6 +38,10 @@ const styles = theme => ({
 });
 
 class GameUI extends Component {
+  userInTeam(id, teamIds) {
+    return teamIds.indexOf(id) >= 0;
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -66,7 +70,11 @@ class GameUI extends Component {
                 xs={12}
               >
                 <AutoCollapsing>
-                  <UserTerminal player={context.player} />
+                  <UserTerminal
+                    inTeam={this.userInTeam(context.player.id, context.teamIds)}
+                    isLeader={context.player.id === context.leaderId}
+                    player={context.player}
+                  />
                 </AutoCollapsing>
               </Grid>
             </Grid>
