@@ -47,6 +47,10 @@ class BackendProvider extends Component {
       });
   }
 
+  componentWillUnmount() {
+    this.socket.close();
+  }
+
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
