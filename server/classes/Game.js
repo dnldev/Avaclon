@@ -3,6 +3,10 @@ const game_log = require('debug')('game');
 const Player = require('./Player');
 const { Role, standardConfig } = require('avalon-models').Role;
 
+Array.prototype.randomItem = function() {
+  return this[Math.floor(Math.random() * this.length)];
+};
+
 Array.prototype.shuffle = function() {
   let input = this;
 
@@ -33,13 +37,13 @@ class Game {
   // Event Handler
 
   newPlayer(name, socket) {
-    this.players.push(new Player(name, socket));
-    game_log('Player Count:', this.players.length);
+    const newPlayer = new Player(name, socket);
+    this.players.push(newPlayer);
 
     if (this.players.length == this.gameData.playerCount) {
-      for (let index = 0; index < this.players.length; index++) {
-        let player = this.players[index];
-        const role = this.roles[index];
+      for (let i = 0; i < this.players.length; i++) {
+        let player = this.players[i];
+        const role = this.roles[i];
         player.playerData.role = role;
       }
       // Will be changed to emit an event signalizing that all players have joined
@@ -48,20 +52,19 @@ class Game {
   }
 
   start() {
+    const randomLeaderId = this.players.randomItem().playerData.id;
+
     this.players.forEach(currentPlayer => {
       const info = {
         players: currentPlayer.playerData.role.knowledge(
           this.players.filter(p => p !== currentPlayer)
         ),
+        leaderId: randomLeaderId,
         player: currentPlayer.playerData,
+        teamIds: [],
         ...this.gameData,
       };
-      game_log(
-        currentPlayer.playerData.name + ' Information:',
-        info.players.map(
-          player => player.name + ' (' + player.roleInformation + ')'
-        )
-      );
+
       currentPlayer.socket.emit('start-new-game', info);
     });
     game_log('Game Started');
