@@ -25,9 +25,9 @@ class Game {
     this.roles = this.createRoles(this.gameData).shuffle();
     this.players = [admin];
 
-    game_log(this.gameData);
-    game_log(this.admin);
-    game_log(this.roles);
+    game_log('Game Data:', this.gameData);
+    game_log('Admin Name:', this.admin.playerData.name);
+    game_log('Roles:', this.roles.map(role => role.name));
   }
 
   // Event Handler

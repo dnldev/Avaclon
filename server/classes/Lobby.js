@@ -18,13 +18,12 @@ class Lobby {
       lobby_log('Socket connected');
 
       socket.on('new-game', data => {
+        lobby_log('New Game');
         this.game = new Game(
           data.gameData,
           new Player(data.username, socket, 'Generic Blue'),
           this.namespace
         );
-
-        lobby_log('New Game: ', this.game);
       });
 
       socket.on('player-ready', name => {
