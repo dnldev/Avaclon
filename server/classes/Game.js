@@ -57,7 +57,7 @@ class Game {
         ...this.gameData,
       };
       game_log(
-        currentPlayer.playerData.name + " Information:",
+        currentPlayer.playerData.name + ' Information:',
         info.players.map(
           player => player.name + ' (' + player.roleInformation + ')'
         )
