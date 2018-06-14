@@ -61,8 +61,8 @@ class Player extends Component {
         <Grid container justify="center">
           <Grid item>
             <div className={classes.tokenArea}>
-              {this.props.inTeam && <Icon>star_border</Icon>}
-              {this.props.isLeader && <Icon>group</Icon>}
+              {this.props.inTeam && <Icon>group</Icon>}
+              {this.props.isLeader && <Icon>star_border</Icon>}
             </div>
             <Tooltip
               onClose={this.handleTooltipClose}
