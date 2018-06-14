@@ -32,6 +32,9 @@ class Player extends Component {
     };
 
     this.getInitials = this.getInitials.bind(this);
+    this.handleTooltipClose = this.handleTooltipClose.bind(this);
+    this.handleTooltipOpen = this.handleTooltipOpen.bind(this);
+    this.toggleTooltip = this.toggleTooltip.bind(this);
   }
 
   getInitials() {
