@@ -49,7 +49,7 @@ class Game {
   start() {
     this.players.forEach(currentPlayer => {
       const info = {
-        information: currentPlayer.playerData.role.hiddenAction(
+        information: currentPlayer.playerData.role.knowledge(
           this.players.filter(p => p !== currentPlayer)
         ),
         player: currentPlayer.playerData,
