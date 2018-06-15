@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import axios from 'axios';
 import openSocket from 'socket.io-client';
@@ -6,30 +7,73 @@ import openSocket from 'socket.io-client';
 import { BackendContext } from './context';
 
 class BackendProvider extends Component {
-  serverURL = 'localhost:5000/lobby';
-
   constructor(props) {
     super(props);
+
+    this.serverUrl = 'localhost:5000/lobby/';
+
     this.state = {
-      currentQuest: 3,
+      connectedToLobby: false,
+      currentQuest: 0,
       gameEnded: false,
+      gameStarted: false,
       loading: false,
-      playerCount: 8,
-      voteMarker: 3,
-      wonQuests: ['good', 'evil', 'evil'],
+      playerCount: 5,
+      username: '',
+      players: [],
+      voteTracker: 0,
+      wonQuests: [],
     };
 
+    this.state.handleChange = this.handleChange.bind(this);
+    this.state.newGame = this.newGame.bind(this);
     this.state.openLobby = this.openLobby.bind(this);
-    this.state.resetGame = this.resetGame.bind(this);
+  }
+
+  componentDidMount() {
+    const lobby_id = 'josh';
+
+    axios
+      .get('http://' + this.serverUrl + lobby_id)
+      .then(response => {
+        console.log(response);
+        this.setState({ loading: true });
+        this.setupConnection(response.data);
+        this.socket.emit('player-ready', 'Me');
+        console.log('connected');
+      })
+      .catch(err => {
+        console.log('Lobby not found\n' + err);
+      });
+  }
+
+  componentWillUnmount() {
+    this.socket.close();
+  }
+
+  handleChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
+  listenForEvents() {
+    this.socket.on('start-new-game', gameData => {
+      console.log('New Game started');
+      this.setState({ loading: false, gameStarted: true, ...gameData });
+    });
+  }
+
+  newGame() {
+    this.socket.emit('new-game', {
+      gameData: { playerCount: this.state.playerCount },
+      username: this.state.username,
+    });
+
+    this.setState({ loading: true });
   }
 
   openLobby() {
-    if (this.state.socket) {
-      this.state.socket.close();
-    }
-
     axios
-      .post('http://' + this.serverURL)
+      .post('http://' + this.serverUrl)
       .then(response => {
         let lobby_id = response.data;
         console.log(lobby_id);
@@ -40,27 +84,14 @@ class BackendProvider extends Component {
       });
   }
 
-  resetGame() {
-    // TODO: implement new game
-    console.log('Not implemented');
-  }
-
   setupConnection(lobby_id) {
-    let socket = openSocket(this.serverURL + '/' + lobby_id);
+    console.log('Setup Connection');
 
-    socket.open();
+    this.socket = openSocket(this.serverUrl + lobby_id);
 
-    // TODO: move events to different functions
-    socket.on('welcome', () => {
-      console.log('Connected');
-    });
+    this.listenForEvents();
 
-    socket.emit('new-game', {
-      gameData: { playerCount: 10 },
-      username: 'Daniel',
-    });
-
-    this.setState({ socket: socket });
+    this.setState({ connectedToLobby: true });
   }
 
   render() {
@@ -71,5 +102,9 @@ class BackendProvider extends Component {
     );
   }
 }
+
+BackendProvider.propTypes = {
+  children: PropTypes.object.isRequired,
+};
 
 export default BackendProvider;

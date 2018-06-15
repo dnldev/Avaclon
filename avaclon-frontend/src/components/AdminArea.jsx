@@ -11,6 +11,8 @@ import strings from '../localization/game-locale';
 
 import { BackendContext, GameContext } from './context';
 
+import ConfigInput from './ConfigInput';
+
 const styles = theme => ({
   root: {
     backgroundColor: theme.palette.secondary.light,
@@ -44,9 +46,10 @@ class AdminArea extends Component {
               <React.Fragment>
                 <Button
                   className={classes.adminButton}
-                  color="secondary"
+                  color="primary"
+                  disabled={!context.connectedToLobby}
                   variant="raised"
-                  onClick={() => context.resetGame()}
+                  onClick={context.newGame}
                 >
                   {strings.newGame}
                 </Button>
@@ -54,10 +57,11 @@ class AdminArea extends Component {
                 <Button
                   className={classes.adminButton}
                   color="secondary"
-                  variant="outlined"
-                  onClick={() => context.openLobby()}
+                  disabled={context.connectedToLobby}
+                  variant="raised"
+                  onClick={context.openLobby}
                 >
-                  {strings.connect}
+                  {strings.createLobby}
                 </Button>
               </React.Fragment>
             );
@@ -71,10 +75,12 @@ class AdminArea extends Component {
                   className={classes.adminButton}
                   color="secondary"
                   variant="outlined"
-                  onClick={() => context.switchLanguage()}
+                  onClick={context.switchLanguage}
                 >
                   {strings.switchLanguage}
                 </Button>
+
+                <ConfigInput />
               </React.Fragment>
             );
           }}

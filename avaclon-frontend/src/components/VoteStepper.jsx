@@ -37,9 +37,16 @@ class VoteStepper extends Component {
       hammerOpen: false,
       missionLossOpen: false,
     };
+
+    this.handleHammerClose = this.handleHammerClose.bind(this);
+    this.handleHammerOpen = this.handleHammerOpen.bind(this);
+    this.handleMissionLossClose = this.handleMissionLossClose.bind(this);
+    this.handleMissionLossOpen = this.handleMissionLossOpen.bind(this);
+    this.toggleHammerOpen = this.toggleHammerOpen.bind(this);
+    this.toggleMissionLossOpen = this.toggleMissionLossOpen.bind(this);
   }
 
-  getMissionLossIcon(voteMarker, classes) {
+  getMissionLossIcon(voteTracker, classes) {
     const missionLossIcon = (
       <Tooltip
         enterDelay={300}
@@ -57,7 +64,7 @@ class VoteStepper extends Component {
         >
           <Icon
             className={classes.icon}
-            color={voteMarker !== 4 ? 'secondary' : 'error'}
+            color={voteTracker !== 4 ? 'secondary' : 'error'}
           >
             error_outline
           </Icon>
@@ -68,7 +75,7 @@ class VoteStepper extends Component {
     return missionLossIcon;
   }
 
-  getHammerIcon(voteMarker, classes) {
+  getHammerIcon(voteTracker, classes) {
     const hammerIcon = (
       <Tooltip
         enterDelay={300}
@@ -86,7 +93,7 @@ class VoteStepper extends Component {
         >
           <Icon
             className={classes.icon}
-            color={voteMarker < 3 ? 'secondary' : 'primary'}
+            color={voteTracker < 3 ? 'secondary' : 'primary'}
           >
             gavel
           </Icon>
@@ -97,33 +104,31 @@ class VoteStepper extends Component {
     return hammerIcon;
   }
 
-  handleHammerClose = () => {
+  handleHammerClose() {
     this.setState({ hammerOpen: false });
-  };
+  }
 
-  handleHammerOpen = () => {
+  handleHammerOpen() {
     this.setState({ hammerOpen: true });
-  };
+  }
 
-  handleMissionLossClose = () => {
+  handleMissionLossClose() {
     this.setState({ missionLossOpen: false });
-  };
+  }
 
-  handleMissionLossOpen = () => {
+  handleMissionLossOpen() {
     this.setState({ missionLossOpen: true });
-  };
+  }
 
-  toggleHammerOpen = () => {
-    this.setState(prevState => {
-      return { hammerOpen: !prevState.hammerOpen };
-    });
-  };
+  toggleHammerOpen() {
+    this.setState(prevState => ({ hammerOpen: !prevState.hammerOpen }));
+  }
 
-  toggleMissionLossOpen = () => {
-    this.setState(prevState => {
-      return { missionLossOpen: !prevState.missionLossOpen };
-    });
-  };
+  toggleMissionLossOpen() {
+    this.setState(prevState => ({
+      missionLossOpen: !prevState.missionLossOpen,
+    }));
+  }
 
   render() {
     const { classes } = this.props;
@@ -132,8 +137,8 @@ class VoteStepper extends Component {
       <BackendContext.Consumer>
         {context => {
           return (
-            <Stepper className={classes.root} activeStep={context.voteMarker}>
-              {this.props.voteMarkerLabels.map((label, index) => {
+            <Stepper className={classes.root} activeStep={context.voteTracker}>
+              {this.props.voteTrackerLabels.map((label, index) => {
                 const props = {};
 
                 if (index === 3 || index === 4) {
@@ -141,10 +146,10 @@ class VoteStepper extends Component {
                 }
 
                 if (index === 3) {
-                  props.icon = this.getHammerIcon(context.voteMarker, classes);
+                  props.icon = this.getHammerIcon(context.voteTracker, classes);
                 } else if (index === 4) {
                   props.icon = this.getMissionLossIcon(
-                    context.voteMarker,
+                    context.voteTracker,
                     classes
                   );
                 }
@@ -167,10 +172,11 @@ class VoteStepper extends Component {
 
 VoteStepper.propTypes = {
   classes: PropTypes.object.isRequired,
+  voteTrackerLabels: PropTypes.array,
 };
 
 VoteStepper.defaultProps = {
-  voteMarkerLabels: ['', '', '', '', ''],
+  voteTrackerLabels: ['', '', '', '', ''],
 };
 
 export default withStyles(styles)(VoteStepper);

@@ -27,30 +27,31 @@ class Player extends Component {
 
     this.state = {
       showTooltip: false,
-      isLeader: false,
-      inTeam: false,
     };
 
     this.getInitials = this.getInitials.bind(this);
+    this.handleTooltipClose = this.handleTooltipClose.bind(this);
+    this.handleTooltipOpen = this.handleTooltipOpen.bind(this);
+    this.toggleTooltip = this.toggleTooltip.bind(this);
   }
 
   getInitials() {
     return this.props.name.substring(0, 2);
   }
 
-  handleTooltipClose = () => {
+  handleTooltipClose() {
     this.setState({ showTooltip: false });
-  };
+  }
 
-  handleTooltipOpen = () => {
+  handleTooltipOpen() {
     this.setState({ showTooltip: true });
-  };
+  }
 
-  toggleTooltip = () => {
+  toggleTooltip() {
     this.setState(prevState => {
       return { showTooltip: !prevState.showTooltip };
     });
-  };
+  }
 
   render() {
     const { classes } = this.props;
@@ -60,8 +61,8 @@ class Player extends Component {
         <Grid container justify="center">
           <Grid item>
             <div className={classes.tokenArea}>
-              {this.state.inTeam && <Icon>star_border</Icon>}
-              {this.state.isLeader && <Icon>group</Icon>}
+              {this.props.inTeam && <Icon>group</Icon>}
+              {this.props.isLeader && <Icon>star_border</Icon>}
             </div>
             <Tooltip
               onClose={this.handleTooltipClose}
@@ -84,7 +85,9 @@ class Player extends Component {
 
 Player.propTypes = {
   classes: PropTypes.object.isRequired,
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
+  inTeam: PropTypes.bool.isRequired,
+  isLeader: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
   role: PropTypes.string.isRequired,
 };

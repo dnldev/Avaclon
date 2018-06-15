@@ -24,6 +24,8 @@ class AutoCollapsing extends PureComponent {
     this.state = {
       isOpen: false,
     };
+
+    this.setOpen = this.setOpen.bind(this);
   }
 
   /**
@@ -78,8 +80,12 @@ class AutoCollapsing extends PureComponent {
 }
 
 AutoCollapsing.propTypes = {
-  classes: PropTypes.object.isRequired,
+  anchor: PropTypes.string,
   breakFrom: PropTypes.string.isRequired,
+  children: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
+  ButtonProps: PropTypes.object,
+  SlideProps: PropTypes.object,
 };
 
 AutoCollapsing.defaultProps = {

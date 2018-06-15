@@ -10,7 +10,7 @@ import Icon from '@material-ui/core/Icon';
 
 import Player from './Player';
 
-const styles = theme => ({
+const styles = () => ({
   root: {},
   toggleButton: {
     width: '100%',
@@ -18,22 +18,33 @@ const styles = theme => ({
 });
 
 class PlayerView extends Component {
-  state = {
-    expanded: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      expanded: false,
+    };
+
+    this.expand = this.expand.bind(this);
+    this.toggleExpansion = this.toggleExpansion.bind(this);
+  }
 
   calculateSize(base, itemCount, baseSize, alternateSize) {
     const overBase = itemCount % base;
     return overBase > base / 2 ? baseSize : alternateSize;
   }
 
-  expand = () => {
+  expand() {
     this.setState({ expanded: true });
-  };
+  }
 
-  toggleExpansion = () => {
+  playerInTeam(id) {
+    return this.props.teamIds.indexOf(id) >= 0;
+  }
+
+  toggleExpansion() {
     this.setState({ expanded: !this.state.expanded });
-  };
+  }
 
   render() {
     const { classes } = this.props;
@@ -56,7 +67,13 @@ class PlayerView extends Component {
                 md={this.calculateSize(4, playerCount, 3, 4)}
                 key={player.id}
               >
-                <Player id={player.id} name={player.name} role={player.role} />
+                <Player
+                  id={player.id}
+                  inTeam={this.playerInTeam(player.id)}
+                  isLeader={player.id === this.props.leaderId}
+                  name={player.name}
+                  role={player.role}
+                />
               </Grid>
             ))}
           </Grid>
@@ -71,7 +88,9 @@ class PlayerView extends Component {
 
 PlayerView.propTypes = {
   classes: PropTypes.object.isRequired,
+  leaderId: PropTypes.string.isRequired,
   players: PropTypes.array.isRequired,
+  teamIds: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles)(PlayerView);
