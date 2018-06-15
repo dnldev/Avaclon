@@ -69,15 +69,13 @@ class Game {
   // Utility Functions
 
   createRoles(gameConfig) {
-    const baseConfig = standardConfig(gameConfig.playerCount).sort((a, b) =>
-      this.compareAffiliations(a, b)
-    );
-    let special = gameConfig.specialRoles;
-    if (special) {
-      let special = special
+    const baseConfig = standardConfig(gameConfig.playerCount);
+    let specialConfig = gameConfig.specialRoles;
+    if (specialConfig) {
+      specialConfig = specialConfig
         .map(role => new Role(role))
-        .sort((a, b) => this.compareAffiliations(a, b));
-      return this.mergeRoles(baseConfig, special);
+        .sort((a, b) => this.compareAffiliations(a, b)); // special roles might not be sorted
+      return this.mergeRoles(baseConfig, specialConfig);
     } else {
       return baseConfig;
     }
