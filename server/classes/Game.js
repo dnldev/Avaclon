@@ -82,17 +82,16 @@ class Game {
   }
 
   mergeRoles(base, special) {
-    if (base.length == 0) {
-      return [];
-    } else {
-      const [baseRole, ...baseTail] = base;
-      const [nextSpecial, ...specialTail] = special;
-      if (nextSpecial && baseRole.affiliation === nextSpecial.affiliation) {
-        return [nextSpecial].concat(this.mergeRoles(baseTail, specialTail));
+    // base and special need to be sorted by affiliation
+    return base.map(baseRole => {
+      const specialRole = special[0];
+      if (specialRole.affiliation === baseRole.affiliation) {
+        special.shift();
+        return specialRole;
       } else {
-        return [baseRole].concat(this.mergeRoles(baseTail, special));
+        return baseRole;
       }
-    }
+    });
   }
 
   compareAffiliations(role, otherRole) {
