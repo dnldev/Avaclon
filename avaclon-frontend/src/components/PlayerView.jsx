@@ -38,6 +38,10 @@ class PlayerView extends Component {
     this.setState({ expanded: true });
   }
 
+  playerInTeam(id) {
+    return this.props.teamIds.indexOf(id) >= 0;
+  }
+
   toggleExpansion() {
     this.setState({ expanded: !this.state.expanded });
   }
@@ -63,7 +67,13 @@ class PlayerView extends Component {
                 md={this.calculateSize(4, playerCount, 3, 4)}
                 key={player.id}
               >
-                <Player id={player.id} name={player.name} role={player.role} />
+                <Player
+                  id={player.id}
+                  inTeam={this.playerInTeam(player.id)}
+                  isLeader={player.id === this.props.leaderId}
+                  name={player.name}
+                  role={player.role}
+                />
               </Grid>
             ))}
           </Grid>
@@ -78,7 +88,9 @@ class PlayerView extends Component {
 
 PlayerView.propTypes = {
   classes: PropTypes.object.isRequired,
+  leaderId: PropTypes.string.isRequired,
   players: PropTypes.array.isRequired,
+  teamIds: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles)(PlayerView);

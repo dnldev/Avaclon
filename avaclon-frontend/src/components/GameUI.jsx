@@ -38,6 +38,10 @@ const styles = theme => ({
 });
 
 class GameUI extends Component {
+  userInTeam(id, teamIds) {
+    return teamIds.indexOf(id) >= 0;
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -47,7 +51,11 @@ class GameUI extends Component {
           return (
             <Grid container className={classes.mainGrid} justify="center">
               <Grid item lg={8} md={9} sm={11} xs={12}>
-                <PlayerView players={context.players} />
+                <PlayerView
+                  leaderId={context.leaderId}
+                  players={context.players}
+                  teamIds={context.teamIds}
+                />
               </Grid>
 
               <Grid item lg={6} md={8} sm={10} xs={12}>
@@ -62,7 +70,11 @@ class GameUI extends Component {
                 xs={12}
               >
                 <AutoCollapsing>
-                  <UserTerminal player={context.player} />
+                  <UserTerminal
+                    inTeam={this.userInTeam(context.player.id, context.teamIds)}
+                    isLeader={context.player.id === context.leaderId}
+                    player={context.player}
+                  />
                 </AutoCollapsing>
               </Grid>
             </Grid>

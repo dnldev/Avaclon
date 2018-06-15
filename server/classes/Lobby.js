@@ -27,7 +27,11 @@ class Lobby {
       });
 
       socket.on('player-ready', name => {
-        this.game.newPlayer(name, socket);
+        if (this.game) {
+          this.game.newPlayer(name, socket);
+        } else {
+          lobby_log('Game not yet defined');
+        }
       });
 
       socket.on('start-game', () => {

@@ -27,8 +27,6 @@ class Player extends Component {
 
     this.state = {
       showTooltip: false,
-      isLeader: false,
-      inTeam: false,
     };
 
     this.getInitials = this.getInitials.bind(this);
@@ -63,8 +61,8 @@ class Player extends Component {
         <Grid container justify="center">
           <Grid item>
             <div className={classes.tokenArea}>
-              {this.state.inTeam && <Icon>star_border</Icon>}
-              {this.state.isLeader && <Icon>group</Icon>}
+              {this.props.inTeam && <Icon>group</Icon>}
+              {this.props.isLeader && <Icon>star_border</Icon>}
             </div>
             <Tooltip
               onClose={this.handleTooltipClose}
@@ -88,6 +86,8 @@ class Player extends Component {
 Player.propTypes = {
   classes: PropTypes.object.isRequired,
   id: PropTypes.string.isRequired,
+  inTeam: PropTypes.bool.isRequired,
+  isLeader: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
   role: PropTypes.string.isRequired,
 };
