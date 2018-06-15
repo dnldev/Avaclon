@@ -81,7 +81,7 @@ Quest.propTypes = {
   currentQuest: PropTypes.number.isRequired,
   playersOnQuest: PropTypes.number.isRequired,
   questIndex: PropTypes.number.isRequired,
-  wonBy: PropTypes.bool.isRequired,
+  wonBy: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles)(Quest);
