@@ -3,10 +3,6 @@ const game_log = require('debug')('game');
 const Player = require('./Player');
 const { Role, standardConfig } = require('avalon-models').Role;
 
-Array.prototype.randomItem = function() {
-  return this[Math.floor(Math.random() * this.length)];
-};
-
 Array.prototype.shuffle = function() {
   let input = this;
 
