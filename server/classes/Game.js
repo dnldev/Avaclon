@@ -52,14 +52,14 @@ class Game {
   }
 
   start() {
-    const randomLeaderId = this.players.randomItem().playerData.id;
+    this.currentLeaderIdx = Math.floor(Math.random() * this.players.length);
 
     this.players.forEach(currentPlayer => {
       const info = {
         players: currentPlayer.playerData.role.knowledge(
           this.players.filter(p => p !== currentPlayer)
         ),
-        leaderId: randomLeaderId,
+        leaderId: this.players[this.currentLeaderIdx].playerData.id,
         player: currentPlayer.playerData,
         teamIds: [],
         ...this.gameData,
