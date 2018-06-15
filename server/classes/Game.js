@@ -69,7 +69,7 @@ class Game {
   // Utility Functions
 
   createRoles(gameConfig) {
-    const base = standardConfig(gameConfig.playerCount).sort((a, b) =>
+    const baseConfig = standardConfig(gameConfig.playerCount).sort((a, b) =>
       this.compareAffiliations(a, b)
     );
     let special = gameConfig.specialRoles;
@@ -77,9 +77,9 @@ class Game {
       let special = special
         .map(role => new Role(role))
         .sort((a, b) => this.compareAffiliations(a, b));
-      return this.mergeRoles(base, special);
+      return this.mergeRoles(baseConfig, special);
     } else {
-      return base;
+      return baseConfig;
     }
   }
 
