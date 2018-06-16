@@ -123,7 +123,7 @@ class BackendProvider extends Component {
 
   playerReady() {
     console.log('Username: ' + this.state.username);
-    this.socket.emit('player-ready', { username: this.state.username });
+    this.socket.emit('player-ready', this.state.username);
     this.setState({ isPlayerReady: true, loading: true });
   }
 
