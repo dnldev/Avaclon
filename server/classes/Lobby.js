@@ -45,10 +45,6 @@ class Lobby {
         }
       });
 
-      socket.on('vote', vote => {
-        // TODO: add vote handling
-      });
-
       socket.on('disconnect', () => {
         if (
           this.game &&
