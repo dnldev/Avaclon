@@ -12,15 +12,31 @@ class BackendProvider extends Component {
 
     this.serverUrl = 'localhost:5000/lobby/';
 
+    this.resetConfig = {
+      connectedToLobby: true,
+      currentQuest: 0,
+      gameEnded: false,
+      gameStarted: false,
+      gameSetUp: false,
+      loading: false,
+      playerCount: 5,
+      isPlayerReady: false,
+      players: [],
+      voteTracker: 0,
+      wonQuests: [],
+    };
+
     this.state = {
       connectedToLobby: false,
       currentQuest: 0,
       gameEnded: false,
+      gameSetUp: false,
       gameStarted: false,
+      isPlayerReady: false,
       loading: false,
       playerCount: 5,
-      username: '',
       players: [],
+      username: '',
       voteTracker: 0,
       wonQuests: [],
     };
@@ -28,21 +44,23 @@ class BackendProvider extends Component {
     this.state.handleChange = this.handleChange.bind(this);
     this.state.newGame = this.newGame.bind(this);
     this.state.openLobby = this.openLobby.bind(this);
+    this.state.onUserNameKeyPress = this.onUserNameKeyPress.bind(this);
+    this.state.playerReady = this.playerReady.bind(this);
   }
 
   componentDidMount() {
     const lobby_id = 'josh';
 
     axios
-      .get('http://' + this.serverUrl + lobby_id)
+      .get('http://' + this.serverUrl + lobby_id + '/setUp')
       .then(response => {
-        console.log(response);
-        this.setState({ loading: true });
-        this.setupConnection(response.data);
-        this.socket.emit('player-ready', 'Me');
-        console.log('connected');
+        console.log('Lobby Game Set Up: ' + response.data);
+        this.setState({ gameSetUp: response.data });
+        this.setupConnection(lobby_id);
+        console.log('Connected');
       })
       .catch(err => {
+        this.setState({ gameSetUp: false });
         console.log('Lobby not found\n' + err);
       });
   }
@@ -60,15 +78,24 @@ class BackendProvider extends Component {
       console.log('New Game started');
       this.setState({ loading: false, gameStarted: true, ...gameData });
     });
+
+    this.socket.on('game-set-up', () => {
+      console.log('Game Set Up');
+      this.setState({ gameSetUp: true });
+    });
+
+    this.socket.on('game-close', () => {
+      console.log('Game Closed');
+      this.setState({ ...this.resetConfig });
+    });
   }
 
   newGame() {
     this.socket.emit('new-game', {
       gameData: { playerCount: this.state.playerCount },
-      username: this.state.username,
     });
 
-    this.setState({ loading: true });
+    this.playerReady();
   }
 
   openLobby() {
@@ -84,8 +111,24 @@ class BackendProvider extends Component {
       });
   }
 
+  onUserNameKeyPress(e) {
+    if (e.key === 'Enter') {
+      if (this.state.gameSetUp) {
+        this.playerReady();
+      } else {
+        this.newGame();
+      }
+    }
+  }
+
+  playerReady() {
+    console.log('Username: ' + this.state.username);
+    this.socket.emit('player-ready', { username: this.state.username });
+    this.setState({ isPlayerReady: true, loading: true });
+  }
+
   setupConnection(lobby_id) {
-    console.log('Setup Connection');
+    console.log('Setup Connection (' + lobby_id + ')');
 
     this.socket = openSocket(this.serverUrl + lobby_id);
 
