@@ -46,8 +46,10 @@ class Lobby {
       });
 
       socket.on('disconnect', () => {
-        // will not be needed in the future
-        if (this.game.players.some(player => player.socket === socket)) {
+        if (
+          this.game &&
+          this.game.players.some(player => player.socket === socket)
+        ) {
           this.closeGame();
         }
         lobby_log('Player Disconnected');
