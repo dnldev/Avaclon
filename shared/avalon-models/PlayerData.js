@@ -2,14 +2,9 @@ const { Role } = require('./Role');
 const PlayerInformation = require('./PlayerInformation');
 
 class PlayerData {
-  constructor(id, playerName, roleName) {
+  constructor(id, playerName) {
     this.id = id;
     this.name = playerName;
-    if (roleName !== undefined && roleName !== null) {
-      this.role = new Role(roleName);
-    } else {
-      this.role = null;
-    }
   }
 
   createInfo(roleInfo) {
