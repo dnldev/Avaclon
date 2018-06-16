@@ -27,8 +27,9 @@ class BackendProvider extends Component {
     };
 
     this.state = {
-      connectedToLobby: false,
       ...this.resetConfig,
+      connectedToLobby: false,
+      username: '',
     };
 
     this.state.handleChange = this.handleChange.bind(this);
