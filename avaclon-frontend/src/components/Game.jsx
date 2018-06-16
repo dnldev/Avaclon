@@ -12,6 +12,7 @@ import { BackendContext, GameContext } from './context';
 
 import AdminArea from './AdminArea';
 import GameUI from './GameUI';
+import UserControlArea from './UserControlArea';
 
 const styles = theme => ({
   root: {
@@ -81,7 +82,11 @@ class Game extends Component {
                   <Grid container className={classes.mainGrid} justify="center">
                     <Grid item xs={12}>
                       {!context.gameStarted ? (
-                        <AdminArea />
+                        !context.gameSetUp ? (
+                          <AdminArea />
+                        ) : (
+                          <UserControlArea />
+                        )
                       ) : (
                         <GameUI players={context.players} />
                       )}
