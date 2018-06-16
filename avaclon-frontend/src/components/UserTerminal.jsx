@@ -71,20 +71,12 @@ class UserTerminal extends Component {
     super(props);
 
     this.getPlayerNameClass = this.getPlayerNameClass.bind(this);
-    this.sendVote = this.sendVote.bind(this);
   }
 
   getPlayerNameClass(classes) {
     return this.props.player.role.affiliation === 'evil'
       ? classes.evilPlayer
       : classes.goodPlayer;
-  }
-
-  sendVote(vote) {
-    console.log('Not Implemented:', vote);
-
-    // TODO: emit event
-    // TODO: visual presentation for successful vote
   }
 
   render() {
@@ -125,13 +117,17 @@ class UserTerminal extends Component {
                   <div className={classes.playerControls}>
                     <Button
                       className={classes.voteButton}
-                      onClick={() => this.sendVote('Approve')}
+                      disabled={!this.props.canVote}
+                      onClick={() => this.props.sendVote(true)}
+                      variant={this.props.vote === true ? 'outlined' : 'text'}
                     >
                       {strings.quest.approve}
                     </Button>
                     <Button
                       className={classes.voteButton}
-                      onClick={() => this.sendVote('Reject')}
+                      disabled={!this.props.canVote}
+                      onClick={() => this.props.sendVote(false)}
+                      variant={this.props.vote === false ? 'outlined' : 'text'}
                     >
                       {strings.quest.reject}
                     </Button>
@@ -164,9 +160,16 @@ class UserTerminal extends Component {
 
 UserTerminal.propTypes = {
   classes: PropTypes.object.isRequired,
+  canVote: PropTypes.bool.isRequired,
   isLeader: PropTypes.bool.isRequired,
   inTeam: PropTypes.bool.isRequired,
   player: PropTypes.object.isRequired,
+  sendVote: PropTypes.func.isRequired,
+  vote: PropTypes.bool,
+};
+
+UserTerminal.defaultProps = {
+  vote: null,
 };
 
 export default withStyles(styles)(UserTerminal);
