@@ -63,7 +63,13 @@ class Game {
 
       currentPlayer.socket.emit('start-new-game', info);
     });
-    game_log('Game Started');
+
+    this.namespace.emit('voting-phase');
+
+    this.namespace.emit('team-proposed', [
+      this.players[2].playerData.id,
+      this.players[4].playerData.id,
+    ]);
   }
 
   // Utility Functions
