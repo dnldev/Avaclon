@@ -7,10 +7,17 @@ class Lobby {
   constructor(id, namespace) {
     this.id = id;
     this.namespace = namespace;
+    this.setUp = false;
 
     lobby_log('ID: %s', this.id);
 
     this.setupEvents();
+  }
+
+  closeGame() {
+    lobby_log('Game Closing');
+    this.namespace.emit('game-close');
+    this.setUp = false;
   }
 
   setupEvents() {
@@ -24,9 +31,13 @@ class Lobby {
           new Player(data.username, socket, 'Generic Blue'),
           this.namespace
         );
+        this.setUp = true;
+
+        this.namespace.emit('game-set-up');
       });
 
       socket.on('player-ready', name => {
+        lobby_log('Player Ready');
         if (this.game) {
           this.game.newPlayer(name, socket);
         } else {
@@ -34,11 +45,17 @@ class Lobby {
         }
       });
 
+      socket.on('disconnect', () => {
+        // will not be needed in the future
+        if (this.game.players.some(player => player.socket === socket)) {
+          this.closeGame();
+        }
+        lobby_log('Player Disconnected');
+      });
+
       socket.on('start-game', () => {
         this.game.start();
       });
-
-      this.namespace.emit('welcome');
     });
   }
 }
