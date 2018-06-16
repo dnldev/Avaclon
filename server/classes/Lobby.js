@@ -36,13 +36,17 @@ class Lobby {
         this.namespace.emit('game-set-up');
       });
 
-      socket.on('player-ready', name => {
-        lobby_log('Player Ready');
+      socket.on('user-ready', name => {
+        lobby_log('User Ready');
         if (this.game) {
           this.game.newPlayer(name, socket);
         } else {
           lobby_log('Game not yet defined');
         }
+      });
+
+      socket.on('vote', vote => {
+        // TODO: add vote handling
       });
 
       socket.on('disconnect', () => {
