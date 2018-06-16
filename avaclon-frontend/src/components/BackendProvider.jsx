@@ -22,6 +22,8 @@ class BackendProvider extends Component {
       playerCount: 5,
       isPlayerReady: false,
       players: [],
+      teamProposed: false,
+      voteCast: false,
       voteTracker: 0,
       wonQuests: [],
     };
@@ -37,6 +39,7 @@ class BackendProvider extends Component {
     this.state.openLobby = this.openLobby.bind(this);
     this.state.onUserNameKeyPress = this.onUserNameKeyPress.bind(this);
     this.state.playerReady = this.playerReady.bind(this);
+    this.state.sendVote = this.sendVote.bind(this);
   }
 
   componentDidMount() {
@@ -65,9 +68,9 @@ class BackendProvider extends Component {
   }
 
   listenForEvents() {
-    this.socket.on('start-new-game', gameData => {
-      console.log('New Game started');
-      this.setState({ loading: false, gameStarted: true, ...gameData });
+    this.socket.on('game-close', () => {
+      console.log('Game Closed');
+      this.setState({ ...this.resetConfig });
     });
 
     this.socket.on('game-set-up', () => {
@@ -75,9 +78,19 @@ class BackendProvider extends Component {
       this.setState({ gameSetUp: true });
     });
 
-    this.socket.on('game-close', () => {
-      console.log('Game Closed');
-      this.setState({ ...this.resetConfig });
+    this.socket.on('start-new-game', gameData => {
+      console.log('New Game started');
+      this.setState({ loading: false, gameStarted: true, ...gameData });
+    });
+
+    this.socket.on('voting-phase', () => {
+      this.setState({ teamIds: [], teamProposed: false, vote: null });
+    });
+
+    this.socket.on('team-proposed', teamIds => {
+      console.log('Team Proposed');
+      console.log(teamIds);
+      this.setState({ teamIds: teamIds, teamProposed: true });
     });
   }
 
@@ -107,15 +120,20 @@ class BackendProvider extends Component {
       if (this.state.gameSetUp) {
         this.playerReady();
       } else {
-        this.newGame();
+        this.state.connectedToLobby ? this.newGame() : this.openLobby();
       }
     }
   }
 
   playerReady() {
     console.log('Username: ' + this.state.username);
-    this.socket.emit('player-ready', this.state.username);
+    this.socket.emit('user-ready', this.state.username);
     this.setState({ isPlayerReady: true, loading: true });
+  }
+
+  sendVote(vote) {
+    this.socket.emit('vote', vote);
+    this.setState({ voteCast: true, vote: vote });
   }
 
   setupConnection(lobby_id) {
