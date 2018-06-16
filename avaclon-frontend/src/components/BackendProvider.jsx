@@ -28,17 +28,7 @@ class BackendProvider extends Component {
 
     this.state = {
       connectedToLobby: false,
-      currentQuest: 0,
-      gameEnded: false,
-      gameSetUp: false,
-      gameStarted: false,
-      isPlayerReady: false,
-      loading: false,
-      playerCount: 5,
-      players: [],
-      username: '',
-      voteTracker: 0,
-      wonQuests: [],
+      ...this.resetConfig,
     };
 
     this.state.handleChange = this.handleChange.bind(this);
