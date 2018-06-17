@@ -32,6 +32,16 @@ class TeamSelectionDialog extends Component {
     this.togglePlayer = this.togglePlayer.bind(this);
     this.isInTeam = this.isInTeam.bind(this);
     this.maxPlayersReached = this.maxPlayersReached.bind(this);
+    this.handleAccept = this.handleAccept.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+  }
+
+  handleAccept() {
+    this.props.onClose('');
+  }
+
+  handleCancel() {
+    this.props.onClose(null);
   }
 
   togglePlayer(playerId) {
@@ -76,8 +86,8 @@ class TeamSelectionDialog extends Component {
           ))}
         </List>
         <DialogActions>
-          <Button>Accept</Button>
-          <Button>Cancel</Button>
+          <Button onClick={this.handleAccept}>Accept</Button>
+          <Button onClick={this.handleCancel}>Cancel</Button>
         </DialogActions>
       </Dialog>
     );
@@ -89,6 +99,7 @@ TeamSelectionDialog.propTypes = {
   readOnly: PropTypes.bool.isRequired,
   players: PropTypes.array.isRequired,
   maxTeamSize: PropTypes.number.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default withStyles(style)(TeamSelectionDialog);
