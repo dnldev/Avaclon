@@ -1,67 +1,54 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import { withStyles } from '@material-ui/core/styles';
 
 import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-
-import Player from './Player';
+import ListItemText from '@material-ui/core/ListItemText';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import Input from '@material-ui/core/Input';
+import FormControl from '@material-ui/core/FormControl';
 
 const style = () => ({
   root: {},
-  selected: {
-    backgroundColor: 'lightgreen',
-  },
 });
 
 class TeamSelectionDialog extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = { team: [] };
 
-    props.players.forEach(player => {
-      this.state[player.id] = false;
-    });
-
-    this.togglePlayer = this.togglePlayer.bind(this);
     this.isInTeam = this.isInTeam.bind(this);
     this.maxPlayersReached = this.maxPlayersReached.bind(this);
     this.handleAccept = this.handleAccept.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
-    this.teamList = this.teamList.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   handleAccept() {
-    this.props.onClose(this.teamList());
+    this.props.onClose(this.state.team);
   }
 
   handleCancel() {
     this.props.onClose(null);
   }
 
-  togglePlayer(playerId) {
-    return () => this.setState({ [playerId]: !this.state[playerId] });
+  handleChange(event) {
+    this.setState({ team: event.target.value });
   }
 
   isInTeam(playerId) {
-    return this.state[playerId];
+    return this.state.team.indexOf(playerId) !== -1;
   }
 
   maxPlayersReached() {
-    return (
-      Object.values(this.state).filter(inTeam => inTeam).length ===
-      this.props.maxTeamSize
-    );
-  }
-
-  teamList() {
-    return Object.keys(this.state).filter(playerId => this.state[playerId]);
+    return this.state.team.length === this.props.maxTeamSize;
   }
 
   render() {
@@ -71,25 +58,33 @@ class TeamSelectionDialog extends Component {
       <Dialog className={classes.root} open={this.props.open}>
         {/* TODO: localize */}
         <DialogTitle>Choose a team</DialogTitle>
-        <List>
-          {this.props.players.map(player => (
-            <ListItem
-              button
-              className={this.isInTeam(player.id) ? classes.selected : ''}
-              disabled={this.maxPlayersReached() && !this.isInTeam(player.id)}
-              key={player.id}
-              onClick={this.togglePlayer(player.id)}
-            >
-              <Player
-                id={player.id}
-                inTeam={this.isInTeam(player.id)}
-                isLeader={false}
-                name={player.name}
-                role={player.role}
-              />
-            </ListItem>
-          ))}
-        </List>
+        <FormControl>
+          <InputLabel htmlFor="select-multiple-checkbox">Team</InputLabel>
+          <Select
+            multiple
+            value={this.state.team}
+            input={<Input id="select-multiple-checkbox" />}
+            renderValue={selected =>
+              selected
+                .map(
+                  id => this.props.players.find(player => player.id === id).name
+                )
+                .join(', ')
+            }
+            onChange={this.handleChange}
+          >
+            {this.props.players.map(player => (
+              <MenuItem
+                disabled={this.maxPlayersReached() && !this.isInTeam(player.id)}
+                key={player.id}
+                value={player.id}
+              >
+                <Checkbox checked={this.isInTeam(player.id)} />
+                <ListItemText primary={player.name} />
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <DialogActions>
           <Button onClick={this.handleAccept}>Accept</Button>
           <Button onClick={this.handleCancel}>Cancel</Button>
