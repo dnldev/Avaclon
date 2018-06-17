@@ -14,9 +14,41 @@ import Player from './Player';
 
 const style = () => ({
   root: {},
+  selected: {
+    backgroundColor: 'lightgreen',
+  },
 });
 
 class TeamSelectionDialog extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+
+    props.players.forEach(player => {
+      this.state[player.id] = false;
+    });
+
+    this.togglePlayer = this.togglePlayer.bind(this);
+    this.isInTeam = this.isInTeam.bind(this);
+    this.maxPlayersReached = this.maxPlayersReached.bind(this);
+  }
+
+  togglePlayer(playerId) {
+    return () => this.setState({ [playerId]: !this.state[playerId] });
+  }
+
+  isInTeam(playerId) {
+    return this.state[playerId];
+  }
+
+  maxPlayersReached() {
+    return (
+      Object.values(this.state).filter(inTeam => inTeam).length ===
+      this.props.maxTeamSize
+    );
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -26,13 +58,19 @@ class TeamSelectionDialog extends Component {
         <DialogTitle>Choose a team</DialogTitle>
         <List>
           {this.props.players.map(player => (
-            <ListItem button={!this.props.readOnly} key={player.id}>
+            <ListItem
+              button
+              className={this.isInTeam(player.id) ? classes.selected : ''}
+              disabled={this.maxPlayersReached() && !this.isInTeam(player.id)}
+              key={player.id}
+              onClick={this.togglePlayer(player.id)}
+            >
               <Player
                 id={player.id}
+                inTeam={this.isInTeam(player.id)}
+                isLeader={false}
                 name={player.name}
                 role={player.role}
-                isLeader={false}
-                inTeam={false}
               />
             </ListItem>
           ))}
@@ -50,6 +88,7 @@ TeamSelectionDialog.propTypes = {
   classes: PropTypes.object.isRequired,
   readOnly: PropTypes.bool.isRequired,
   players: PropTypes.array.isRequired,
+  maxTeamSize: PropTypes.number.isRequired,
 };
 
 export default withStyles(style)(TeamSelectionDialog);
