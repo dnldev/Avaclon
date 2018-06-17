@@ -87,6 +87,11 @@ class BackendProvider extends Component {
       this.setState({ teamIds: [], teamProposed: false, vote: null });
     });
 
+    this.socket.on('vote-result', result => {
+      console.log(result);
+      // TODO: add state value, on which the result dialog depends on
+    });
+
     this.socket.on('team-proposed', teamIds => {
       console.log('Team Proposed');
       console.log(teamIds);
