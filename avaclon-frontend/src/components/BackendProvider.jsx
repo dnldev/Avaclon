@@ -37,6 +37,7 @@ class BackendProvider extends Component {
     this.state.openLobby = this.openLobby.bind(this);
     this.state.onUserNameKeyPress = this.onUserNameKeyPress.bind(this);
     this.state.playerReady = this.playerReady.bind(this);
+    this.state.sendTeam = this.sendTeam.bind(this);
   }
 
   componentDidMount() {
@@ -73,6 +74,11 @@ class BackendProvider extends Component {
     this.socket.on('game-set-up', () => {
       console.log('Game Set Up');
       this.setState({ gameSetUp: true });
+    });
+
+    this.socket.on('chosen-team', team => {
+      this.setState({ questTeam: team });
+      console.log(team);
     });
 
     this.socket.on('game-close', () => {
@@ -116,6 +122,10 @@ class BackendProvider extends Component {
     console.log('Username: ' + this.state.username);
     this.socket.emit('player-ready', this.state.username);
     this.setState({ isPlayerReady: true, loading: true });
+  }
+
+  sendTeam(team) {
+    this.socket.emit('selected-team', team);
   }
 
   setupConnection(lobby_id) {
