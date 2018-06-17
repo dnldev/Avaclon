@@ -23,6 +23,8 @@ class Game {
     this.namespace = namespace;
     this.players = [];
 
+    this.playerVotes = {};
+
     this.roles = this.createRoles(this.gameData).shuffle();
 
     game_log('Game Data:', this.gameData);
@@ -32,9 +34,16 @@ class Game {
 
   // Event Handler
 
+  endVotePhase() {
+    const voteResult = this.teamAccepted();
+    this.namespace.emit('vote-result', voteResult);
+  }
+
   newPlayer(name, socket) {
     const newPlayer = new Player(name, socket);
     this.players.push(newPlayer);
+
+    this.setupPlayerEvents(socket, newPlayer.playerData.id);
 
     if (this.players.length == this.gameData.playerCount) {
       for (let i = 0; i < this.players.length; i++) {
@@ -45,6 +54,22 @@ class Game {
       // Will be changed to emit an event signalizing that all players have joined
       this.start();
     }
+  }
+
+  setupPlayerEvents(socket, player_id) {
+    socket.on('vote', vote => {
+      game_log(
+        'Player (' + this.getPlayerName(player_id) + ') voted:',
+        vote ? 'Approve' : 'Reject'
+      );
+      this.playerVotes[player_id] = vote;
+
+      if (
+        Object.values(this.playerVotes).length === this.gameData.playerCount
+      ) {
+        this.endVotePhase();
+      }
+    });
   }
 
   start() {
@@ -74,6 +99,16 @@ class Game {
 
   // Utility Functions
 
+  compareAffiliations(role, otherRole) {
+    if (role.affiliation < otherRole.affiliation) {
+      return -1;
+    } else if (role.affiliation > otherRole.affiliation) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
   createRoles(gameConfig) {
     const baseConfig = standardConfig(gameConfig.playerCount);
     let specialConfig = gameConfig.specialRoles;
@@ -85,6 +120,14 @@ class Game {
     } else {
       return baseConfig;
     }
+  }
+
+  findPlayer(player_id) {
+    return this.players.find(player => player.playerData.id === player_id);
+  }
+
+  getPlayerName(player_id) {
+    return this.findPlayer(player_id).playerData.name;
   }
 
   mergeRoles(base, special) {
@@ -100,14 +143,11 @@ class Game {
     });
   }
 
-  compareAffiliations(role, otherRole) {
-    if (role.affiliation < otherRole.affiliation) {
-      return -1;
-    } else if (role.affiliation > otherRole.affiliation) {
-      return 1;
-    } else {
-      return 0;
-    }
+  teamAccepted() {
+    return (
+      Object.values(this.playerVotes).filter(vote => vote).length >
+      this.gameData.playerCount / 2
+    );
   }
 }
 
