@@ -16,6 +16,10 @@ import FormControl from '@material-ui/core/FormControl';
 
 const style = () => ({
   root: {},
+  select: {
+    paddingLeft: '20%',
+    paddingRight: '20%',
+  },
 });
 
 class TeamSelectionDialog extends Component {
@@ -53,13 +57,23 @@ class TeamSelectionDialog extends Component {
 
   render() {
     const { classes } = this.props;
-
     return (
-      <Dialog className={classes.root} open={this.props.open}>
+      <Dialog
+        className={classes.root}
+        open={this.props.open}
+        PaperProps={{
+          style: { width: '50%' },
+        }}
+      >
         {/* TODO: localize */}
         <DialogTitle>Choose a team</DialogTitle>
-        <FormControl>
-          <InputLabel htmlFor="select-multiple-checkbox">Team</InputLabel>
+        <FormControl className={classes.select}>
+          <InputLabel
+            className={classes.select}
+            htmlFor="select-multiple-checkbox"
+          >
+            Team
+          </InputLabel>
           <Select
             multiple
             value={this.state.team}
@@ -100,7 +114,6 @@ TeamSelectionDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   players: PropTypes.array.isRequired,
-  readOnly: PropTypes.bool.isRequired,
 };
 
 export default withStyles(style)(TeamSelectionDialog);
