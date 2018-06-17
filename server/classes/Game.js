@@ -23,8 +23,6 @@ class Game {
     this.namespace = namespace;
     this.players = [];
 
-    this.playerVotes = {};
-
     this.roles = this.createRoles(this.gameData).shuffle();
 
     game_log('Game Data:', this.gameData);
@@ -54,6 +52,12 @@ class Game {
       // Will be changed to emit an event signalizing that all players have joined
       this.start();
     }
+  }
+
+  newVotingPhase() {
+    this.playerVotes = {};
+    // TODO: reset other dependant values
+    this.namespace.emit('voting-phase');
   }
 
   setupPlayerEvents(socket, player_id) {
@@ -89,12 +93,7 @@ class Game {
       currentPlayer.socket.emit('start-new-game', info);
     });
 
-    this.namespace.emit('voting-phase');
-
-    this.namespace.emit('team-proposed', [
-      this.players[2].playerData.id,
-      this.players[4].playerData.id,
-    ]);
+    this.newVotingPhase();
   }
 
   // Utility Functions
