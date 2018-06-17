@@ -23,8 +23,6 @@ class BackendProvider extends Component {
       isPlayerReady: false,
       players: [],
       teamProposed: false,
-      voteCast: false,
-      voteTracker: 0,
       wonQuests: [],
     };
 
@@ -83,19 +81,25 @@ class BackendProvider extends Component {
       this.setState({ loading: false, gameStarted: true, ...gameData });
     });
 
-    this.socket.on('voting-phase', () => {
-      this.setState({ teamIds: [], teamProposed: false, vote: null });
+    this.socket.on('voting-phase', currentTracker => {
+      console.log('New Voting Phase: ' + (currentTracker + 1));
+      this.setState({
+        teamIds: [],
+        teamProposed: false,
+        vote: null,
+        voteTracker: currentTracker,
+      });
     });
 
-    this.socket.on('vote-result', result => {
-      console.log(result);
+    this.socket.on('vote-result', accepted => {
+      console.log('Accepted: ' + accepted);
       // TODO: add state value, on which the result dialog depends on
     });
 
     this.socket.on('team-proposed', teamIds => {
       console.log('Team Proposed');
       console.log(teamIds);
-      this.setState({ teamIds: teamIds, teamProposed: true });
+      this.setState({ teamIds: teamIds, teamProposed: true, voteCast: false });
     });
   }
 
