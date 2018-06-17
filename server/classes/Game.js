@@ -1,6 +1,7 @@
 const game_log = require('debug')('game');
 
 const Player = require('./Player');
+const { Affiliation } = require('avalon-models');
 const { Role, standardConfig } = require('avalon-models').Role;
 
 Array.prototype.shuffle = function() {
@@ -23,6 +24,9 @@ class Game {
     this.namespace = namespace;
     this.players = [];
 
+    gameData.voteTracker = 0;
+    gameData.wonQuests = [];
+
     this.roles = this.createRoles(this.gameData).shuffle();
 
     game_log('Game Data:', this.gameData);
@@ -33,8 +37,34 @@ class Game {
   // Event Handler
 
   endVotePhase() {
-    const voteResult = this.teamAccepted();
-    this.namespace.emit('vote-result', voteResult);
+    const teamAccepted = this.teamAccepted();
+    this.namespace.emit('vote-result', teamAccepted);
+    // Test:
+    // if (!teamAccepted) {
+    //   this.gameData.voteTracker++;
+    //   this.newVotingPhase();
+    // } else {
+    //   this.questDone(Affiliation.GOOD);
+    // }
+  }
+
+  gameEnding() {
+    if (
+      this.gameData.wonQuests.filter(quest => quest === Affiliation.EVIL)
+        .length === 3
+    ) {
+      game_log('Evil has won the Game');
+      // TODO: evil win handling
+    } else if (
+      this.gameData.wonQuests.filter(quest => quest === Affiliation.GOOD)
+        .length === 3
+    ) {
+      game_log('Good has won the Game');
+      // TODO: good win handling
+    } else {
+      return false;
+    }
+    return true;
   }
 
   newPlayer(name, socket) {
@@ -57,7 +87,24 @@ class Game {
   newVotingPhase() {
     this.playerVotes = {};
     // TODO: reset other dependant values
-    this.namespace.emit('voting-phase');
+    this.namespace.emit('voting-phase', this.gameData.voteTracker);
+    if (this.gameData.voteTracker === 4) {
+      this.questDone(Affiliation.EVIL);
+    }
+    // Test that sends a static team
+    // this.namespace.emit('team-proposed', [
+    //   this.players[0].playerData.id,
+    //   this.players[1].playerData.id,
+    // ]);
+  }
+
+  questDone(winner) {
+    this.gameData.voteTracker = 0;
+    this.gameData.wonQuests.push(winner);
+    if (!this.gameEnding()) {
+      this.namespace.emit('quest-conclusion', this.gameData.wonQuests);
+      this.newVotingPhase();
+    }
   }
 
   setupPlayerEvents(socket, player_id) {
