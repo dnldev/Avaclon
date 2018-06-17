@@ -14,6 +14,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 
+import strings from '../localization/game-locale';
+
 const style = () => ({
   root: {},
   select: {
@@ -66,7 +68,7 @@ class TeamSelectionDialog extends Component {
         }}
       >
         {/* TODO: localize */}
-        <DialogTitle>Choose a team</DialogTitle>
+        <DialogTitle>{strings.chooseTeam}</DialogTitle>
         <FormControl className={classes.select}>
           <InputLabel
             className={classes.select}
@@ -100,8 +102,8 @@ class TeamSelectionDialog extends Component {
           </Select>
         </FormControl>
         <DialogActions>
-          <Button onClick={this.handleAccept}>Accept</Button>
-          <Button onClick={this.handleCancel}>Cancel</Button>
+          <Button onClick={this.handleAccept}>{strings.accept}</Button>
+          <Button onClick={this.handleCancel}>{strings.cancel}</Button>
         </DialogActions>
       </Dialog>
     );
