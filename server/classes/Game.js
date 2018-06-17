@@ -18,12 +18,12 @@ Array.prototype.shuffle = function() {
 
 class Game {
   constructor(gameData, admin, namespace) {
-    this.gameData = gameData;
     this.admin = admin;
+    this.gameData = gameData;
     this.namespace = namespace;
+    this.players = [];
 
     this.roles = this.createRoles(this.gameData).shuffle();
-    this.players = [admin];
 
     game_log('Game Data:', this.gameData);
     game_log('Admin Name:', this.admin.playerData.name);

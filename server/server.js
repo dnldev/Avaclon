@@ -30,9 +30,9 @@ app.post('/lobby', (req, res) => {
   res.send(id);
 });
 
-app.get('/lobby/:id', (req, res) => {
+app.get('/lobby/:id/setUp', (req, res) => {
   if (Object.keys(lobbies).indexOf(req.params.id) >= 0) {
-    res.send(req.params.id);
+    res.send(lobbies[req.params.id].setUp);
   } else {
     res.status(404).send('Lobby id not found');
   }

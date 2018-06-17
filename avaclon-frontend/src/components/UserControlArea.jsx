@@ -8,11 +8,12 @@ import Paper from '@material-ui/core/Paper';
 
 import strings from '../localization/game-locale';
 
-import { BackendContext } from './context';
+import { BackendContext, GameContext } from './context';
+
+import ConfigInput from './ConfigInput';
 
 const styles = theme => ({
   root: {
-    // backgroundColor: theme.palette.secondary.light,
     paddingBottom: '2em',
   },
   userButton: {
@@ -26,22 +27,38 @@ class AdminArea extends Component {
     const { classes } = this.props;
 
     return (
-      <BackendContext.Consumer>
-        {context => {
-          return (
-            <Paper className={classes.root} elevation={1}>
+      <Paper className={classes.root} elevation={1}>
+        <BackendContext.Consumer>
+          {context => {
+            return (
               <Button
                 className={classes.userButton}
                 color="primary"
+                disabled={context.isPlayerReady}
                 variant="raised"
+                onClick={context.playerReady}
+              >
+                {strings.playerReady}
+              </Button>
+            );
+          }}
+        </BackendContext.Consumer>
+        <GameContext.Consumer>
+          {context => {
+            return (
+              <Button
+                className={classes.userButton}
+                color="secondary"
+                variant="outlined"
                 onClick={context.switchLanguage}
               >
                 {strings.switchLanguage}
               </Button>
-            </Paper>
-          );
-        }}
-      </BackendContext.Consumer>
+            );
+          }}
+        </GameContext.Consumer>
+        <ConfigInput />
+      </Paper>
     );
   }
 }

@@ -16,6 +16,7 @@ const strings = new LocalizedStrings({
     name: 'Name',
     newGame: 'New Game',
     playerCount: 'Player Count',
+    playerReady: 'Ready',
     roundMarker: 'Round Marker',
     switchLanguage: 'Switch Language',
     voteCards: 'Quest Cards',
@@ -64,6 +65,7 @@ const strings = new LocalizedStrings({
     name: 'Name',
     newGame: 'Neues Spiel',
     playerCount: 'Spieleranzahl',
+    playerReady: 'Bereit',
     switchLanguage: 'Sprache wechseln',
     voteTrackEnd: 'Missionssieg geht an Böse',
 

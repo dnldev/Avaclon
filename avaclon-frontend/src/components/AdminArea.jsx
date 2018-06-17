@@ -80,7 +80,7 @@ class AdminArea extends Component {
                   {strings.switchLanguage}
                 </Button>
 
-                <ConfigInput />
+                <ConfigInput showPlayerCount={true} />
               </React.Fragment>
             );
           }}
