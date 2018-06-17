@@ -4,18 +4,14 @@ const PlayerData = require('avalon-models').PlayerData;
 
 class Player {
   constructor(name, socket) {
-    this.playerData = new PlayerData(socket.id, name);
+    this.playerData = new PlayerData(this.sliceSocketId(socket.id), name);
     this.socket = socket;
-
-    setupEvents();
 
     game_log('New Player: %s', this.playerData.name);
   }
 
-  setupEvents() {
-    this.socket.on('vote', vote => {
-      // TODO: add vote handling
-    });
+  sliceSocketId(socketId) {
+    return socketId.slice(socketId.indexOf('#') + 1);
   }
 }
 
