@@ -34,10 +34,11 @@ class TeamSelectionDialog extends Component {
     this.maxPlayersReached = this.maxPlayersReached.bind(this);
     this.handleAccept = this.handleAccept.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
+    this.teamList = this.teamList.bind(this);
   }
 
   handleAccept() {
-    this.props.onClose('');
+    this.props.onClose(this.teamList());
   }
 
   handleCancel() {
@@ -57,6 +58,10 @@ class TeamSelectionDialog extends Component {
       Object.values(this.state).filter(inTeam => inTeam).length ===
       this.props.maxTeamSize
     );
+  }
+
+  teamList() {
+    return Object.keys(this.state).filter(playerId => this.state[playerId]);
   }
 
   render() {
@@ -96,10 +101,11 @@ class TeamSelectionDialog extends Component {
 
 TeamSelectionDialog.propTypes = {
   classes: PropTypes.object.isRequired,
-  readOnly: PropTypes.bool.isRequired,
-  players: PropTypes.array.isRequired,
   maxTeamSize: PropTypes.number.isRequired,
   onClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  players: PropTypes.array.isRequired,
+  readOnly: PropTypes.bool.isRequired,
 };
 
 export default withStyles(style)(TeamSelectionDialog);
