@@ -66,6 +66,13 @@ class Game {
     game_log('Game Started');
   }
 
+  selectTeam() {
+    this.namespace.emit(
+      'selection-start',
+      this.players[this.currentLeaderIdx].playerData.id
+    );
+  }
+
   // Utility Functions
 
   createRoles(gameConfig) {

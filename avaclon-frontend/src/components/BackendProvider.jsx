@@ -20,6 +20,7 @@ class BackendProvider extends Component {
       gameSetUp: false,
       loading: false,
       playerCount: 5,
+      selectingTeam: false,
       isPlayerReady: false,
       players: [],
       voteTracker: 0,
@@ -74,6 +75,12 @@ class BackendProvider extends Component {
     this.socket.on('game-set-up', () => {
       console.log('Game Set Up');
       this.setState({ gameSetUp: true });
+    });
+
+    this.socket.on('selction-start', leader => {
+      if (this.state.player.id === leader) {
+        this.setState({ selectingTeam: true });
+      }
     });
 
     this.socket.on('game-close', () => {
