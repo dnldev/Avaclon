@@ -10,6 +10,7 @@ import { BackendContext } from './context';
 import AutoCollapsing from './AutoCollapsing';
 import Board from './Board';
 import PlayerView from './PlayerView';
+import QuestVoteDialog from './QuestVoteDialog';
 import UserTerminal from './UserTerminal';
 
 const styles = theme => ({
@@ -59,7 +60,11 @@ class GameUI extends Component {
               </Grid>
 
               <Grid item lg={6} md={8} sm={10} xs={12}>
-                <Board />
+                <Board
+                  currentQuest={context.wonQuests.length}
+                  playerCount={context.playerCount}
+                  wonQuests={context.wonQuests}
+                />
               </Grid>
 
               <Grid
@@ -80,6 +85,10 @@ class GameUI extends Component {
                   />
                 </AutoCollapsing>
               </Grid>
+              <QuestVoteDialog
+                open={context.needsToVote}
+                onClose={context.sendQuestVote}
+              />
             </Grid>
           );
         }}
