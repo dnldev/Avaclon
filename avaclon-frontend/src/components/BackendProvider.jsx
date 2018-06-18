@@ -23,6 +23,7 @@ class BackendProvider extends Component {
       playerCount: 5,
       players: [],
       selectingTeam: false,
+      teamProposed: false,
       voteTracker: 0,
       wonQuests: [],
     };
@@ -40,6 +41,7 @@ class BackendProvider extends Component {
     this.state.openLobby = this.openLobby.bind(this);
     this.state.playerReady = this.playerReady.bind(this);
     this.state.sendTeam = this.sendTeam.bind(this);
+    this.state.sendVote = this.sendVote.bind(this);
   }
 
   componentDidMount() {
@@ -68,10 +70,9 @@ class BackendProvider extends Component {
   }
 
   listenForEvents() {
-    this.socket.on('start-new-game', gameData => {
-      console.log('New Game started');
-      this.setState({ loading: false, gameStarted: true, ...gameData });
-      this.checkForSelection();
+    this.socket.on('game-close', () => {
+      console.log('Game Closed');
+      this.setState({ ...this.resetConfig });
     });
 
     this.socket.on('game-set-up', () => {
@@ -82,10 +83,32 @@ class BackendProvider extends Component {
     this.socket.on('selection-start', leader => {
       this.setState({ leaderId: leader });
     });
+        
+    this.socket.on('start-new-game', gameData => {
+      console.log('New Game started');
+      this.setState({ loading: false, gameStarted: true, ...gameData });
+      this.checkForSelection();
+    });
+        
+    this.socket.on('team-proposed', teamIds => {
+      console.log('Team Proposed');
+      console.log(teamIds);
+      this.setState({ teamIds: teamIds, teamProposed: true, voteCast: false });
+    });
 
-    this.socket.on('game-close', () => {
-      console.log('Game Closed');
-      this.setState({ ...this.resetConfig });
+    this.socket.on('voting-phase', currentTracker => {
+      console.log('New Voting Phase: ' + (currentTracker + 1));
+      this.setState({
+        teamIds: [],
+        teamProposed: false,
+        vote: null,
+        voteTracker: currentTracker,
+      });
+    });
+
+    this.socket.on('vote-result', accepted => {
+      console.log('Accepted: ' + accepted);
+      // TODO: add state value, on which the result dialog depends on
     });
   }
 
@@ -121,20 +144,25 @@ class BackendProvider extends Component {
       if (this.state.gameSetUp) {
         this.playerReady();
       } else {
-        this.newGame();
+        this.state.connectedToLobby ? this.newGame() : this.openLobby();
       }
     }
   }
 
   playerReady() {
     console.log('Username: ' + this.state.username);
-    this.socket.emit('player-ready', this.state.username);
+    this.socket.emit('user-ready', this.state.username);
     this.setState({ isPlayerReady: true, loading: true });
   }
 
   sendTeam(team) {
     this.socket.emit('selected-team', team);
     this.setState({ selectingTeam: false });
+  }
+
+  sendVote(vote) {
+    this.socket.emit('vote', vote);
+    this.setState({ voteCast: true, vote: vote });
   }
 
   setupConnection(lobby_id) {

@@ -1,6 +1,7 @@
 const game_log = require('debug')('game');
 
 const Player = require('./Player');
+const { Affiliation } = require('avalon-models');
 const { Role, standardConfig } = require('avalon-models').Role;
 
 Array.prototype.shuffle = function() {
@@ -23,6 +24,9 @@ class Game {
     this.namespace = namespace;
     this.players = [];
 
+    gameData.voteTracker = 0;
+    gameData.wonQuests = [];
+
     this.roles = this.createRoles(this.gameData).shuffle();
 
     game_log('Game Data:', this.gameData);
@@ -32,9 +36,42 @@ class Game {
 
   // Event Handler
 
+  endVotePhase() {
+    const teamAccepted = this.teamAccepted();
+    this.namespace.emit('vote-result', teamAccepted);
+    // Test:
+    // if (!teamAccepted) {
+    //   this.gameData.voteTracker++;
+    //   this.newVotingPhase();
+    // } else {
+    //   this.questDone(Affiliation.GOOD);
+    // }
+  }
+
+  gameEnding() {
+    if (
+      this.gameData.wonQuests.filter(quest => quest === Affiliation.EVIL)
+        .length === 3
+    ) {
+      game_log('Evil has won the Game');
+      // TODO: evil win handling
+    } else if (
+      this.gameData.wonQuests.filter(quest => quest === Affiliation.GOOD)
+        .length === 3
+    ) {
+      game_log('Good has won the Game');
+      // TODO: good win handling
+    } else {
+      return false;
+    }
+    return true;
+  }
+
   newPlayer(name, socket) {
     const newPlayer = new Player(name, socket);
     this.players.push(newPlayer);
+
+    this.setupPlayerEvents(socket, newPlayer.playerData.id);
 
     if (this.players.length == this.gameData.playerCount) {
       for (let i = 0; i < this.players.length; i++) {
@@ -45,6 +82,45 @@ class Game {
       // Will be changed to emit an event signalizing that all players have joined
       this.start();
     }
+  }
+
+  newVotingPhase() {
+    this.playerVotes = {};
+    // TODO: reset other dependant values
+    this.namespace.emit('voting-phase', this.gameData.voteTracker);
+    if (this.gameData.voteTracker === 4) {
+      this.questDone(Affiliation.EVIL);
+    }
+    // Test that sends a static team
+    // this.namespace.emit('team-proposed', [
+    //   this.players[0].playerData.id,
+    //   this.players[1].playerData.id,
+    // ]);
+  }
+
+  questDone(winner) {
+    this.gameData.voteTracker = 0;
+    this.gameData.wonQuests.push(winner);
+    if (!this.gameEnding()) {
+      this.namespace.emit('quest-conclusion', this.gameData.wonQuests);
+      this.newVotingPhase();
+    }
+  }
+
+  setupPlayerEvents(socket, player_id) {
+    socket.on('vote', vote => {
+      game_log(
+        'Player (' + this.getPlayerName(player_id) + ') voted:',
+        vote ? 'Approve' : 'Reject'
+      );
+      this.playerVotes[player_id] = vote;
+
+      if (
+        Object.values(this.playerVotes).length === this.gameData.playerCount
+      ) {
+        this.endVotePhase();
+      }
+    });
   }
 
   start() {
@@ -63,7 +139,8 @@ class Game {
 
       currentPlayer.socket.emit('start-new-game', info);
     });
-    game_log('Game Started');
+
+    this.newVotingPhase();
   }
 
   startSelectionPhase() {
@@ -74,6 +151,16 @@ class Game {
   }
 
   // Utility Functions
+
+  compareAffiliations(role, otherRole) {
+    if (role.affiliation < otherRole.affiliation) {
+      return -1;
+    } else if (role.affiliation > otherRole.affiliation) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
 
   createRoles(gameConfig) {
     const baseConfig = standardConfig(gameConfig.playerCount);
@@ -86,6 +173,14 @@ class Game {
     } else {
       return baseConfig;
     }
+  }
+
+  findPlayer(player_id) {
+    return this.players.find(player => player.playerData.id === player_id);
+  }
+
+  getPlayerName(player_id) {
+    return this.findPlayer(player_id).playerData.name;
   }
 
   mergeRoles(base, special) {
@@ -101,14 +196,11 @@ class Game {
     });
   }
 
-  compareAffiliations(role, otherRole) {
-    if (role.affiliation < otherRole.affiliation) {
-      return -1;
-    } else if (role.affiliation > otherRole.affiliation) {
-      return 1;
-    } else {
-      return 0;
-    }
+  teamAccepted() {
+    return (
+      Object.values(this.playerVotes).filter(vote => vote).length >
+      this.gameData.playerCount / 2
+    );
   }
 }
 

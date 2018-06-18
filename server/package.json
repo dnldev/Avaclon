@@ -10,12 +10,12 @@
   "author": "Arkangels",
   "license": "ISC",
   "dependencies": {
+    "avalon-models": "file:./../shared/avalon-models",
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
     "debug": "^3.1.0",
     "express": "^4.16.3",
     "randomstring": "^1.1.5",
-    "socket.io": "^2.1.1",
-    "avalon-models": "file:./../shared/avalon-models"
+    "socket.io": "^2.1.1"
   }
 }
