@@ -100,7 +100,8 @@ class GameUI extends Component {
                   context.questPlayerCounts[context.wonQuests.length]
                 }
                 open={context.selectingTeam}
-                players={[context.player].concat(context.players)}
+                playerId={context.player.id}
+                players={context.players}
                 readOnly={true}
                 title={strings.chooseTeam}
                 onClose={context.sendTeam}
