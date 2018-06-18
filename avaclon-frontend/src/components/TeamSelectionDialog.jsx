@@ -108,7 +108,10 @@ class TeamSelectionDialog extends Component {
           >
             {strings.accept}
           </Button>
-          <Button onClick={this.handleCancel}>{strings.cancel}</Button>
+          {/* TODO: Handle Cancel */}
+          <Button disabled onClick={this.handleCancel}>
+            {strings.cancel}
+          </Button>
         </DialogActions>
       </Dialog>
     );
