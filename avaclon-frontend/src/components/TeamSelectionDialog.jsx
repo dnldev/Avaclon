@@ -30,11 +30,11 @@ class TeamSelectionDialog extends Component {
 
     this.state = { team: [] };
 
-    this.isInTeam = this.isInTeam.bind(this);
-    this.maxPlayersReached = this.maxPlayersReached.bind(this);
     this.handleAccept = this.handleAccept.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.isInTeam = this.isInTeam.bind(this);
+    this.maxPlayersReached = this.maxPlayersReached.bind(this);
   }
 
   handleAccept() {
@@ -77,9 +77,9 @@ class TeamSelectionDialog extends Component {
             Team
           </InputLabel>
           <Select
-            multiple
-            value={this.state.team}
             input={<Input id="select-multiple-checkbox" />}
+            multiple
+            onChange={this.handleChange}
             renderValue={selected =>
               selected
                 .map(
@@ -87,7 +87,7 @@ class TeamSelectionDialog extends Component {
                 )
                 .join(', ')
             }
-            onChange={this.handleChange}
+            value={this.state.team}
           >
             {this.props.players.map(player => (
               <MenuItem

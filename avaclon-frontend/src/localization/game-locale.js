@@ -2,8 +2,8 @@ import LocalizedStrings from 'react-localization';
 
 const strings = new LocalizedStrings({
   en: {
-    adminArea: 'Admin Area',
     accept: 'Accept',
+    adminArea: 'Admin Area',
     approveRejectTokens: 'Vote Tokens',
     backside: 'Cardback',
     blueRedMarkers: 'Score Markers',
@@ -60,8 +60,8 @@ const strings = new LocalizedStrings({
     },
   },
   de: {
-    adminArea: 'Admin Bereich',
     accept: 'Annehmen',
+    adminArea: 'Admin Bereich',
     backside: 'Kartenrücken',
     cancel: 'Abbrechen',
     chooseTeam: 'Wähle ein Team',

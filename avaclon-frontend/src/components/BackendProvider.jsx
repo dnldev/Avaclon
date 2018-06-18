@@ -16,13 +16,13 @@ class BackendProvider extends Component {
       connectedToLobby: true,
       currentQuest: 0,
       gameEnded: false,
-      gameStarted: false,
       gameSetUp: false,
+      gameStarted: false,
+      isPlayerReady: false,
       loading: false,
       playerCount: 5,
-      selectingTeam: false,
-      isPlayerReady: false,
       players: [],
+      selectingTeam: false,
       voteTracker: 0,
       wonQuests: [],
     };
@@ -33,13 +33,13 @@ class BackendProvider extends Component {
       username: '',
     };
 
+    this.state.checkForSelection = this.checkForSelection.bind(this);
     this.state.handleChange = this.handleChange.bind(this);
     this.state.newGame = this.newGame.bind(this);
-    this.state.openLobby = this.openLobby.bind(this);
     this.state.onUserNameKeyPress = this.onUserNameKeyPress.bind(this);
+    this.state.openLobby = this.openLobby.bind(this);
     this.state.playerReady = this.playerReady.bind(this);
     this.state.sendTeam = this.sendTeam.bind(this);
-    this.state.checkForSelection = this.checkForSelection.bind(this);
   }
 
   componentDidMount() {
