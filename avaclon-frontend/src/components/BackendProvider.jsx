@@ -76,11 +76,6 @@ class BackendProvider extends Component {
       this.setState({ gameSetUp: true });
     });
 
-    this.socket.on('chosen-team', team => {
-      this.setState({ questTeam: team });
-      console.log(team);
-    });
-
     this.socket.on('game-close', () => {
       console.log('Game Closed');
       this.setState({ ...this.resetConfig });
