@@ -80,16 +80,16 @@ class GameUI extends Component {
                 </AutoCollapsing>
               </Grid>
               <TeamSelectionDialog
-                players={context.players.concat([context.player])}
-                open={context.selectingTeam}
-                readOnly={true}
-                title="Choose a team"
-                // TODO: needs max player count
+                // TODO: needs max player
                 maxTeamSize={2}
                 onClose={value => {
                   // TODO: Handle Cancel
                   value && context.selectTeam(value);
                 }}
+                open={context.selectingTeam}
+                players={context.players.concat([context.player])}
+                readOnly={true}
+                title="Choose a team"
               />
             </Grid>
           );
