@@ -80,6 +80,7 @@ class TeamSelectionDialog extends Component {
             input={<Input id="select-multiple-checkbox" />}
             multiple
             onChange={this.handleChange}
+            // Display selected names in Select
             renderValue={selected =>
               selected
                 .map(
@@ -108,7 +109,6 @@ class TeamSelectionDialog extends Component {
           >
             {strings.accept}
           </Button>
-          {/* TODO: Handle Cancel */}
           <Button disabled onClick={this.handleCancel}>
             {strings.cancel}
           </Button>

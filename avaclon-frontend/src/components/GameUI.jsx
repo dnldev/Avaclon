@@ -87,6 +87,7 @@ class GameUI extends Component {
                 // TODO: needs max player count
                 maxTeamSize={2}
                 onClose={value => {
+                  // TODO: Handle Cancel
                   value && context.selectTeam(value);
                 }}
               />
