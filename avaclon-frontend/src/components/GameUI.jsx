@@ -71,9 +71,12 @@ class GameUI extends Component {
               >
                 <AutoCollapsing>
                   <UserTerminal
+                    canVote={context.teamProposed && !context.voteCast}
                     inTeam={this.userInTeam(context.player.id, context.teamIds)}
                     isLeader={context.player.id === context.leaderId}
                     player={context.player}
+                    sendVote={context.sendVote}
+                    vote={context.vote}
                   />
                 </AutoCollapsing>
               </Grid>

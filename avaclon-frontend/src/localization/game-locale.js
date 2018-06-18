@@ -61,7 +61,7 @@ const strings = new LocalizedStrings({
     backside: 'Kartenrücken',
     createLobby: 'Lobby erstellen und beitreten',
     fourthMissionCaption: 'Benötigt zwei Fehlschläge',
-    hammer: 'Hammer',
+    hammer: 'Letzte Chance ein Team anzunehmen',
     name: 'Name',
     newGame: 'Neues Spiel',
     playerCount: 'Spieleranzahl',
