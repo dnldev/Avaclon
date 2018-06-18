@@ -7,6 +7,8 @@ import Grid from '@material-ui/core/Grid';
 
 import { BackendContext } from './context';
 
+import strings from '../localization/game-locale';
+
 import AutoCollapsing from './AutoCollapsing';
 import Board from './Board';
 import PlayerView from './PlayerView';
@@ -55,6 +57,7 @@ class GameUI extends Component {
               <Grid item lg={8} md={9} sm={11} xs={12}>
                 <PlayerView
                   leaderId={context.leaderId}
+                  playerId={context.player.id}
                   players={context.players}
                   teamIds={context.teamIds}
                 />
@@ -99,7 +102,7 @@ class GameUI extends Component {
                 open={context.selectingTeam}
                 players={[context.player].concat(context.players)}
                 readOnly={true}
-                title="Choose a team"
+                title={strings.chooseTeam}
                 onClose={context.sendTeam}
               />
             </Grid>
