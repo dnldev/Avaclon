@@ -27,8 +27,20 @@ class Game {
     this.questVotes = [];
     this.votingPlayers = 0;
 
-    gameData.voteTracker = 0;
-    gameData.wonQuests = [];
+    this.questPlayerCountsForPlayers = {
+      5: [2, 3, 2, 3, 3],
+      6: [2, 3, 4, 3, 4],
+      7: [2, 3, 3, 4, 4],
+      8: [3, 4, 4, 5, 5],
+      9: [3, 4, 4, 5, 5],
+      10: [3, 4, 4, 5, 5],
+    };
+
+    this.gameData.voteTracker = 0;
+    this.gameData.wonQuests = [];
+    this.gameData.questPlayerCounts = this.questPlayerCountsForPlayers[
+      this.gameData.playerCount
+    ];
 
     this.roles = this.createRoles(this.gameData).shuffle();
 
@@ -96,7 +108,7 @@ class Game {
     this.namespace.emit(
       'voting-phase',
       this.gameData.voteTracker,
-      this.leaderId
+      this.gameData.leaderId
     );
     if (this.gameData.voteTracker === 4) {
       this.questDone(Affiliation.EVIL);
@@ -115,12 +127,14 @@ class Game {
     this.gameData.wonQuests.push(winner);
     if (!this.gameEnding()) {
       this.namespace.emit('quest-conclusion', this.gameData.wonQuests);
+      this.setNextLeader();
       this.newVotingPhase();
     }
   }
 
   questVote() {
-    this.team.forEach(player => {
+    this.team.forEach(id => {
+      const player = this.findPlayer(id);
       if (player.playerData.role.affiliation === Affiliation.EVIL) {
         player.socket.emit('quest-voting');
         this.votingPlayers++;
@@ -152,6 +166,15 @@ class Game {
       }
     });
 
+    socket.on('selected-team', team => {
+      game_log(
+        'Team Selected:',
+        team.map(id => this.getPlayerName(id)).join(', ')
+      );
+      this.team = team;
+      this.namespace.emit('team-proposed', team);
+    });
+
     socket.on('vote', vote => {
       game_log(
         'Player (' + this.getPlayerName(player_id) + ') voted:',
@@ -169,14 +192,14 @@ class Game {
 
   start() {
     this.currentLeaderIdx = Math.floor(Math.random() * this.players.length);
-    this.leaderId = this.players[this.currentLeaderIdx].playerData.id;
+
+    this.gameData.leaderId = this.players[this.currentLeaderIdx].playerData.id;
 
     this.players.forEach(currentPlayer => {
       const info = {
         players: currentPlayer.playerData.role.knowledge(
           this.players.filter(p => p !== currentPlayer)
         ),
-        leaderId: this.players[this.currentLeaderIdx].playerData.id,
         player: currentPlayer.playerData,
         teamIds: [],
         ...this.gameData,
@@ -248,7 +271,7 @@ class Game {
     if (this.currentLeaderIdx === this.gameData.playerCount) {
       this.currentLeaderIdx = 0;
     }
-    this.leaderId = this.players[this.currentLeaderIdx].playerData.id;
+    this.gameData.leaderId = this.players[this.currentLeaderIdx].playerData.id;
   }
 
   teamAccepted() {
