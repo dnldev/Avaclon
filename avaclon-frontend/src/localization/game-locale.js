@@ -58,6 +58,7 @@ const strings = new LocalizedStrings({
       mordred: 'Mordred',
       oberon: 'Oberon',
       unknown: 'Unknown',
+      you: 'You',
     },
   },
   de: {
@@ -106,6 +107,7 @@ const strings = new LocalizedStrings({
       hidden: 'Versteckte Rolle',
       merlinOrMorgana: 'Merlin oder Morgana',
       unknown: 'Unbekannt',
+      you: 'Du',
     },
   },
 });
