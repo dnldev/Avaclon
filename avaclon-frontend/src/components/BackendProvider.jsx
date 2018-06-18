@@ -10,6 +10,8 @@ class BackendProvider extends Component {
   constructor(props) {
     super(props);
 
+    this.delay = 5000;
+
     this.serverUrl = 'localhost:5000/lobby/';
 
     this.resetConfig = {
@@ -34,7 +36,6 @@ class BackendProvider extends Component {
       username: '',
     };
 
-    this.state.checkForSelection = this.checkForSelection.bind(this);
     this.state.handleChange = this.handleChange.bind(this);
     this.state.newGame = this.newGame.bind(this);
     this.state.onUserNameKeyPress = this.onUserNameKeyPress.bind(this);
@@ -66,6 +67,14 @@ class BackendProvider extends Component {
     this.socket.close();
   }
 
+  getDelay() {
+    if (this.state.wonQuests.length === 0 && this.state.voteTracker === 0) {
+      return 10000;
+    } else {
+      return 5000;
+    }
+  }
+
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
@@ -94,7 +103,7 @@ class BackendProvider extends Component {
     this.socket.on('start-new-game', gameData => {
       console.log('New Game started');
       this.setState({ loading: false, gameStarted: true, ...gameData });
-      this.checkForSelection();
+      this.selectTeamIfLeader();
     });
 
     this.socket.on('team-proposed', teamIds => {
@@ -113,21 +122,13 @@ class BackendProvider extends Component {
         voteTracker: nextTracker,
       });
 
-      if (this.state.player.id === nextLeaderId) {
-        this.setState({ selectingTeam: true });
-      }
+      this.selectTeamIfLeader();
     });
 
     this.socket.on('vote-result', result => {
       console.log(result);
       // TODO: show result in dialog
     });
-  }
-
-  checkForSelection() {
-    if (this.state.player.id === this.state.leaderId) {
-      this.setState({ selectingTeam: true });
-    }
   }
 
   newGame() {
@@ -165,6 +166,14 @@ class BackendProvider extends Component {
     console.log('Username: ' + this.state.username);
     this.socket.emit('user-ready', this.state.username);
     this.setState({ isPlayerReady: true, loading: true });
+  }
+
+  selectTeamIfLeader() {
+    if (this.state.player.id === this.state.leaderId) {
+      setTimeout(() => {
+        this.setState({ selectingTeam: true });
+      }, this.getDelay());
+    }
   }
 
   sendQuestVote(questVote) {
