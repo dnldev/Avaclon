@@ -11,9 +11,8 @@ import AutoCollapsing from './AutoCollapsing';
 import Board from './Board';
 import PlayerView from './PlayerView';
 import QuestVoteDialog from './QuestVoteDialog';
-import UserTerminal from './UserTerminal';
-
 import TeamSelectionDialog from './TeamSelectionDialog';
+import UserTerminal from './UserTerminal';
 
 const styles = theme => ({
   root: {
@@ -65,6 +64,7 @@ class GameUI extends Component {
                 <Board
                   currentQuest={context.wonQuests.length}
                   playerCount={context.playerCount}
+                  questPlayerCounts={context.questPlayerCounts}
                   wonQuests={context.wonQuests}
                 />
               </Grid>
@@ -93,16 +93,14 @@ class GameUI extends Component {
                 onClose={context.sendQuestVote}
               />
               <TeamSelectionDialog
-                // TODO: needs max player
-                maxTeamSize={2}
-                onClose={value => {
-                  // TODO: Handle Cancel
-                  value && context.sendTeam(value);
-                }}
+                maxTeamSize={
+                  context.questPlayerCounts[context.wonQuests.length]
+                }
                 open={context.selectingTeam}
-                players={context.players.concat([context.player])}
+                players={[context.player].concat(context.players)}
                 readOnly={true}
                 title="Choose a team"
+                onClose={context.sendTeam}
               />
             </Grid>
           );

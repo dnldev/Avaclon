@@ -16,11 +16,14 @@ import FormControl from '@material-ui/core/FormControl';
 
 import strings from '../localization/game-locale';
 
-const style = () => ({
+const style = theme => ({
   root: {},
+  controlButton: {
+    marginRight: theme.spacing.unit * 2,
+  },
   select: {
-    paddingLeft: '20%',
-    paddingRight: '20%',
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
   },
 });
 
@@ -28,22 +31,26 @@ class TeamSelectionDialog extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { team: [] };
+    this.state = { team: [this.props.players[0].id] };
 
     this.handleAccept = this.handleAccept.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.isInTeam = this.isInTeam.bind(this);
     this.maxPlayersReached = this.maxPlayersReached.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
+  }
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.onKeyDown, false);
   }
 
   handleAccept() {
     this.props.onClose(this.state.team);
   }
 
-  handleCancel() {
-    this.props.onClose(null);
-  }
+  // handleCancel() {
+  //   this.props.onClose(null);
+  // }
 
   handleChange(event) {
     this.setState({ team: event.target.value });
@@ -55,6 +62,14 @@ class TeamSelectionDialog extends Component {
 
   maxPlayersReached() {
     return this.state.team.length === this.props.maxTeamSize;
+  }
+
+  onKeyDown(e) {
+    if (e.key === 'Enter') {
+      if (this.maxPlayersReached()) {
+        this.handleAccept();
+      }
+    }
   }
 
   render() {
@@ -70,16 +85,10 @@ class TeamSelectionDialog extends Component {
         {/* TODO: localize */}
         <DialogTitle>{strings.chooseTeam}</DialogTitle>
         <FormControl className={classes.select}>
-          <InputLabel
-            className={classes.select}
-            htmlFor="select-multiple-checkbox"
-          >
-            Team
-          </InputLabel>
+          <InputLabel htmlFor="select-multiple-checkbox">Team</InputLabel>
           <Select
-            input={<Input id="select-multiple-checkbox" />}
             multiple
-            onChange={this.handleChange}
+            input={<Input id="select-multiple-checkbox" />}
             // Display selected names in Select
             renderValue={selected =>
               selected
@@ -89,6 +98,7 @@ class TeamSelectionDialog extends Component {
                 .join(', ')
             }
             value={this.state.team}
+            onChange={this.handleChange}
           >
             {this.props.players.map(player => (
               <MenuItem
@@ -104,13 +114,13 @@ class TeamSelectionDialog extends Component {
         </FormControl>
         <DialogActions>
           <Button
+            className={classes.controlButton}
+            color="secondary"
             disabled={!this.maxPlayersReached()}
+            variant="flat"
             onClick={this.handleAccept}
           >
             {strings.accept}
-          </Button>
-          <Button disabled onClick={this.handleCancel}>
-            {strings.cancel}
           </Button>
         </DialogActions>
       </Dialog>

@@ -118,16 +118,16 @@ class UserTerminal extends Component {
                     <Button
                       className={classes.voteButton}
                       disabled={!this.props.canVote}
-                      onClick={() => this.props.sendVote(true)}
                       variant={this.props.vote === true ? 'outlined' : 'text'}
+                      onClick={() => this.props.sendVote(true)}
                     >
                       {strings.quest.approve}
                     </Button>
                     <Button
                       className={classes.voteButton}
                       disabled={!this.props.canVote}
-                      onClick={() => this.props.sendVote(false)}
                       variant={this.props.vote === false ? 'outlined' : 'text'}
+                      onClick={() => this.props.sendVote(false)}
                     >
                       {strings.quest.reject}
                     </Button>

@@ -4,13 +4,13 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import strings from '../localization/game-locale';
 
 import fail from './../static/images/fail.jpg';
 import success from './../static/images/success.jpg';
-import { Grid } from '@material-ui/core';
 
 const images = {
   fail: fail,
@@ -23,8 +23,8 @@ const style = () => ({
   voteImage: {
     borderRadius: 60,
     cursor: 'pointer',
-    marginBottom: 0,
     margin: '0 5%',
+    marginBottom: 0,
     width: '90%',
   },
   voteText: {

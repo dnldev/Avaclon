@@ -112,6 +112,10 @@ class BackendProvider extends Component {
         vote: null,
         voteTracker: nextTracker,
       });
+
+      if (this.state.player.id === nextLeaderId) {
+        this.setState({ selectingTeam: true });
+      }
     });
 
     this.socket.on('vote-result', result => {

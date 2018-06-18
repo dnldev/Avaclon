@@ -2,7 +2,7 @@ import LocalizedStrings from 'react-localization';
 
 const strings = new LocalizedStrings({
   en: {
-    accept: 'Accept',
+    accept: 'Choose Team',
     adminArea: 'Admin Area',
     approveRejectTokens: 'Vote Tokens',
     backside: 'Cardback',
@@ -25,6 +25,7 @@ const strings = new LocalizedStrings({
     voteCards: 'Quest Cards',
     voteTrackEnd: 'Quest Win Goes to Evil',
     voteTrackMarker: 'Vote Track Marker',
+    you: 'You',
 
     numbers: {
       one: 'One',
@@ -60,7 +61,7 @@ const strings = new LocalizedStrings({
     },
   },
   de: {
-    accept: 'Annehmen',
+    accept: 'Team Auswählen',
     adminArea: 'Admin Bereich',
     backside: 'Kartenrücken',
     cancel: 'Abbrechen',
@@ -74,6 +75,7 @@ const strings = new LocalizedStrings({
     playerReady: 'Bereit',
     switchLanguage: 'Sprache wechseln',
     voteTrackEnd: 'Missionssieg geht an Böse',
+    you: 'Du',
 
     numbers: {
       one: 'Ein',
