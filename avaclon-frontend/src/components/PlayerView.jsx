@@ -72,7 +72,7 @@ class PlayerView extends Component {
                   inTeam={this.playerInTeam(player.id)}
                   isLeader={player.id === this.props.leaderId}
                   name={player.name}
-                  role={player.role}
+                  role={player.id === this.props.playerId ? 'you' : player.role}
                 />
               </Grid>
             ))}
@@ -89,6 +89,7 @@ class PlayerView extends Component {
 PlayerView.propTypes = {
   classes: PropTypes.object.isRequired,
   leaderId: PropTypes.string.isRequired,
+  playerId: PropTypes.string.isRequired,
   players: PropTypes.array.isRequired,
   teamIds: PropTypes.array.isRequired,
 };
