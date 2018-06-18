@@ -67,14 +67,6 @@ class QuestVoteDialog extends Component {
         }}
       >
         <DialogActions>
-          {/* <Button disabled={false} onClick={this.handleAccept}>
-            {strings.accept}
-          </Button>
-          {/* TODO: Handle Cancel */}
-          {/*<Button disabled={false} onClick={this.handleCancel}>
-            {strings.cancel}
-          </Button> */}
-
           <Grid container className={classes.mainGrid} alignContent="center">
             <Grid item xs={6}>
               <Typography
