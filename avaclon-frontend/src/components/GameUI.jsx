@@ -93,7 +93,6 @@ class GameUI extends Component {
                 onClose={context.sendQuestVote}
               />
               <TeamSelectionDialog
-                // TODO: needs max player
                 maxTeamSize={
                   context.questPlayerCounts[context.wonQuests.length]
                 }
