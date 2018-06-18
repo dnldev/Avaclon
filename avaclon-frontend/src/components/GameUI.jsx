@@ -84,6 +84,7 @@ class GameUI extends Component {
                 open={context.selectingTeam}
                 readOnly={true}
                 title="Choose a team"
+                // TODO: needs max player count
                 maxTeamSize={2}
                 onClose={value => {
                   console.log(value);
