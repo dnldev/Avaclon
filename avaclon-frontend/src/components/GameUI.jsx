@@ -87,7 +87,7 @@ class GameUI extends Component {
                 maxTeamSize={2}
                 onClose={value => {
                   // TODO: Handle Cancel
-                  value && context.selectTeam(value);
+                  value && context.sendTeam(value);
                 }}
                 open={context.selectingTeam}
                 players={context.players.concat([context.player])}
