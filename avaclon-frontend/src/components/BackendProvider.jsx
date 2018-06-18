@@ -83,13 +83,13 @@ class BackendProvider extends Component {
     this.socket.on('selection-start', leader => {
       this.setState({ leaderId: leader });
     });
-        
+
     this.socket.on('start-new-game', gameData => {
       console.log('New Game started');
       this.setState({ loading: false, gameStarted: true, ...gameData });
       this.checkForSelection();
     });
-        
+
     this.socket.on('team-proposed', teamIds => {
       console.log('Team Proposed');
       console.log(teamIds);
