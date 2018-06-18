@@ -11,9 +11,8 @@ import AutoCollapsing from './AutoCollapsing';
 import Board from './Board';
 import PlayerView from './PlayerView';
 import QuestVoteDialog from './QuestVoteDialog';
-import UserTerminal from './UserTerminal';
-
 import TeamSelectionDialog from './TeamSelectionDialog';
+import UserTerminal from './UserTerminal';
 
 const styles = theme => ({
   root: {
@@ -100,7 +99,7 @@ class GameUI extends Component {
                   value && context.sendTeam(value);
                 }}
                 open={context.selectingTeam}
-                players={context.players.concat([context.player])}
+                players={[context.player].concat(context.players)}
                 readOnly={true}
                 title="Choose a team"
               />
