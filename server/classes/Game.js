@@ -66,7 +66,7 @@ class Game {
     game_log('Game Started');
   }
 
-  selectTeam() {
+  startSelectionPhase() {
     this.namespace.emit(
       'selection-start',
       this.players[this.currentLeaderIdx].playerData.id

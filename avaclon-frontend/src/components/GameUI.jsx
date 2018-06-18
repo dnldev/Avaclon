@@ -87,10 +87,7 @@ class GameUI extends Component {
                 // TODO: needs max player count
                 maxTeamSize={2}
                 onClose={value => {
-                  console.log(value);
-                  if (value) {
-                    context.sendTeam(value);
-                  }
+                  value && context.selectTeam(value);
                 }}
               />
             </Grid>
