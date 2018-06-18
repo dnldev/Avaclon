@@ -39,6 +39,7 @@ class BackendProvider extends Component {
     this.state.onUserNameKeyPress = this.onUserNameKeyPress.bind(this);
     this.state.playerReady = this.playerReady.bind(this);
     this.state.sendTeam = this.sendTeam.bind(this);
+    this.state.checkForSelection = this.checkForSelection.bind(this);
   }
 
   componentDidMount() {
@@ -70,6 +71,7 @@ class BackendProvider extends Component {
     this.socket.on('start-new-game', gameData => {
       console.log('New Game started');
       this.setState({ loading: false, gameStarted: true, ...gameData });
+      this.checkForSelection();
     });
 
     this.socket.on('game-set-up', () => {
@@ -77,16 +79,20 @@ class BackendProvider extends Component {
       this.setState({ gameSetUp: true });
     });
 
-    this.socket.on('selction-start', leader => {
-      if (this.state.player.id === leader) {
-        this.setState({ selectingTeam: true });
-      }
+    this.socket.on('selection-start', leader => {
+      this.setState({ leaderId: leader });
     });
 
     this.socket.on('game-close', () => {
       console.log('Game Closed');
       this.setState({ ...this.resetConfig });
     });
+  }
+
+  checkForSelection() {
+    if (this.state.player.id === this.state.leaderId) {
+      this.setState({ selectingTeam: true });
+    }
   }
 
   newGame() {
@@ -128,6 +134,7 @@ class BackendProvider extends Component {
 
   sendTeam(team) {
     this.socket.emit('selected-team', team);
+    this.setState({ selectingTeam: false });
   }
 
   setupConnection(lobby_id) {

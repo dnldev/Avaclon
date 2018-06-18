@@ -12,6 +12,8 @@ import Board from './Board';
 import PlayerView from './PlayerView';
 import UserTerminal from './UserTerminal';
 
+import TeamSelectionDialog from './TeamSelectionDialog';
+
 const styles = theme => ({
   root: {
     margin: theme.spacing.unit,
@@ -77,6 +79,19 @@ class GameUI extends Component {
                   />
                 </AutoCollapsing>
               </Grid>
+              <TeamSelectionDialog
+                players={context.players}
+                open={context.selectingTeam}
+                readOnly={true}
+                title="Choose a team"
+                maxTeamSize={2}
+                onClose={value => {
+                  console.log(value);
+                  if (value) {
+                    context.sendTeam(value);
+                  }
+                }}
+              />
             </Grid>
           );
         }}
