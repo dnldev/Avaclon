@@ -80,7 +80,7 @@ class GameUI extends Component {
                 </AutoCollapsing>
               </Grid>
               <TeamSelectionDialog
-                players={context.players}
+                players={context.players.concat([context.player])}
                 open={context.selectingTeam}
                 readOnly={true}
                 title="Choose a team"
