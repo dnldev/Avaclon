@@ -47,6 +47,7 @@ class ConfigInput extends Component {
                 <TextField
                   className={classes.gridItemContent}
                   autoFocus={true}
+                  inputProps={{ maxLength: 'Christian Krause'.length }}
                   label={strings.name}
                   name="username"
                   value={context.username}
