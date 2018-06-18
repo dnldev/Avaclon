@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import Affiliation from 'avalon-models/Affiliation';
+
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -48,7 +50,7 @@ class Quest extends Component {
   getQuestStatusClass(classes) {
     return this.props.wonBy === undefined
       ? classes.neutralCircleFill
-      : this.props.wonBy === 'evil'
+      : this.props.wonBy === Affiliation.EVIL
         ? classes.evilWinCircleFill
         : classes.goodWinCircleFill;
   }
@@ -81,7 +83,7 @@ Quest.propTypes = {
   currentQuest: PropTypes.number.isRequired,
   playersOnQuest: PropTypes.number.isRequired,
   questIndex: PropTypes.number.isRequired,
-  wonBy: PropTypes.string,
+  wonBy: PropTypes.number,
 };
 
 export default withStyles(styles)(Quest);
