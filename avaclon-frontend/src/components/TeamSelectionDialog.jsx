@@ -31,7 +31,7 @@ class TeamSelectionDialog extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { team: [] };
+    this.state = { team: [this.props.players[0].id] };
 
     this.handleAccept = this.handleAccept.bind(this);
     this.handleChange = this.handleChange.bind(this);
