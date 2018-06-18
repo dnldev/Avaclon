@@ -102,7 +102,12 @@ class TeamSelectionDialog extends Component {
           </Select>
         </FormControl>
         <DialogActions>
-          <Button onClick={this.handleAccept}>{strings.accept}</Button>
+          <Button
+            disabled={!this.maxPlayersReached()}
+            onClick={this.handleAccept}
+          >
+            {strings.accept}
+          </Button>
           <Button onClick={this.handleCancel}>{strings.cancel}</Button>
         </DialogActions>
       </Dialog>
