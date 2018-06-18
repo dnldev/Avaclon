@@ -97,11 +97,11 @@ class GameUI extends Component {
                 maxTeamSize={
                   context.questPlayerCounts[context.wonQuests.length]
                 }
-                onClose={context.sendTeam}
                 open={context.selectingTeam}
                 players={[context.player].concat(context.players)}
                 readOnly={true}
                 title="Choose a team"
+                onClose={context.sendTeam}
               />
             </Grid>
           );

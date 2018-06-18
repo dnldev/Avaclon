@@ -49,9 +49,9 @@ class ConfigInput extends Component {
                   autoFocus={true}
                   label={strings.name}
                   name="username"
+                  value={context.username}
                   onChange={context.handleChange}
                   onKeyPress={context.onUserNameKeyPress}
-                  value={context.username}
                 />
               </Grid>
               {this.props.showPlayerCount && (
@@ -62,8 +62,8 @@ class ConfigInput extends Component {
                     </InputLabel>
                     <Select
                       inputProps={{ name: 'playerCount', id: 'player-count' }}
-                      onChange={context.handleChange}
                       value={context.playerCount}
+                      onChange={context.handleChange}
                     >
                       <MenuItem value={5}>(5) {strings.numbers.five}</MenuItem>
                       <MenuItem value={6}>(6) {strings.numbers.six}</MenuItem>

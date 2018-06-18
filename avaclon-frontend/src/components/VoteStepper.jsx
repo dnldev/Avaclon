@@ -52,11 +52,11 @@ class VoteStepper extends Component {
         enterDelay={300}
         id="tooltip-controlled"
         leaveDelay={300}
-        onClose={this.handleMissionLossClose}
-        onOpen={this.handleMissionLossOpen}
         open={this.state.missionLossOpen}
         placement="bottom"
         title={strings.voteTrackEnd}
+        onClose={this.handleMissionLossClose}
+        onOpen={this.handleMissionLossOpen}
       >
         <IconButton
           className={classes.iconButton}
@@ -81,11 +81,11 @@ class VoteStepper extends Component {
         enterDelay={300}
         id="tooltip-controlled"
         leaveDelay={300}
-        onClose={this.handleHammerClose}
-        onOpen={this.handleHammerOpen}
         open={this.state.hammerOpen}
         placement="bottom"
         title={strings.hammer}
+        onClose={this.handleHammerClose}
+        onOpen={this.handleHammerOpen}
       >
         <IconButton
           className={classes.iconButton}

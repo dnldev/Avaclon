@@ -65,10 +65,10 @@ class Player extends Component {
               {this.props.isLeader && <Icon>star_border</Icon>}
             </div>
             <Tooltip
-              onClose={this.handleTooltipClose}
-              onOpen={this.handleTooltipOpen}
               open={this.state.showTooltip}
               title={strings.roles[this.props.role]}
+              onClose={this.handleTooltipClose}
+              onOpen={this.handleTooltipOpen}
             >
               <Chip
                 avatar={<Avatar>{this.getInitials()}</Avatar>}

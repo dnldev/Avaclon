@@ -89,7 +89,6 @@ class TeamSelectionDialog extends Component {
           <Select
             multiple
             input={<Input id="select-multiple-checkbox" />}
-            onChange={this.handleChange}
             // Display selected names in Select
             renderValue={selected =>
               selected
@@ -99,6 +98,7 @@ class TeamSelectionDialog extends Component {
                 .join(', ')
             }
             value={this.state.team}
+            onChange={this.handleChange}
           >
             {this.props.players.map(player => (
               <MenuItem
@@ -117,8 +117,8 @@ class TeamSelectionDialog extends Component {
             className={classes.controlButton}
             color="secondary"
             disabled={!this.maxPlayersReached()}
-            onClick={this.handleAccept}
             variant="flat"
+            onClick={this.handleAccept}
           >
             {strings.accept}
           </Button>
