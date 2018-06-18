@@ -64,6 +64,7 @@ class GameUI extends Component {
                 <Board
                   currentQuest={context.wonQuests.length}
                   playerCount={context.playerCount}
+                  questPlayerCounts={context.questPlayerCounts}
                   wonQuests={context.wonQuests}
                 />
               </Grid>
@@ -93,11 +94,10 @@ class GameUI extends Component {
               />
               <TeamSelectionDialog
                 // TODO: needs max player
-                maxTeamSize={2}
-                onClose={value => {
-                  // TODO: Handle Cancel
-                  value && context.sendTeam(value);
-                }}
+                maxTeamSize={
+                  context.questPlayerCounts[context.wonQuests.length]
+                }
+                onClose={context.sendTeam}
                 open={context.selectingTeam}
                 players={[context.player].concat(context.players)}
                 readOnly={true}
