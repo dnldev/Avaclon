@@ -24,14 +24,7 @@ class Board extends Component {
   constructor(props) {
     super(props);
 
-    this.questPlayersForPlayerCount = {
-      5: [2, 3, 2, 3, 3],
-      6: [2, 3, 4, 3, 4],
-      7: [2, 3, 3, 4, 4],
-      8: [3, 4, 4, 5, 5],
-      9: [3, 4, 4, 5, 5],
-      10: [3, 4, 4, 5, 5],
-    };
+    this.questPlayersForPlayerCount = {};
   }
 
   twoFailsNeeded(playerCount, questIndex) {
@@ -44,31 +37,29 @@ class Board extends Component {
     return (
       <Paper className={classes.root} elevation={5}>
         <Grid container className={classes.quest} justify="center">
-          {this.questPlayersForPlayerCount[this.props.playerCount].map(
-            (questPlayers, i) => {
-              return (
-                <Grid item key={i} xs={4} md={2}>
-                  <Grid container justify="center">
-                    <Quest
-                      currentQuest={this.props.currentQuest}
-                      playersOnQuest={questPlayers}
-                      questIndex={i}
-                      wonBy={this.props.wonQuests[i]}
-                    />
-                  </Grid>
-                  {this.twoFailsNeeded(this.props.playerCount, i) && (
-                    <Typography align="center" gutterBottom variant="caption">
-                      {this.props.currentQuest === 3 ? (
-                        <strong>{strings.fourthMissionCaption}</strong>
-                      ) : (
-                        strings.fourthMissionCaption
-                      )}
-                    </Typography>
-                  )}
+          {this.props.questPlayerCounts.map((questPlayers, i) => {
+            return (
+              <Grid item key={i} xs={4} md={2}>
+                <Grid container justify="center">
+                  <Quest
+                    currentQuest={this.props.currentQuest}
+                    playersOnQuest={questPlayers}
+                    questIndex={i}
+                    wonBy={this.props.wonQuests[i]}
+                  />
                 </Grid>
-              );
-            }
-          )}
+                {this.twoFailsNeeded(this.props.playerCount, i) && (
+                  <Typography align="center" gutterBottom variant="caption">
+                    {this.props.currentQuest === 3 ? (
+                      <strong>{strings.fourthMissionCaption}</strong>
+                    ) : (
+                      strings.fourthMissionCaption
+                    )}
+                  </Typography>
+                )}
+              </Grid>
+            );
+          })}
         </Grid>
 
         <VoteStepper />
@@ -81,6 +72,7 @@ Board.propTypes = {
   classes: PropTypes.object.isRequired,
   currentQuest: PropTypes.number.isRequired,
   playerCount: PropTypes.number.isRequired,
+  questPlayerCounts: PropTypes.array.isRequired,
   wonQuests: PropTypes.array.isRequired,
 };
 
