@@ -49,10 +49,6 @@ class Lobby {
         }
       });
 
-      socket.on('selected-team', team => {
-        this.namespace.emit('team-proposed', team);
-      });
-
       socket.on('disconnect', () => {
         if (
           this.game &&
