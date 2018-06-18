@@ -91,10 +91,6 @@ class BackendProvider extends Component {
       this.setState({ needsToVote: true });
     });
 
-    this.socket.on('selection-start', leader => {
-      this.setState({ leaderId: leader });
-    });
-
     this.socket.on('start-new-game', gameData => {
       console.log('New Game started');
       this.setState({ loading: false, gameStarted: true, ...gameData });

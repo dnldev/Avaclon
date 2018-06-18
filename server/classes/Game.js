@@ -188,13 +188,6 @@ class Game {
     this.newVotingPhase();
   }
 
-  startSelectionPhase() {
-    this.namespace.emit(
-      'selection-start',
-      this.players[this.currentLeaderIdx].playerData.id
-    );
-  }
-
   // Utility Functions
 
   compareAffiliations(role, otherRole) {
