@@ -2,11 +2,14 @@ import LocalizedStrings from 'react-localization';
 
 const strings = new LocalizedStrings({
   en: {
+    accept: 'Accept',
     adminArea: 'Admin Area',
     approveRejectTokens: 'Vote Tokens',
     backside: 'Cardback',
     blueRedMarkers: 'Score Markers',
+    cancel: 'Cancel',
     characterCards: 'Character Cards',
+    chooseTeam: 'Choose a team',
     createLobby: 'Create and Connect to Lobby',
     fourthMissionCaption: 'Two Fails Needed',
     hammer: 'Last Chance to Approve a Team',
@@ -57,8 +60,11 @@ const strings = new LocalizedStrings({
     },
   },
   de: {
+    accept: 'Annehmen',
     adminArea: 'Admin Bereich',
     backside: 'Kartenrücken',
+    cancel: 'Abbrechen',
+    chooseTeam: 'Wähle ein Team',
     createLobby: 'Lobby erstellen und beitreten',
     fourthMissionCaption: 'Benötigt zwei Fehlschläge',
     hammer: 'Letzte Chance ein Team anzunehmen',

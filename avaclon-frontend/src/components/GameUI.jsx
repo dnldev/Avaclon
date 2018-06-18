@@ -13,6 +13,8 @@ import PlayerView from './PlayerView';
 import QuestVoteDialog from './QuestVoteDialog';
 import UserTerminal from './UserTerminal';
 
+import TeamSelectionDialog from './TeamSelectionDialog';
+
 const styles = theme => ({
   root: {
     margin: theme.spacing.unit,
@@ -85,9 +87,22 @@ class GameUI extends Component {
                   />
                 </AutoCollapsing>
               </Grid>
+
               <QuestVoteDialog
                 open={context.needsToVote}
                 onClose={context.sendQuestVote}
+              />
+              <TeamSelectionDialog
+                // TODO: needs max player
+                maxTeamSize={2}
+                onClose={value => {
+                  // TODO: Handle Cancel
+                  value && context.sendTeam(value);
+                }}
+                open={context.selectingTeam}
+                players={context.players.concat([context.player])}
+                readOnly={true}
+                title="Choose a team"
               />
             </Grid>
           );
