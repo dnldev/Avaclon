@@ -12,8 +12,6 @@ import strings from '../localization/game-locale';
 import Quest from './Quest';
 import VoteStepper from './VoteStepper';
 
-import { BackendContext } from './context';
-
 const styles = theme => ({
   root: theme.mixins.gutters({
     paddingTop: 16,
@@ -44,53 +42,46 @@ class Board extends Component {
     const { classes } = this.props;
 
     return (
-      <BackendContext.Consumer>
-        {context => {
-          return (
-            <Paper className={classes.root} elevation={5}>
-              <Grid container className={classes.quest} justify="center">
-                {this.questPlayersForPlayerCount[context.playerCount].map(
-                  (questPlayers, i) => {
-                    return (
-                      <Grid item key={i} xs={4} md={2}>
-                        <Grid container justify="center">
-                          <Quest
-                            currentQuest={context.currentQuest}
-                            playersOnQuest={questPlayers}
-                            questIndex={i}
-                            wonBy={context.wonQuests[i]}
-                          />
-                        </Grid>
-                        {this.twoFailsNeeded(context.playerCount, i) && (
-                          <Typography
-                            align="center"
-                            gutterBottom
-                            variant="caption"
-                          >
-                            {context.currentQuest === 3 ? (
-                              <strong>{strings.fourthMissionCaption}</strong>
-                            ) : (
-                              strings.fourthMissionCaption
-                            )}
-                          </Typography>
-                        )}
-                      </Grid>
-                    );
-                  }
-                )}
-              </Grid>
+      <Paper className={classes.root} elevation={5}>
+        <Grid container className={classes.quest} justify="center">
+          {this.questPlayersForPlayerCount[this.props.playerCount].map(
+            (questPlayers, i) => {
+              return (
+                <Grid item key={i} xs={4} md={2}>
+                  <Grid container justify="center">
+                    <Quest
+                      currentQuest={this.props.currentQuest}
+                      playersOnQuest={questPlayers}
+                      questIndex={i}
+                      wonBy={this.props.wonQuests[i]}
+                    />
+                  </Grid>
+                  {this.twoFailsNeeded(this.props.playerCount, i) && (
+                    <Typography align="center" gutterBottom variant="caption">
+                      {this.props.currentQuest === 3 ? (
+                        <strong>{strings.fourthMissionCaption}</strong>
+                      ) : (
+                        strings.fourthMissionCaption
+                      )}
+                    </Typography>
+                  )}
+                </Grid>
+              );
+            }
+          )}
+        </Grid>
 
-              <VoteStepper />
-            </Paper>
-          );
-        }}
-      </BackendContext.Consumer>
+        <VoteStepper />
+      </Paper>
     );
   }
 }
 
 Board.propTypes = {
   classes: PropTypes.object.isRequired,
+  currentQuest: PropTypes.number.isRequired,
+  playerCount: PropTypes.number.isRequired,
+  wonQuests: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles)(Board);

@@ -24,6 +24,9 @@ class Game {
     this.namespace = namespace;
     this.players = [];
 
+    this.questVotes = [];
+    this.votingPlayers = 0;
+
     gameData.voteTracker = 0;
     gameData.wonQuests = [];
 
@@ -38,14 +41,15 @@ class Game {
 
   endVotePhase() {
     const teamAccepted = this.teamAccepted();
-    this.namespace.emit('vote-result', teamAccepted);
-    // Test:
-    // if (!teamAccepted) {
-    //   this.gameData.voteTracker++;
-    //   this.newVotingPhase();
-    // } else {
-    //   this.questDone(Affiliation.GOOD);
-    // }
+    this.namespace.emit('vote-result', this.getNamedVotes());
+
+    if (teamAccepted) {
+      this.questVote();
+    } else {
+      this.gameData.voteTracker++;
+      this.setNextLeader();
+      this.newVotingPhase();
+    }
   }
 
   gameEnding() {
@@ -86,8 +90,14 @@ class Game {
 
   newVotingPhase() {
     this.playerVotes = {};
+    this.questVotes = [];
+    this.votingPlayers = 0;
     // TODO: reset other dependant values
-    this.namespace.emit('voting-phase', this.gameData.voteTracker);
+    this.namespace.emit(
+      'voting-phase',
+      this.gameData.voteTracker,
+      this.leaderId
+    );
     if (this.gameData.voteTracker === 4) {
       this.questDone(Affiliation.EVIL);
     }
@@ -96,6 +106,8 @@ class Game {
     //   this.players[0].playerData.id,
     //   this.players[1].playerData.id,
     // ]);
+
+    // this.team = [this.players[0], this.players[1]];
   }
 
   questDone(winner) {
@@ -107,7 +119,39 @@ class Game {
     }
   }
 
+  questVote() {
+    this.team.forEach(player => {
+      if (player.playerData.role.affiliation === Affiliation.EVIL) {
+        player.socket.emit('quest-voting');
+        this.votingPlayers++;
+      }
+    });
+
+    // TODO: add random delay
+    // no evil players in team
+    if (this.votingPlayers === 0) {
+      this.questDone(Affiliation.GOOD);
+    }
+  }
+
   setupPlayerEvents(socket, player_id) {
+    socket.on('quest-vote', questVote => {
+      game_log(
+        'Player (' + this.getPlayerName(player_id) + ') voted:',
+        questVote ? 'Success' : 'Fail'
+      );
+
+      this.questVotes.push(questVote);
+
+      if (this.questVotes.length === this.votingPlayers) {
+        if (questVote) {
+          this.questDone(Affiliation.GOOD);
+        } else {
+          this.questDone(Affiliation.EVIL);
+        }
+      }
+    });
+
     socket.on('vote', vote => {
       game_log(
         'Player (' + this.getPlayerName(player_id) + ') voted:',
@@ -125,6 +169,7 @@ class Game {
 
   start() {
     this.currentLeaderIdx = Math.floor(Math.random() * this.players.length);
+    this.leaderId = this.players[this.currentLeaderIdx].playerData.id;
 
     this.players.forEach(currentPlayer => {
       const info = {
@@ -141,13 +186,6 @@ class Game {
     });
 
     this.newVotingPhase();
-  }
-
-  startSelectionPhase() {
-    this.namespace.emit(
-      'selection-start',
-      this.players[this.currentLeaderIdx].playerData.id
-    );
   }
 
   // Utility Functions
@@ -179,6 +217,15 @@ class Game {
     return this.players.find(player => player.playerData.id === player_id);
   }
 
+  getNamedVotes() {
+    let namedVotes = {};
+    Object.keys(this.playerVotes).forEach(id => {
+      namedVotes[this.getPlayerName(id)] = this.playerVotes[id];
+    });
+
+    return namedVotes;
+  }
+
   getPlayerName(player_id) {
     return this.findPlayer(player_id).playerData.name;
   }
@@ -194,6 +241,14 @@ class Game {
         return baseRole;
       }
     });
+  }
+
+  setNextLeader() {
+    this.currentLeaderIdx++;
+    if (this.currentLeaderIdx === this.gameData.playerCount) {
+      this.currentLeaderIdx = 0;
+    }
+    this.leaderId = this.players[this.currentLeaderIdx].playerData.id;
   }
 
   teamAccepted() {

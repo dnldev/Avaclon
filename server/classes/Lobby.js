@@ -36,6 +36,10 @@ class Lobby {
         this.namespace.emit('game-set-up');
       });
 
+      socket.on('start-game', () => {
+        this.game.start();
+      });
+
       socket.on('user-ready', name => {
         lobby_log('User Ready');
         if (this.game) {
@@ -57,10 +61,6 @@ class Lobby {
           this.closeGame();
         }
         lobby_log('Player Disconnected');
-      });
-
-      socket.on('start-game', () => {
-        this.game.start();
       });
     });
   }

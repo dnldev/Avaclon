@@ -14,12 +14,12 @@ class BackendProvider extends Component {
 
     this.resetConfig = {
       connectedToLobby: true,
-      currentQuest: 0,
       gameEnded: false,
       gameSetUp: false,
       gameStarted: false,
       isPlayerReady: false,
       loading: false,
+      needsToVote: false,
       playerCount: 5,
       players: [],
       selectingTeam: false,
@@ -40,6 +40,7 @@ class BackendProvider extends Component {
     this.state.onUserNameKeyPress = this.onUserNameKeyPress.bind(this);
     this.state.openLobby = this.openLobby.bind(this);
     this.state.playerReady = this.playerReady.bind(this);
+    this.state.sendQuestVote = this.sendQuestVote.bind(this);
     this.state.sendTeam = this.sendTeam.bind(this);
     this.state.sendVote = this.sendVote.bind(this);
   }
@@ -80,8 +81,14 @@ class BackendProvider extends Component {
       this.setState({ gameSetUp: true });
     });
 
-    this.socket.on('selection-start', leader => {
-      this.setState({ leaderId: leader });
+    this.socket.on('quest-conclusion', wonQuests => {
+      console.log('Quest Conclusion:', wonQuests);
+      this.setState({ wonQuests: wonQuests });
+    });
+
+    this.socket.on('quest-voting', () => {
+      console.log('Needs to vote');
+      this.setState({ needsToVote: true });
     });
 
     this.socket.on('start-new-game', gameData => {
@@ -96,19 +103,20 @@ class BackendProvider extends Component {
       this.setState({ teamIds: teamIds, teamProposed: true, voteCast: false });
     });
 
-    this.socket.on('voting-phase', currentTracker => {
-      console.log('New Voting Phase: ' + (currentTracker + 1));
+    this.socket.on('voting-phase', (nextTracker, nextLeaderId) => {
+      console.log('New Voting Phase: ' + (nextTracker + 1));
       this.setState({
+        leaderId: nextLeaderId,
         teamIds: [],
         teamProposed: false,
         vote: null,
-        voteTracker: currentTracker,
+        voteTracker: nextTracker,
       });
     });
 
-    this.socket.on('vote-result', accepted => {
-      console.log('Accepted: ' + accepted);
-      // TODO: add state value, on which the result dialog depends on
+    this.socket.on('vote-result', result => {
+      console.log(result);
+      // TODO: show result in dialog
     });
   }
 
@@ -153,6 +161,12 @@ class BackendProvider extends Component {
     console.log('Username: ' + this.state.username);
     this.socket.emit('user-ready', this.state.username);
     this.setState({ isPlayerReady: true, loading: true });
+  }
+
+  sendQuestVote(questVote) {
+    console.log('Voted:', questVote);
+    this.socket.emit('quest-vote', questVote);
+    this.setState({ needsToVote: false });
   }
 
   sendTeam(team) {
