@@ -124,10 +124,7 @@ class Game {
     const randomMin = Math.floor(Math.random() * 3000) + 500;
 
     const randomDelay = Math.floor(Math.random() * 10000) + randomMin;
-    console.log(randomDelay);
 
-    // TODO: add random delay
-    // no evil players in team
     if (this.votingPlayers === 0) {
       setTimeout(() => this.questDone(Affiliation.GOOD), randomDelay);
     }
