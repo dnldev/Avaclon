@@ -197,9 +197,7 @@ class Game {
 
     this.players.forEach(currentPlayer => {
       const info = {
-        players: currentPlayer.playerData.role.knowledge(
-          this.players.filter(p => p !== currentPlayer)
-        ),
+        players: currentPlayer.playerData.role.knowledge(this.players),
         player: currentPlayer.playerData,
         teamIds: [],
         ...this.gameData,

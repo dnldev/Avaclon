@@ -31,7 +31,9 @@ class TeamSelectionDialog extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { team: [this.props.players[0].id] };
+    this.state = {
+      team: [this.props.playerId],
+    };
 
     this.handleAccept = this.handleAccept.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -133,6 +135,7 @@ TeamSelectionDialog.propTypes = {
   maxTeamSize: PropTypes.number.isRequired,
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
+  playerId: PropTypes.string.isRequired,
   players: PropTypes.array.isRequired,
 };
 
