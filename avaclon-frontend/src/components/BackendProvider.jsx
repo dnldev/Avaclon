@@ -10,8 +10,6 @@ class BackendProvider extends Component {
   constructor(props) {
     super(props);
 
-    this.delay = 5000;
-
     this.serverUrl = 'localhost:5000/lobby/';
 
     this.resetConfig = {
