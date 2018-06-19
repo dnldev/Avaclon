@@ -11,6 +11,7 @@ import strings from '../localization/game-locale';
 
 import AutoCollapsing from './AutoCollapsing';
 import Board from './Board';
+import GameEndDialog from './GameEndDialog';
 import PlayerView from './PlayerView';
 import QuestVoteDialog from './QuestVoteDialog';
 import TeamSelectionDialog from './TeamSelectionDialog';
@@ -110,8 +111,14 @@ class GameUI extends Component {
               />
               <VoteResultDialog
                 lastVoteResult={context.lastVoteResult}
-                open={context.voteResult}
+                open={context.voteResultDialogOpen}
                 onClose={context.closeVoteResultDialog}
+              />
+              <GameEndDialog
+                open={context.gameEnded}
+                playerRoles={context.playerRoles}
+                winner={context.winner}
+                onClose={() => alert('Reload to start a new game')}
               />
             </Grid>
           );
