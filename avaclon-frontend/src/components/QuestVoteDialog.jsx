@@ -17,8 +17,14 @@ const images = {
   success: success,
 };
 
-const style = () => ({
+const style = theme => ({
   root: {},
+  dialogPaper: {
+    width: '80%',
+    [theme.breakpoints.up('md')]: {
+      width: '50%',
+    },
+  },
   mainGrid: {},
   voteImage: {
     borderRadius: 60,
@@ -58,11 +64,11 @@ class QuestVoteDialog extends Component {
         open={this.props.open}
         PaperProps={{
           elevation: 0,
+          className: classes.dialogPaper,
           style: {
             backgroundColor: 'rgba(0, 0, 0, 0)',
             padding: '0 8px',
             paddingBottom: '20px',
-            width: '50%',
           },
         }}
       >
