@@ -15,6 +15,7 @@ import PlayerView from './PlayerView';
 import QuestVoteDialog from './QuestVoteDialog';
 import TeamSelectionDialog from './TeamSelectionDialog';
 import UserTerminal from './UserTerminal';
+import VoteResultDialog from './VoteResultDialog';
 
 const styles = theme => ({
   root: {
@@ -105,6 +106,11 @@ class GameUI extends Component {
                 readOnly={true}
                 title={strings.chooseTeam}
                 onClose={context.sendTeam}
+              />
+              <VoteResultDialog
+                lastVoteResult={context.lastVoteResult}
+                open={context.voteResult}
+                onClose={context.closeVoteResultDialog}
               />
             </Grid>
           );
