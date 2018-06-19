@@ -14,7 +14,6 @@ class BackendProvider extends Component {
 
     this.resetConfig = {
       connectedToLobby: true,
-      dialogHasOpened: false,
       gameEnded: false,
       gameSetUp: false,
       gameStarted: false,
@@ -23,11 +22,14 @@ class BackendProvider extends Component {
       loading: false,
       needsToVote: false,
       playerCount: 5,
+      playerRoles: {},
       players: [],
       selectingTeam: false,
+      teamDialogHasOpened: false,
       teamProposed: false,
+      voteResultDialogOpen: false,
       voteTracker: 0,
-      voteResult: false,
+      winner: -1,
       wonQuests: [],
     };
 
@@ -71,15 +73,17 @@ class BackendProvider extends Component {
   }
 
   closeVoteResultDialog() {
-    this.setState({ lastVoteResult: {}, voteResult: false });
+    this.setState({ lastVoteResult: {}, voteResultDialogOpen: false });
+    this.selectTeamIfLeader(0);
   }
 
   getDelay() {
+    let delay = 5000;
     if (this.state.wonQuests.length === 0 && this.state.voteTracker === 0) {
-      return 10000;
-    } else {
-      return 5000;
+      // first round delay double the delay
+      delay *= 2;
     }
+    return delay;
   }
 
   handleChange(event) {
@@ -90,6 +94,14 @@ class BackendProvider extends Component {
     this.socket.on('game-close', () => {
       console.log('Game Closed');
       this.setState({ ...this.resetConfig });
+    });
+
+    this.socket.on('game-end', (playerRoles, winner) => {
+      this.setState({
+        gameEnded: true,
+        playerRoles: playerRoles,
+        winner: winner,
+      });
     });
 
     this.socket.on('game-set-up', () => {
@@ -110,7 +122,7 @@ class BackendProvider extends Component {
     this.socket.on('start-new-game', gameData => {
       console.log('New Game started');
       this.setState({ loading: false, gameStarted: true, ...gameData });
-      this.selectTeamIfLeader();
+      this.selectTeamIfLeader(this.getDelay());
     });
 
     this.socket.on('team-proposed', teamIds => {
@@ -129,12 +141,12 @@ class BackendProvider extends Component {
         voteTracker: nextTracker,
       });
 
-      this.selectTeamIfLeader();
+      this.selectTeamIfLeader(this.getDelay());
     });
 
     this.socket.on('vote-result', result => {
       console.log(result);
-      this.setState({ lastVoteResult: result, voteResult: true });
+      this.setState({ lastVoteResult: result, voteResultDialogOpen: true });
 
       setTimeout(() => {
         this.closeVoteResultDialog();
@@ -179,13 +191,17 @@ class BackendProvider extends Component {
     this.setState({ isPlayerReady: true, loading: true });
   }
 
-  selectTeamIfLeader() {
+  selectTeamIfLeader(delay) {
     if (this.state.player.id === this.state.leaderId) {
       setTimeout(() => {
-        if (!this.state.dialogHasOpened) {
+        if (
+          !this.state.teamDialogHasOpened &&
+          !this.state.teamProposed &&
+          !this.state.voteResultDialogOpen
+        ) {
           this.setState({ selectingTeam: true });
         }
-      }, this.getDelay());
+      }, delay);
     }
   }
 
@@ -218,7 +234,7 @@ class BackendProvider extends Component {
   toggleTeamDialog() {
     if (!this.state.teamProposed) {
       this.setState({
-        dialogHasOpened: true,
+        teamDialogHasOpened: true,
         selectingTeam: !this.state.selectingTeam,
       });
     }
