@@ -28,7 +28,7 @@ class Lobby {
         lobby_log('New Game');
         this.game = new Game(
           data.gameData,
-          new Player(data.username, socket, 'Generic Blue'),
+          new Player(data.username, socket),
           this.namespace
         );
         this.setUp = true;
@@ -41,7 +41,7 @@ class Lobby {
       });
 
       socket.on('user-ready', name => {
-        lobby_log('User Ready');
+        lobby_log('User (%s) Ready', name);
         if (this.game) {
           this.game.newPlayer(name, socket);
         } else {
