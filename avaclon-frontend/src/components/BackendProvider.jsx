@@ -19,6 +19,7 @@ class BackendProvider extends Component {
       gameStarted: false,
       isPlayerReady: false,
       lastVoteResult: {},
+      leaderId: -1,
       loading: false,
       needsToVote: false,
       playerCount: 5,
