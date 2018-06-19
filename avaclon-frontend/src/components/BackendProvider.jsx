@@ -19,6 +19,7 @@ class BackendProvider extends Component {
       gameSetUp: false,
       gameStarted: false,
       isPlayerReady: false,
+      lastVoteResult: {},
       loading: false,
       needsToVote: false,
       playerCount: 5,
@@ -26,6 +27,7 @@ class BackendProvider extends Component {
       selectingTeam: false,
       teamProposed: false,
       voteTracker: 0,
+      voteResult: false,
       wonQuests: [],
     };
 
@@ -35,6 +37,7 @@ class BackendProvider extends Component {
       username: '',
     };
 
+    this.state.closeVoteResultDialog = this.closeVoteResultDialog.bind(this);
     this.state.handleChange = this.handleChange.bind(this);
     this.state.newGame = this.newGame.bind(this);
     this.state.onUserNameKeyPress = this.onUserNameKeyPress.bind(this);
@@ -65,6 +68,10 @@ class BackendProvider extends Component {
 
   componentWillUnmount() {
     this.socket.close();
+  }
+
+  closeVoteResultDialog() {
+    this.setState({ voteResult: false });
   }
 
   getDelay() {
@@ -115,6 +122,7 @@ class BackendProvider extends Component {
     this.socket.on('voting-phase', (nextTracker, nextLeaderId) => {
       console.log('New Voting Phase: ' + (nextTracker + 1));
       this.setState({
+        lastVoteResult: {},
         leaderId: nextLeaderId,
         teamIds: [],
         teamProposed: false,
@@ -127,7 +135,11 @@ class BackendProvider extends Component {
 
     this.socket.on('vote-result', result => {
       console.log(result);
-      // TODO: show result in dialog
+      this.setState({ lastVoteResult: result, voteResult: true });
+
+      setTimeout(() => {
+        this.closeVoteResultDialog();
+      }, 15000);
     });
   }
 

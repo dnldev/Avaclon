@@ -56,7 +56,9 @@ class Game {
     this.namespace.emit('vote-result', this.getNamedVotes());
 
     if (teamAccepted) {
-      this.questVote();
+      setTimeout(() => {
+        this.questVote();
+      }, 15000);
     } else {
       this.gameData.voteTracker++;
       this.setNextLeader();
