@@ -14,6 +14,7 @@ class BackendProvider extends Component {
 
     this.resetConfig = {
       connectedToLobby: true,
+      dialogHasOpened: false,
       gameEnded: false,
       gameSetUp: false,
       gameStarted: false,
@@ -42,6 +43,7 @@ class BackendProvider extends Component {
     this.state.sendQuestVote = this.sendQuestVote.bind(this);
     this.state.sendTeam = this.sendTeam.bind(this);
     this.state.sendVote = this.sendVote.bind(this);
+    this.state.toggleTeamDialog = this.toggleTeamDialog.bind(this);
   }
 
   componentDidMount() {
@@ -169,7 +171,9 @@ class BackendProvider extends Component {
   selectTeamIfLeader() {
     if (this.state.player.id === this.state.leaderId) {
       setTimeout(() => {
-        this.setState({ selectingTeam: true });
+        if (!this.state.dialogHasOpened) {
+          this.setState({ selectingTeam: true });
+        }
       }, this.getDelay());
     }
   }
@@ -198,6 +202,15 @@ class BackendProvider extends Component {
     this.listenForEvents();
 
     this.setState({ connectedToLobby: true });
+  }
+
+  toggleTeamDialog() {
+    if (!this.state.teamProposed) {
+      this.setState({
+        dialogHasOpened: true,
+        selectingTeam: !this.state.selectingTeam,
+      });
+    }
   }
 
   render() {
