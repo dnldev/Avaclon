@@ -13,12 +13,6 @@ const style = () => ({
 });
 
 class VoteResultDialog extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
-
   render() {
     const { classes } = this.props;
     return (
