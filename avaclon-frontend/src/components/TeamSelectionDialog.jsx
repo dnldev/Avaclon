@@ -21,9 +21,16 @@ const style = theme => ({
   controlButton: {
     marginRight: theme.spacing.unit * 2,
   },
+  dialogPaper: {
+    width: '80%',
+    [theme.breakpoints.up('md')]: {
+      width: '50%',
+    },
+  },
   select: {
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
+    width: 'calc(100% - ' + theme.spacing.unit * 6 + 'px)',
   },
 });
 
@@ -49,10 +56,6 @@ class TeamSelectionDialog extends Component {
   handleAccept() {
     this.props.onClose(this.state.team);
   }
-
-  // handleCancel() {
-  //   this.props.onClose(null);
-  // }
 
   handleChange(event) {
     this.setState({ team: event.target.value });
@@ -80,8 +83,9 @@ class TeamSelectionDialog extends Component {
       <Dialog
         className={classes.root}
         open={this.props.open}
+        onClose={this.props.onCancel}
         PaperProps={{
-          style: { width: '50%' },
+          className: classes.dialogPaper,
         }}
       >
         {/* TODO: localize */}
@@ -133,6 +137,7 @@ class TeamSelectionDialog extends Component {
 TeamSelectionDialog.propTypes = {
   classes: PropTypes.object.isRequired,
   maxTeamSize: PropTypes.number.isRequired,
+  onCancel: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   playerId: PropTypes.string.isRequired,

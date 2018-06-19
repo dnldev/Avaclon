@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
@@ -37,7 +38,10 @@ const styles = theme => ({
     textDecorationStyle: 'solid',
   },
   iconArea: {
-    paddingTop: theme.spacing.unit,
+    padding: 10,
+  },
+  leaderIcon: {
+    borderBottom: '0.8px dotted ' + theme.palette.secondary.main,
   },
   namePaper: {
     marginBottom: 5,
@@ -91,9 +95,14 @@ class UserTerminal extends Component {
               <Grid item xs={8} md={9} lg={10}>
                 <Paper className={classes.namePaper} elevation={2}>
                   <Grid container>
-                    <Grid item xs={2} className={classes.iconArea}>
-                      {this.props.isLeader && <Icon>star_border</Icon>}
-                      {this.props.inTeam && <Icon>group</Icon>}
+                    <Grid item className={classes.iconArea} xs={2}>
+                      {this.props.isLeader && (
+                        <IconButton onClick={this.props.toggleTeamDialog}>
+                          <Icon className={classes.leaderIcon}>
+                            star_border
+                          </Icon>
+                        </IconButton>
+                      )}
                     </Grid>
                     <Grid item xs={8}>
                       <Typography
@@ -162,9 +171,9 @@ UserTerminal.propTypes = {
   classes: PropTypes.object.isRequired,
   canVote: PropTypes.bool.isRequired,
   isLeader: PropTypes.bool.isRequired,
-  inTeam: PropTypes.bool.isRequired,
   player: PropTypes.object.isRequired,
   sendVote: PropTypes.func.isRequired,
+  toggleTeamDialog: PropTypes.func.isRequired,
   vote: PropTypes.bool,
 };
 
