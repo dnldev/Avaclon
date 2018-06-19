@@ -71,7 +71,7 @@ class BackendProvider extends Component {
   }
 
   closeVoteResultDialog() {
-    this.setState({ voteResult: false });
+    this.setState({ lastVoteResult: {}, voteResult: false });
   }
 
   getDelay() {
@@ -122,7 +122,6 @@ class BackendProvider extends Component {
     this.socket.on('voting-phase', (nextTracker, nextLeaderId) => {
       console.log('New Voting Phase: ' + (nextTracker + 1));
       this.setState({
-        lastVoteResult: {},
         leaderId: nextLeaderId,
         teamIds: [],
         teamProposed: false,
