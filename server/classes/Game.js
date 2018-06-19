@@ -23,8 +23,8 @@ class Game {
     this.gameData = gameData;
     this.namespace = namespace;
     this.players = [];
-
     this.questVotes = [];
+
     this.votingPlayers = 0;
 
     this.questPlayerCountsForPlayers = {
@@ -66,23 +66,9 @@ class Game {
     }
   }
 
-  gameEnding() {
-    if (
-      this.gameData.wonQuests.filter(quest => quest === Affiliation.EVIL)
-        .length === 3
-    ) {
-      game_log('Evil has won the Game');
-      // TODO: evil win handling
-    } else if (
-      this.gameData.wonQuests.filter(quest => quest === Affiliation.GOOD)
-        .length === 3
-    ) {
-      game_log('Good has won the Game');
-      // TODO: good win handling
-    } else {
-      return false;
-    }
-    return true;
+  gameEnd(winner) {
+    game_log('Player Roles:', this.getPlayerNameRoles());
+    this.namespace.emit('game-end', this.getPlayerNameRoles(), winner);
   }
 
   newPlayer(name, socket) {
@@ -120,11 +106,10 @@ class Game {
   questDone(winner) {
     this.gameData.voteTracker = 0;
     this.gameData.wonQuests.push(winner);
-    if (!this.gameEnding()) {
-      this.namespace.emit('quest-conclusion', this.gameData.wonQuests);
-      this.setNextLeader();
-      this.newVotingPhase();
-    }
+    this.namespace.emit('quest-conclusion', this.gameData.wonQuests);
+    this.setNextLeader();
+    this.newVotingPhase();
+    this.gameEnding();
   }
 
   questVote() {
@@ -238,6 +223,22 @@ class Game {
     return this.players.find(player => player.playerData.id === player_id);
   }
 
+  gameEnding() {
+    if (
+      this.gameData.wonQuests.filter(quest => quest === Affiliation.EVIL)
+        .length === 3
+    ) {
+      game_log('Evil has won the Game');
+      this.gameEnd(Affiliation.EVIL);
+    } else if (
+      this.gameData.wonQuests.filter(quest => quest === Affiliation.GOOD)
+        .length === 3
+    ) {
+      game_log('Good has won the Game');
+      this.gameEnd(Affiliation.GOOD);
+    }
+  }
+
   getNamedVotes() {
     let namedVotes = {};
     Object.keys(this.playerVotes).forEach(id => {
@@ -249,6 +250,14 @@ class Game {
 
   getPlayerName(player_id) {
     return this.findPlayer(player_id).playerData.name;
+  }
+
+  getPlayerNameRoles() {
+    let playerNameRoles = {};
+    this.players.forEach(player => {
+      playerNameRoles[player.playerData.name] = player.playerData.role.name;
+    });
+    return playerNameRoles;
   }
 
   mergeRoles(base, special) {
