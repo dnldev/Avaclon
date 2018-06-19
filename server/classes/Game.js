@@ -113,13 +113,6 @@ class Game {
     if (this.gameData.voteTracker === 4) {
       this.questDone(Affiliation.EVIL);
     }
-    // Test that sends a static team
-    // this.namespace.emit('team-proposed', [
-    //   this.players[0].playerData.id,
-    //   this.players[1].playerData.id,
-    // ]);
-
-    // this.team = [this.players[0], this.players[1]];
   }
 
   questDone(winner) {
