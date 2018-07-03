@@ -140,11 +140,7 @@ class Game {
       this.questVotes.push(questVote);
 
       if (this.questVotes.length === this.votingPlayers) {
-        if (this.noEvilVote()) {
-          this.questDone(Affiliation.GOOD);
-        } else {
-          this.questDone(Affiliation.EVIL);
-        }
+        this.questEnded();
       }
     });
 
@@ -270,8 +266,35 @@ class Game {
     });
   }
 
-  noEvilVote() {
-    return this.questVotes.find(questVote => questVote === false) === undefined;
+  questEnded() {
+    if (!this.questNeedsTwoFails()) {
+      if (this.questHasFail()) {
+        this.questDone(Affiliation.EVIL);
+      } else {
+        this.questDone(Affiliation.GOOD);
+      }
+    } else {
+      if (this.questHasMultipleFails()) {
+        this.questDone(Affiliation.EVIL);
+      } else {
+        this.questDone(Affiliation.GOOD);
+      }
+    }
+  }
+
+  questHasFail() {
+    return this.questVotes.find(questVote => questVote === false) !== undefined;
+  }
+
+  questHasMultipleFails() {
+    return this.questVotes.filter(questVote => questVote === false).length >= 2;
+  }
+
+  questNeedsTwoFails() {
+    // see rules
+    return (
+      this.gameData.wonQuests.length === 3 && this.gameData.playerCount >= 7
+    );
   }
 
   setNextLeader() {
