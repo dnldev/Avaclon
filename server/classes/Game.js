@@ -140,7 +140,7 @@ class Game {
       this.questVotes.push(questVote);
 
       if (this.questVotes.length === this.votingPlayers) {
-        if (questVote) {
+        if (this.noEvilVote()) {
           this.questDone(Affiliation.GOOD);
         } else {
           this.questDone(Affiliation.EVIL);
@@ -268,6 +268,10 @@ class Game {
         return baseRole;
       }
     });
+  }
+
+  noEvilVote() {
+    return this.questVotes.find(questVote => questVote === false) === undefined;
   }
 
   setNextLeader() {
