@@ -212,6 +212,14 @@ class Game {
     }
   }
 
+  evaluateQuestResult() {
+    const wonByEvil = this.questNeedsTwoFails()
+      ? this.questHasMultipleFails()
+      : this.questHasFail();
+
+    this.questDone(wonByEvil ? Affiliation.EVIL : Affiliation.GOOD);
+  }
+
   findPlayer(player_id) {
     return this.players.find(player => player.playerData.id === player_id);
   }
@@ -264,14 +272,6 @@ class Game {
         return baseRole;
       }
     });
-  }
-
-  evaluateQuestResult() {
-    const wonByEvil = this.questNeedsTwoFails()
-      ? this.questHasMultipleFails()
-      : this.questHasFail();
-
-    this.questDone(wonByEvil ? Affiliation.EVIL : Affiliation.GOOD);
   }
 
   questHasFail() {
