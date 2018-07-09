@@ -10,7 +10,7 @@ class BackendProvider extends Component {
   constructor(props) {
     super(props);
 
-    this.serverUrl = 'localhost:5000/lobby/';
+    this.serverUrl = 'danieldev.io:5000/lobby/';
 
     this.resetConfig = {
       connectedToLobby: true,
