@@ -1,7 +1,17 @@
 {
   "name": "avaclon-frontend",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.4.0",
+  "description": "Web implementation of the board game 'The Resistance: Avalon'",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dnldev/Avaclon.git"
+  },
+  "private": false,
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
   "dependencies": {
     "@material-ui/core": "^1.2.1",
     "@material-ui/icons": "^1.1.0",
@@ -21,7 +31,12 @@
   },
   "devDependencies": {
     "eslint": "^4.19.1",
-    "eslint-plugin-react": "^7.9.1"
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.9.1",
+    "husky": "^3.1.0",
+    "precise-commits": "^1.0.2",
+    "pretty-quick": "^2.0.1"
   },
   "homepage": "https://danieldev.io/avaclon"
 }

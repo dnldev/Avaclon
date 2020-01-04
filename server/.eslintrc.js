@@ -2,13 +2,19 @@ module.exports = {
   env: {
     node: true,
   },
-  extends: ['eslint:recommended'],
+  extends: ['eslint:recommended', 'plugin:prettier/recommended'],
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaFeatures: {
       arrowFunctions: true,
       experimentalObjectRestSpread: true,
     },
     sourceType: 'module',
+  },
+  husky: {
+    hooks: {
+      'pre-commit': 'precise-commits',
+    },
   },
   plugins: ['react'],
   rules: {

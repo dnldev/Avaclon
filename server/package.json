@@ -1,11 +1,15 @@
 {
   "name": "avalon-server",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "Backend for the web version of the board game 'The Resistance: Avalon'",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dnldev/Avaclon.git"
+  },
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "nodemon server.js"
+    "test": "DEBUG=\"lobby\" nodemon server.js"
   },
   "author": "Arkangels",
   "license": "ISC",
@@ -13,9 +17,18 @@
     "avalon-models": "file:./../shared/avalon-models",
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
-    "debug": "^3.1.0",
     "express": "^4.16.3",
     "randomstring": "^1.1.5",
     "socket.io": "^2.1.1"
+  },
+  "devDependencies": {
+    "debug": "^3.2.6",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^3.1.0",
+    "nodemon": "^2.0.2",
+    "precise-commits": "^1.0.2",
+    "prettier": "^1.19.1"
   }
 }
