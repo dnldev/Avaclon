@@ -7,6 +7,8 @@
     "url": "https://github.com/dnldev/Avaclon.git"
   },
   "private": false,
+  "author": "Arkangels",
+  "license": "GPL",
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged"

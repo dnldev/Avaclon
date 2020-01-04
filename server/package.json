@@ -12,7 +12,7 @@
     "test": "DEBUG=\"lobby\" nodemon server.js"
   },
   "author": "Arkangels",
-  "license": "ISC",
+  "license": "GPL",
   "dependencies": {
     "avalon-models": "file:./../shared/avalon-models",
     "body-parser": "^1.18.3",
