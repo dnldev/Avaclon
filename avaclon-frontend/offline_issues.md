@@ -7,6 +7,12 @@
   - loading circle for players
   - ...
 
+## Tooltips
+
+add small tooltips 
+- warn team leader about hammer
+
+
 ## Lobby
 
 - Create component for Lobby
