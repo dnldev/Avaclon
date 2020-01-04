@@ -5,12 +5,13 @@ import axios from 'axios';
 import openSocket from 'socket.io-client';
 
 import { BackendContext } from './context';
+import strings from '../localization/game-locale';
 
 class BackendProvider extends Component {
   constructor(props) {
     super(props);
 
-    this.serverUrl = 'danieldev.io:5000/lobby/';
+    this.serverUrl = 'localhost:5000/lobby/';
 
     this.resetConfig = {
       connectedToLobby: true,
@@ -18,6 +19,7 @@ class BackendProvider extends Component {
       gameSetUp: false,
       gameStarted: false,
       isPlayerReady: false,
+      lastTeamAccepted: false,
       lastVoteResult: {},
       leaderId: -1,
       loading: false,
@@ -25,6 +27,7 @@ class BackendProvider extends Component {
       playerCount: 5,
       playerRoles: {},
       players: [],
+      progress: 0,
       selectingTeam: false,
       teamDialogHasOpened: false,
       teamProposed: false,
@@ -40,6 +43,7 @@ class BackendProvider extends Component {
       username: '',
     };
 
+    this.state.advanceProgress = this.advanceProgress.bind(this);
     this.state.closeVoteResultDialog = this.closeVoteResultDialog.bind(this);
     this.state.handleChange = this.handleChange.bind(this);
     this.state.newGame = this.newGame.bind(this);
@@ -53,12 +57,13 @@ class BackendProvider extends Component {
   }
 
   componentDidMount() {
+    // TODO: use user input lobby_id
     const lobby_id = 'josh';
 
     axios
-      .get('http://' + this.serverUrl + lobby_id + '/setUp')
+      .get(`http://${this.serverUrl}${lobby_id}/setUp`)
       .then(response => {
-        console.log('Lobby Game Set Up: ' + response.data);
+        console.log(`Lobby Game Set Up: ${response.data}`);
         this.setState({ gameSetUp: response.data });
         this.setupConnection(lobby_id);
         console.log('Connected');
@@ -73,8 +78,20 @@ class BackendProvider extends Component {
     this.socket.close();
   }
 
+  advanceProgress(readyPlayers) {
+    console.log(readyPlayers);
+    console.log(this.state.playerCount);
+    const { playerCount } = this.state;
+    const progress = (readyPlayers / playerCount) * 100;
+    this.setState({ progress });
+  }
+
   closeVoteResultDialog() {
-    this.setState({ lastVoteResult: {}, voteResultDialogOpen: false });
+    this.setState({
+      lastTeamAccepted: false,
+      lastVoteResult: {},
+      voteResultDialogOpen: false,
+    });
     this.selectTeamIfLeader(0);
   }
 
@@ -105,10 +122,14 @@ class BackendProvider extends Component {
       });
     });
 
-    this.socket.on('game-set-up', () => {
+    this.socket.on('game-set-up', playerCount => {
       console.log('Game Set Up');
-      this.setState({ gameSetUp: true });
+      this.setState({ gameSetUp: true, playerCount });
     });
+
+    this.socket.on('player-joined', playerAmount =>
+      this.advanceProgress(playerAmount)
+    );
 
     this.socket.on('quest-conclusion', wonQuests => {
       console.log('Quest Conclusion:', wonQuests);
@@ -147,7 +168,16 @@ class BackendProvider extends Component {
 
     this.socket.on('vote-result', result => {
       console.log(result);
-      this.setState({ lastVoteResult: result, voteResultDialogOpen: true });
+      const teamAccepted =
+        Object.values(result).filter(vote => vote === strings.quest.approve)
+          .length >
+        this.state.playerCount / 2; // more than half need to approve
+
+      this.setState({
+        lastTeamAccepted: teamAccepted,
+        lastVoteResult: result,
+        voteResultDialogOpen: true,
+      });
 
       setTimeout(() => {
         this.closeVoteResultDialog();
@@ -165,7 +195,7 @@ class BackendProvider extends Component {
 
   openLobby() {
     axios
-      .post('http://' + this.serverUrl)
+      .post(`http://${this.serverUrl}`)
       .then(response => {
         let lobby_id = response.data;
         console.log(lobby_id);
@@ -188,6 +218,7 @@ class BackendProvider extends Component {
 
   playerReady() {
     console.log('Username: ' + this.state.username);
+    this.advanceProgress();
     this.socket.emit('user-ready', this.state.username);
     this.setState({ isPlayerReady: true, loading: true });
   }
@@ -223,7 +254,7 @@ class BackendProvider extends Component {
   }
 
   setupConnection(lobby_id) {
-    console.log('Setup Connection (' + lobby_id + ')');
+    console.log(`Setup Connection (${lobby_id})`);
 
     this.socket = openSocket(this.serverUrl + lobby_id);
 
