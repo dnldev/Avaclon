@@ -12,17 +12,17 @@
     "test": "DEBUG=\"lobby\" nodemon server.js"
   },
   "author": "Arkangels",
-  "license": "GPL",
+  "license": "GPL-3.0",
   "dependencies": {
     "avalon-models": "file:./../shared/avalon-models",
-    "body-parser": "^1.18.3",
-    "cors": "^2.8.4",
-    "express": "^4.16.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "randomstring": "^1.1.5",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
-    "debug": "^3.2.6",
+    "debug": "^4.1.1",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.9.0",
     "eslint-plugin-prettier": "^3.1.2",
