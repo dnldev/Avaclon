@@ -46,7 +46,10 @@ class Game {
 
     game_log('Game Data:', this.gameData);
     game_log('Admin Name:', this.admin.playerData.name);
-    game_log('Roles:', this.roles.map(role => role.name));
+    game_log(
+      'Roles:',
+      this.roles.map(role => role.name)
+    );
   }
 
   // Event Handler
@@ -73,15 +76,18 @@ class Game {
 
   newPlayer(name, socket) {
     const newPlayer = new Player(name, socket);
+
+    // TODO: check if name is unique
     this.players.push(newPlayer);
+
+    this.namespace.emit('player-joined', this.players.length);
 
     this.setupPlayerEvents(socket, newPlayer.playerData.id);
 
     if (this.players.length == this.gameData.playerCount) {
       for (let i = 0; i < this.players.length; i++) {
-        let player = this.players[i];
         const role = this.roles[i];
-        player.playerData.role = role;
+        this.players[i].playerData.role = role;
       }
       // Will be changed to emit an event signalizing that all players have joined
       this.start();

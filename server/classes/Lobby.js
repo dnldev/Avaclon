@@ -24,16 +24,17 @@ class Lobby {
     this.namespace.on('connection', socket => {
       lobby_log('Socket connected');
 
-      socket.on('new-game', data => {
+      socket.on('new-game', ({ gameData, username }) => {
         lobby_log('New Game');
+
         this.game = new Game(
-          data.gameData,
-          new Player(data.username, socket),
+          gameData,
+          new Player(username, socket),
           this.namespace
         );
         this.setUp = true;
 
-        this.namespace.emit('game-set-up');
+        this.namespace.emit('game-set-up', gameData.playerCount);
       });
 
       socket.on('start-game', () => {

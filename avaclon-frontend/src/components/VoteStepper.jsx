@@ -16,6 +16,7 @@ import { BackendContext } from './context';
 
 const styles = theme => ({
   root: {
+    paddingTop: 2 * theme.spacing.unit,
     paddingBottom: theme.spacing.unit,
   },
   icon: {
@@ -29,7 +30,10 @@ const styles = theme => ({
   },
 });
 
+const [HAMMER_INDEX, MISSION_FAIL_INDEX] = [3, 4];
+
 class VoteStepper extends Component {
+
   constructor(props) {
     super(props);
 
@@ -46,63 +50,59 @@ class VoteStepper extends Component {
     this.toggleMissionLossOpen = this.toggleMissionLossOpen.bind(this);
   }
 
-  getMissionLossIcon(voteTracker, classes) {
-    const missionLossIcon = (
-      <Tooltip
-        enterDelay={300}
-        id="tooltip-controlled"
-        leaveDelay={300}
-        open={this.state.missionLossOpen}
-        placement="bottom"
-        title={strings.voteTrackEnd}
-        onClose={this.handleMissionLossClose}
-        onOpen={this.handleMissionLossOpen}
+  getMissionLossIcon = voteTracker => (
+    <Tooltip
+      enterDelay={300}
+      id="tooltip-controlled"
+      leaveDelay={300}
+      open={this.state.missionLossOpen}
+      placement="bottom"
+      title={strings.voteTrackEnd}
+      onClose={this.handleMissionLossClose}
+      onOpen={this.handleMissionLossOpen}
+    >
+      <IconButton
+        className={this.props.classes.iconButton}
+        onClick={this.toggleMissionLossOpen}
       >
-        <IconButton
-          className={classes.iconButton}
-          onClick={this.toggleMissionLossOpen}
+        <Icon
+          className={this.props.classes.icon}
+          color={voteTracker >= HAMMER_INDEX ? 'error' : 'secondary'}
         >
-          <Icon
-            className={classes.icon}
-            color={voteTracker !== 4 ? 'secondary' : 'error'}
-          >
-            error_outline
-          </Icon>
-        </IconButton>
-      </Tooltip>
-    );
+          error_outline
+        </Icon>
+      </IconButton>
+    </Tooltip>
+  );
 
-    return missionLossIcon;
-  }
-
-  getHammerIcon(voteTracker, classes) {
-    const hammerIcon = (
-      <Tooltip
-        enterDelay={300}
-        id="tooltip-controlled"
-        leaveDelay={300}
-        open={this.state.hammerOpen}
-        placement="bottom"
-        title={strings.hammer}
-        onClose={this.handleHammerClose}
-        onOpen={this.handleHammerOpen}
+  getHammerIcon = voteTracker => (
+    <Tooltip
+      enterDelay={300}
+      id="tooltip-controlled"
+      leaveDelay={300}
+      open={this.state.hammerOpen}
+      placement="bottom"
+      title={strings.hammer}
+      onClose={this.handleHammerClose}
+      onOpen={this.handleHammerOpen}
+    >
+      <IconButton
+        className={this.props.classes.iconButton}
+        onClick={this.toggleHammerOpen}
       >
-        <IconButton
-          className={classes.iconButton}
-          onClick={this.toggleHammerOpen}
+        <Icon
+          className={this.props.classes.icon}
+          color={
+            voteTracker >= HAMMER_INDEX
+              ? 'primary'
+              : 'secondary'
+          }
         >
-          <Icon
-            className={classes.icon}
-            color={voteTracker < 3 ? 'secondary' : 'primary'}
-          >
-            gavel
-          </Icon>
-        </IconButton>
-      </Tooltip>
-    );
-
-    return hammerIcon;
-  }
+          gavel
+        </Icon>
+      </IconButton>
+    </Tooltip>
+  );
 
   handleHammerClose() {
     this.setState({ hammerOpen: false });
@@ -130,41 +130,43 @@ class VoteStepper extends Component {
     }));
   }
 
+  getStepLabelProperties = (index, voteTracker) => {
+    if (index !== HAMMER_INDEX && index !== MISSION_FAIL_INDEX) return {};
+
+    const { classes } = this.props;
+
+    console.log('vote-tracker: ', voteTracker);
+
+    return {
+      className: classes.dottedLine,
+      icon:
+        index === HAMMER_INDEX
+          ? this.getHammerIcon(voteTracker)
+          : this.getMissionLossIcon(voteTracker),
+    };
+  };
+
   render() {
     const { classes } = this.props;
 
     return (
       <BackendContext.Consumer>
-        {context => {
-          return (
-            <Stepper className={classes.root} activeStep={context.voteTracker}>
-              {this.props.voteTrackerLabels.map((label, index) => {
-                const props = {};
-
-                if (index === 3 || index === 4) {
-                  props.className = classes.dottedLine;
-                }
-
-                if (index === 3) {
-                  props.icon = this.getHammerIcon(context.voteTracker, classes);
-                } else if (index === 4) {
-                  props.icon = this.getMissionLossIcon(
-                    context.voteTracker,
-                    classes
-                  );
-                }
-
-                return (
-                  <Step key={index}>
-                    <StepLabel key={index} {...props}>
-                      {label}
-                    </StepLabel>
-                  </Step>
-                );
-              })}
-            </Stepper>
-          );
-        }}
+        {context => (
+          // TODO: add stepper config so past steps aren't checked
+          <Stepper className={classes.root} activeStep={context.voteTracker}>
+            {this.props.voteTrackerLabels.map((label, index) => (
+              <Step key={index}>
+                <StepLabel
+                  key={index}
+                  error={index < context.voteTracker}
+                  {...this.getStepLabelProperties(index, context.voteTracker)}
+                >
+                  {label}
+                </StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+        )}
       </BackendContext.Consumer>
     );
   }

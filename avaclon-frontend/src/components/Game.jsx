@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
 
-import Grid from '@material-ui/core/Grid';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import { Grid, CircularProgress } from '@material-ui/core';
 
 import strings from '../localization/game-locale';
 
@@ -21,6 +20,10 @@ const styles = theme => ({
   button: {
     marginRight: theme.spacing.unit * 2,
     marginTop: theme.spacing.unit * 2,
+  },
+  // add style to center loading
+  loading: {
+    margin: 'auto auto auto auto',
   },
   mainGrid: {
     [theme.breakpoints.up('md')]: {
@@ -48,9 +51,15 @@ class Game extends Component {
     this.state.isAdmin = true;
     this.state.loading = false;
     this.state.terminalOpen = false;
+    this.state.progress = (1 / 5) * 100;
 
+    this.state.calculateProgress = this.calculateProgress.bind(this);
     this.state.switchLanguage = this.switchLanguage.bind(this);
     this.state.toggleRoleConcealment = this.toggleRoleConcealment.bind(this);
+  }
+
+  calculateProgress({ playerCount, players }) {
+    return (1 / playerCount) * players.length * 100;
   }
 
   getClonedObject(object) {
@@ -72,33 +81,43 @@ class Game extends Component {
   render() {
     const { classes } = this.props;
 
+    const STATIC_PROGRESS_BOUNDARY = 80;
+
     return (
       <BackendContext.Consumer>
-        {context => {
-          if (!context.loading) {
-            return (
-              <div className={classes.root}>
-                <GameContext.Provider value={this.state}>
-                  <Grid container className={classes.mainGrid} justify="center">
-                    <Grid item xs={12}>
-                      {!context.gameStarted ? (
-                        !context.gameSetUp ? (
-                          <AdminArea />
-                        ) : (
-                          <UserControlArea />
-                        )
-                      ) : (
-                        <GameUI players={context.players} />
-                      )}
-                    </Grid>
+        {context =>
+          // TODO: tidy up and replace context use
+          context.loading ? (
+            <CircularProgress
+              className={classes.loading}
+              variant={
+                context.progress >= STATIC_PROGRESS_BOUNDARY
+                  ? 'indeterminate'
+                  : 'static'
+              }
+              value={context.progress}
+              size={100}
+              color="secondary"
+            />
+          ) : (
+            <div className={classes.root}>
+              <GameContext.Provider value={this.state}>
+                <Grid container className={classes.mainGrid} justify="center">
+                  <Grid item xs={12}>
+                    {context.gameStarted ? (
+                      <GameUI players={context.players} />
+                    ) : context.gameSetUp ? (
+                      <UserControlArea />
+                    ) : (
+                      // not started nor set up
+                      <AdminArea />
+                    )}
                   </Grid>
-                </GameContext.Provider>
-              </div>
-            );
-          } else {
-            return <LinearProgress color="secondary" />;
-          }
-        }}
+                </Grid>
+              </GameContext.Provider>
+            </div>
+          )
+        }
       </BackendContext.Consumer>
     );
   }
